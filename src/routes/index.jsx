@@ -1,6 +1,9 @@
 import adminRoutes from './adminRoutes';
-import publicRoutes from './publicRoutes';
+import authRoutes from './authRouter';
+import studentRoutes from './studentRoutes';
+import teacherRouter from './teacherRouter';
 
-const routes = [publicRoutes, adminRoutes];
+
+const routes = [authRoutes, adminRoutes,studentRoutes,teacherRouter];
 
 export default routes;
