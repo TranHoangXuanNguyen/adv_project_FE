@@ -8,9 +8,15 @@ const studentRoutes = {
     { index: true, element: <MyClass /> },
     { path:'class', element: <MyClass /> },
     { path:'student-list', element: <StudentList /> },
+    { path:"weekinfo/:id", element:<WeekInfor /> },
+    { path: 'weeklist', element: <WeekList /> },
+    { path: 'Goal', element: <Goal /> },
 
     // { path: 'users/:id', element: <UserDetail /> },
   ],
 };
 
 export default studentRoutes;
+
+
+
