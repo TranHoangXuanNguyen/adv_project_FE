@@ -1,0 +1,167 @@
+.body{
+    width: 100%;
+    height: 670px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.body-center{
+    width: 90%;
+    height: 97%;
+    /* border: 1px solid black; */
+
+}
+.body-center-title{
+    width: 100%;
+    height: 30px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 20px;
+}
+
+.count-class{
+    width: 7%;
+    height: 100%;
+    display: flex;
+}
+.count1{
+    width: 70%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.count2{
+    width: 30%;
+    height: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.body-center-list{
+    width: 100%;
+    height: 94%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.list-students{
+    width: 100%;
+    height: 48%;
+    display: flex;
+    justify-content: space-between;
+    /* border: 1px solid black; */
+
+}
+
+.student{
+    width: 30%;
+    height: 100%;
+    border: 1px solid rgb(196, 192, 192);
+    border-radius: 10px;
+    overflow: hidden;
+}
+.infor{
+    width: 100%;
+    height: 75%;
+    /* border-bottom: 1px solid black; */
+}
+.student-details{
+    width: 100%;
+    height: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.infor-logo{
+    width: 100%;
+    height: 70px;
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+}
+.infor-name{
+    width: 100%;
+    height: 80px;
+}
+
+.logo-student{
+    width: 60px;
+    height: 60px;
+    /* border: 1px solid black; */
+    border-radius: 50%;
+}
+
+.infor-name h2{
+    text-align: center;
+    margin: 10px 0px;
+}
+.infor-name p{
+    text-align: center;
+}
+
+.logo-student img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.student-details p{
+    position: absolute;
+    left: 75px;
+}
+
+.title-class{
+    width: 100%;
+    height: 35%;
+    background-color: rgb(0, 238, 255);
+    position: relative;
+}
+
+.title-class h2,
+.title-class p{
+    padding-left: 20px;
+    padding-top: 10px;
+}
+.avatar-teacher{
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    left: 240px;
+    top: 60px;
+    border-radius: 50%;
+}
+.avatar-teacher img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+.content-class{
+    width: 100%;
+    height: 40%;
+    border-bottom: 1px solid rgb(196, 192, 192);
+}
+.bottom-class{
+    width: 100%;
+    height: 23%;
+    position: relative;
+}
+.delete{
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    left: 270px;
+    top: 23px;
+}
+.delete i{
+    font-size: 25px;
+    color: rgb(248, 200, 113);
+}
