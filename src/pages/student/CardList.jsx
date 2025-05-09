@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';  
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faBars,
+  faUser,
+  faBullseye,
+  faBook,
+  faFolder
+} from '@fortawesome/free-solid-svg-icons';
 
 const Card = ({ isAddCard, title, startDate, endDate, goals, onAddCard }) => {
     if (isAddCard) {
@@ -14,21 +22,26 @@ const Card = ({ isAddCard, title, startDate, endDate, goals, onAddCard }) => {
     }
   
     return (
-      <Link to={`/weekinfo/${title}`}>
-        <div className="bg-pink-200 rounded-2xl py-1 px-3 shadow-md w-72 h-48 flex flex-col justify-between">
-          <h3 className="text-lg font-semibold p-0">{title}</h3>
-          <hr className="border-t border-black opacity-20" />
-          <p className="text-sm pt-2">Start day: {startDate}</p>
-          <p className="text-sm pb-4">End day: {endDate}</p>
-          <hr className="border-t border-black opacity-20" />
-          <h4 className="text-md font-semibold">Goals</h4>
-          <div className="flex flex-col space-y-2">
-            {goals.slice(0, 2).map((goal, index) => (
-              <span key={index} className="text-md">{`${index + 1}. ${goal}`}</span>
-            ))}
-          </div>
-        </div>
-      </Link>
+      <Link
+  to={`/weekinfo/${title}`}
+  onClick={() => {
+    localStorage.setItem('selectedCard', JSON.stringify({ title, startDate, endDate, goals }));
+  }}
+>
+  <div className="bg-pink-200 rounded-2xl py-1 px-3 shadow-md w-72 h-48 flex flex-col justify-between">
+    <h3 className="text-lg font-semibold p-0">{title}</h3>
+    <hr className="border-t border-black opacity-20" />
+    <p className="text-sm pt-2">Start day: {startDate}</p>
+    <p className="text-sm pb-4">End day: {endDate}</p>
+    <hr className="border-t border-black opacity-20" />
+    <h4 className="text-md font-semibold">Goals</h4>
+    <div className="flex flex-col space-y-2">
+      {goals.slice(0, 2).map((goal, index) => (
+        <span key={index} className="text-md">{`${index + 1}. ${goal}`}</span>
+      ))}
+    </div>
+  </div>
+</Link>
     );
   };
 
@@ -164,13 +177,44 @@ const CardList = () => {
     </div>
   );
 };
-
+const Sidebar = () => (
+  <div className="w-[250px] bg-gradient-to-b from-[#00aaff] to-[#0077cc] text-white p-5 flex flex-col">
+    <div className="flex items-center mb-5">
+      <FontAwesomeIcon icon={faBars} className="text-xl mr-2" />
+      <img src="..src/assets/img/pnlogo.png" alt="Logo" className="w-10 h-10 rounded-full mr-2" />
+      <h3 className="text-2xl font-semibold">JOURNAL</h3>
+    </div>
+    <hr className="border border-white/50 my-3" />
+    <ul className="space-y-5 mt-3">
+      <li className="flex items-center cursor-pointer hover:bg-white/20 p-2 rounded">
+        <FontAwesomeIcon icon={faUser} className="mr-2" />
+        Profile
+      </li>
+      <li className="flex items-center cursor-pointer hover:bg-white/20 p-2 rounded">
+        <FontAwesomeIcon icon={faBullseye} className="mr-2" />
+        My Goals
+      </li>
+      <li className="flex items-center cursor-pointer hover:bg-white/20 p-2 rounded">
+        <FontAwesomeIcon icon={faBook} className="mr-2" />
+        My Journal
+      </li>
+      <li className="flex items-center cursor-pointer hover:bg-white/20 p-2 rounded">
+        <FontAwesomeIcon icon={faFolder} className="mr-2" />
+        Archived Class
+      </li>
+    </ul>
+  </div>
+);
 const WeekList = () => {
   return (
-    <div className="p-8 bg-gray-100 min-h-screen flex justify-center">
-      <CardList />
+    <div className="flex min-h-screen">
+      <Sidebar />
+      <div className="flex-1 p-8 bg-gray-100 flex justify-center">
+        <CardList />
+      </div>
     </div>
   );
 };
+
 
 export default WeekList;
