@@ -44,24 +44,17 @@ const WeeklyForm = () => {
   const [weekData, setWeekData] = useState(null);
 
   useEffect(() => {
-    // Giả lập dữ liệu API với dữ liệu mẫu
-    const fakeData = {
-      id,
-      title: `Week ${id} Goals`,
-      startDate: '2025-05-01',
-      endDate: '2025-05-07',
-      goals: [
-        { description: 'Learn React Basics' },
-        { description: 'Complete Frontend Project' },
-        { description: 'Prepare for Midterm Exam' },
-        { description: 'Review and Practice Coding Challenges' }
-      ]
-    };
-
-    // Giả lập việc fetch dữ liệu
-    setWeekData(fakeData);
-  }, [id]);
-
+    const data = JSON.parse(localStorage.getItem('selectedCard'));
+    if (data) {
+      setWeekData({
+        title: data.title,
+        startDate: data.startDate,
+        endDate: data.endDate,
+        goals: data.goals.map((g) => ({ description: g })),
+      });
+    }
+  }, []);
+  
   if (!weekData) return <p>Loading...</p>;
 
   return (
