@@ -1,21 +1,22 @@
-// import PublicLayout from '../layouts/PublicLayout';
-import Home from '../pages/Home';
-import WeekInfor from '../pages/student/WeekInfor';
-import WeekList from '../pages/student/CardList';
-import Goal from '../pages/student/GoalTable';
-
+import StudentLayour from '../layouts/StudentLayout';
+import MyClass from '../pages/student/MyClass';
+import StudentList from '../pages/student/StudentList';
 const studentRoutes = {
-  path: '/',
-//   element: <PublicLayout />,
+  path: '/student',
+  element: <StudentLayour />,
   children: [
-    { index: true, element: <Home /> },
+    { index: true, element: <MyClass /> },
+    { path:'class', element: <MyClass /> },
+    { path:'student-list', element: <StudentList /> },
     { path:"weekinfo/:id", element:<WeekInfor /> },
     { path: 'weeklist', element: <WeekList /> },
     { path: 'Goal', element: <Goal /> },
 
-
-
+    // { path: 'users/:id', element: <UserDetail /> },
   ],
 };
 
 export default studentRoutes;
+
+
+
