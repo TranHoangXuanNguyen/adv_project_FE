@@ -1,0 +1,32 @@
+/* styles/folder.css */
+.folder-shape {
+    position: relative;
+  }
+  
+  .folder-shape::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 0;
+    width: 40px;
+    height: 20px;
+    background-color: #eafaf1;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 8px;
+  }
+  
+  .folder-shape2 {
+    position: relative;
+  }
+  
+  .folder-shape2::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 0;
+    width: 40px;
+    height: 20px;
+    background-color: #E8F0F7;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 8px;
+  }
