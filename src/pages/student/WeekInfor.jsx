@@ -1,5 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -41,6 +42,7 @@ const Sidebar = () => (
 
 const WeeklyForm = () => {
   const { id } = useParams();
+  const navigate = useNavigate(); // thêm dòng này
   const [weekData, setWeekData] = useState(null);
 
   useEffect(() => {
@@ -54,10 +56,17 @@ const WeeklyForm = () => {
       });
     }
   }, []);
-  
+
   if (!weekData) return <p>Loading...</p>;
 
   return (
+    <div>
+          <button
+        onClick={() => navigate('/weeklist')}
+        className="inline-block mt-6 px-5 py-2 bg-red-900 text-white rounded hover:bg-red-800 transition mr-4"
+      >
+        Back
+      </button>
     <div className="bg-white rounded-lg shadow-lg p-8 m-12 flex-grow">
       <h4 className="text-lg font-medium">Weekly Information</h4>
       <h2 className="text-2xl text-blue-800 font-bold mt-3">{weekData.title}</h2>
@@ -73,15 +82,22 @@ const WeeklyForm = () => {
           </div>
         ))}
       </div>
+
+      {/* Nút đến trang Journal */}
       <a
         href="#"
-        className="inline-block mt-6 px-5 py-2 bg-red-700 text-white rounded hover:bg-red-800 transition"
+        className="inline-block mt-6 px-5 py-2 bg-red-700 text-white rounded hover:bg-red-800 transition mr-4"
       >
         Go to journal page &rarr;
       </a>
+
+      {/* Nút trở về WeekList */}
+    </div>
+     
     </div>
   );
 };
+
 
 const WeekInfor = () => (
   <div className="flex h-screen">
