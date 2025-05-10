@@ -18,6 +18,7 @@ const AddStudent = () => {
       console.error("Error adding student: ", error);
     }
   };
+  
 
   const onChange = (e) => {
     setEmail(e.target.value);
