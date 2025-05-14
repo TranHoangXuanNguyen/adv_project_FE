@@ -20,7 +20,6 @@
 .right{
     width: 83%;
     height: 100%;
-    
 }
 
 .title{
@@ -45,6 +44,7 @@
     display: flex;
     align-items: center;
     border-radius: 50%;
+    cursor: pointer;
 }
 .logo-pnv{
     width: 30px;
@@ -54,6 +54,7 @@
     align-items: center;
     background-color: white;
     border-radius: 50%;
+    cursor: pointer;
 }
 
 .text-title{
@@ -76,7 +77,7 @@
     color: white;
     display: flex;
     align-items: center;
-    
+    cursor: pointer;
 }
 
 .logo-cate{
@@ -117,7 +118,6 @@
     height: 60%;
     display: flex;
     justify-content: space-around;
-    /* border: 1px solid black; */
 }
 
 .search{
@@ -152,6 +152,7 @@
     justify-content: center;
     align-items: center;
     background-color: black;
+    cursor: pointer;
 }
 
 .icon-details i{
@@ -196,7 +197,6 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    /* border: 1px solid black; */
 }
 
 .list-students{
@@ -204,20 +204,18 @@
     height: 45%;
     display: flex;
     justify-content: space-between;
-    /* border: 1px solid black; */
-
 }
 
 .student{
     width: 20%;
     height: 100%;
-    border: 1px solid black;
     border-radius: 10px;
+    border: 2px solid rgb(0, 157, 255);
 }
 .infor{
     width: 100%;
     height: 75%;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid rgb(198, 194, 194);
 }
 .student-details{
     width: 100%;
@@ -226,6 +224,14 @@
     justify-content: center;
     align-items: center;
     position: relative;
+    cursor: pointer;
+}
+
+.student-details:hover{
+    background-color: orange;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    color: white;
 }
 
 .infor-logo{
