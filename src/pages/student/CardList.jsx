@@ -25,7 +25,7 @@ const Card = ({ isAddCard, title, startDate, endDate, goals, onAddCard }) => {
 
   return (
     <Link
-      to={`/weekinfo/${title}`}
+      to={`/student/weekinfo/${title}`}
       onClick={() => {
         localStorage.setItem(
           "selectedCard",
@@ -190,46 +190,10 @@ const CardList = () => {
     </div>
   );
 };
-const Sidebar = () => (
-  <div className="w-[250px] bg-gradient-to-b from-[#00aaff] to-[#0077cc] text-white p-5 flex flex-col">
-    <div className="flex items-center mb-5">
-      <FontAwesomeIcon icon={faBars} className="text-xl mr-2" />
-      <img
-        src="..src/assets/img/pnlogo.png"
-        alt="Logo"
-        className="w-10 h-10 rounded-full mr-2"
-      />
-      <h3 className="text-2xl font-semibold">JOURNAL</h3>
-    </div>
-    <hr className="border border-white/50 my-3" />
-    <ul className="space-y-5 mt-3">
-      <li className="flex items-center cursor-pointer hover:bg-white/20 p-2 rounded">
-        <FontAwesomeIcon icon={faUser} className="mr-2" />
-        Profile
-      </li>
-      <li className="flex items-center cursor-pointer hover:bg-white/20 p-2 rounded">
-        <FontAwesomeIcon icon={faBullseye} className="mr-2" />
-        My Goals
-      </li>
-      <li className="flex items-center cursor-pointer hover:bg-white/20 p-2 rounded">
-        <FontAwesomeIcon icon={faBook} className="mr-2" />
-        My Journal
-      </li>
-      <li className="flex items-center cursor-pointer hover:bg-white/20 p-2 rounded">
-        <FontAwesomeIcon icon={faFolder} className="mr-2" />
-        Archived Class
-      </li>
-    </ul>
-  </div>
-);
+
 const WeekList = () => {
   return (
-    <div className="flex min-h-screen">
-      <Sidebar />
-      <div className="flex-1 p-8 bg-gray-100 flex">
         <CardList />
-      </div>
-    </div>
   );
 };
 
