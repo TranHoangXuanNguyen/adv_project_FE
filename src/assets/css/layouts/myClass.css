@@ -60,7 +60,8 @@
 }
 
 .student{
-    width: 30%;
+    gap: 10px;
+    width: 33%;
     height: 100%;
     border: 1px solid rgb(196, 192, 192);
     border-radius: 10px;
@@ -136,7 +137,7 @@
     width: 80px;
     height: 80px;
     left: 240px;
-    top: 60px;
+    top: 60%;
     border-radius: 50%;
 }
 .avatar-teacher img{
