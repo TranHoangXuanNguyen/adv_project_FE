@@ -3,7 +3,6 @@ import pnlogo from "../assets/img/pnlogo.png";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import { login } from "../services/AuthService";
-
 export default function LoginPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -14,8 +13,8 @@ export default function LoginPage() {
     e.preventDefault();
     setError("");
     try {
-      const { token, decodedToken } = await login(email, password); // call login function from auth service
-      localStorage.setItem("token", token); // save token into local storage
+      const { token, decodedToken } = await login(email, password);
+      localStorage.setItem("token", token);
       console.log(decodedToken);
 
       switch (decodedToken.role) {
@@ -34,7 +33,7 @@ export default function LoginPage() {
     } catch (err) {
       setError(err.message || "Wrong email or password");
     }
-  // };
+  };
 
   return (
     <div className="flex h-screen items-center justify-center">
@@ -48,12 +47,11 @@ export default function LoginPage() {
             We’re glad to have you back. Please sign in to continue.
           </p>
         </div>
+
         {/* Right Panel */}
         <div className="w-1/2 p-10 flex flex-col justify-center">
           <div className="flex justify-center mb-4">
-            <div>
-              <img src={pnlogo} alt="My image" />
-            </div>
+            <img src={pnlogo} alt="My image" />
           </div>
           <h3 className="text-2xl font-semibold text-center mb-6">Login</h3>
 

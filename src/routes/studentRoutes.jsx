@@ -1,6 +1,7 @@
 import StudentLayour from '../layouts/StudentLayout';
 import MyClass from '../pages/student/MyClass';
 import StudentList from '../pages/student/StudentList';
+import ClassJournal from '../pages/student/ClassJournal';
 const studentRoutes = {
   path: '/student',
   element: <StudentLayour />,
@@ -8,10 +9,10 @@ const studentRoutes = {
     { index: true, element: <MyClass /> },
     { path:'class', element: <MyClass /> },
     { path:'student-list', element: <StudentList /> },
-    { path:"weekinfo/:id", element:<WeekInfor /> },
-    { path: 'weeklist', element: <WeekList /> },
-    { path: 'Goal', element: <Goal /> },
-
+    // { path:"weekinfo/:id", element:<WeekInfor /> },
+    // { path: 'weeklist', element: <WeekList /> },
+    // { path: 'Goal', element: <Goal /> },
+    { path: 'classjournal', element: <ClassJournal /> },
     // { path: 'users/:id', element: <UserDetail /> },
   ],
 };
