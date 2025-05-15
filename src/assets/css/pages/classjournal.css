@@ -47,7 +47,8 @@ body {
     text-align: center;
   }
   .btn-class {
-    background-color: #4D9DE0;
+    /* #4D9DE0 */
+    background-color: #4D9DE0  ; 
     color: white;
     padding: 10px 20px;
     margin: 5px;
@@ -68,3 +69,137 @@ body {
     color: #1a4f80;
   }
   
+.btn-class-add{
+  background-color:orange;
+  color: white;
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-container {
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+}
+.form-row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 250px;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group textarea
+ {
+  padding: 10px;
+  border: 1px solid #7c9bb1;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: #e6f0fa;
+}
+.form-group select {
+  padding: 10px;
+  border: 1px solid #7c9bb1;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: #e6f0fa;
+  color: #333;
+}
+
+.form-group textarea {
+  min-height: 60px;
+}
+
+.submit-btn {
+  background-color: orange;
+  color: white;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  display: block;
+  margin: 10px auto 0;
+  /* transition: background-color 0.3s ease; */
+}
+
+.submit-btn:hover {
+  background-color: #fdc133;
+}
+
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-form {
+  background-color: #ffffff;
+  padding: 30px 35px;
+  border-radius: 12px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  position: relative;
+}
+
+
+
+.form-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  font-size: 22px;
+  font-weight: bold;
+  color: #003366;
+  margin-bottom: 20px;
+  gap: 12px;
+}
+
+
+/* Text tiêu đề nằm chính giữa */
+.title-text {
+  flex: 1;
+  text-align: center;
+}
+
+.button-exist {
+  position: absolute;
+  right: 10px;
+  background-color: rgb(219, 12, 12);
+  color: white;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.button-exist:hover {
+  background-color: red;
+}
