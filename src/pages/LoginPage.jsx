@@ -34,7 +34,7 @@ export default function LoginPage() {
     } catch (err) {
       setError(err.message || "Wrong email or password");
     }
-  // };
+  };
 
   return (
     <div className="flex h-screen items-center justify-center">
