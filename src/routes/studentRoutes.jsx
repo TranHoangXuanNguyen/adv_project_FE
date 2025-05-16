@@ -7,6 +7,7 @@ import MyJournal from '../pages/student/MyJournal';
 import StudentLayout from '../layouts/StudentLayout';
 import StudentLayour from '../layouts/StudentLayout';
 import MyClass from '../pages/student/MyClass';
+
 import StudentList from '../pages/student/StudentList';
 import WeekInfor from '../pages/student/WeekInfor';
 import SemesterGoals from '../pages/student/Semeter-Goals';
@@ -19,7 +20,8 @@ const studentRoutes = {
   children: [
     { index: true, element: <MyClass /> },
     { path:'class', element: <MyClass /> },
-
+    { path:"weekinfor", element:<WeekInfor/> },
+    { path: 'Goal', element: <Goal /> },
     { path:'student-list', element: <StudentList /> },
     // { path:"weekinfo/:id", element:<WeekInfor /> },
     // { path: 'weeklist', element: <WeekList /> },
@@ -27,7 +29,6 @@ const studentRoutes = {
     { path: 'classjournal', element: <ClassJournal /> },
     { path:"weekinfo/:id", element:<WeekInfor /> },
     { path: 'weeklist', element: <WeekList /> },
-
     { path: 'my-journal', element: <WeekList /> },
     { path: 'Semester-goals', element: <SemesterGoals /> },
     { path: 'goal', element: <Goal /> },
@@ -35,8 +36,7 @@ const studentRoutes = {
     { path: 'profile', element: <Profile /> },
     { path: 'myJournal', element: <MyJournal /> },
 
-
-    // { path: 'users/:id', element: <UserDetail /> },
+    { path: 'users/:id', element: <UserDetail /> },
   ],
 };
 
