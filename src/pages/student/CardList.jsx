@@ -8,7 +8,6 @@ import {
   faBook,
   faFolder,
 } from "@fortawesome/free-solid-svg-icons";
-
 const Card = ({ isAddCard, title, startDate, endDate, goals, onAddCard }) => {
   if (isAddCard) {
     return (
@@ -36,7 +35,7 @@ const Card = ({ isAddCard, title, startDate, endDate, goals, onAddCard }) => {
       <div className="bg-[#fdefee] rounded-2xl py-1 px-3 shadow-md w-72 h-48 flex flex-col justify-between">
         <h3 className="text-lg font-semibold p-0">{title}</h3>
         <hr className="border-t border-black opacity-20" />
-        <p className="text-md pt-2">Start day: {startDate}</p>                              
+        <p className="text-md pt-2">Start day: {startDate}</p>
         <p className="text-md pb-4">End day: {endDate}</p>
         <hr className="border-t border-black opacity-20" />
         <h4 className="text-md font-semibold">Goals</h4>
@@ -193,7 +192,11 @@ const CardList = () => {
 
 const WeekList = () => {
   return (
+    <div className="flex min-h-screen">
+      <div className="flex-1 flex">
         <CardList />
+      </div>
+    </div>
   );
 };
 

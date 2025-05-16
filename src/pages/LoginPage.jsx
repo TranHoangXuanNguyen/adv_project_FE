@@ -1,5 +1,5 @@
 import { FaUser, FaLock } from "react-icons/fa";
-import pnlogo from "../assets/img/pnlogo.png";
+import pnlogo from "../assets/img/pnlogo.png"; // Đảm bảo đường dẫn chính xác
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import { login } from "../services/AuthService";
@@ -14,6 +14,7 @@ export default function LoginPage() {
     setError("");
     try {
       const { token, decodedToken } = await login(email, password);
+      console.log("Token:", token); // Ghi log token để kiểm tra
       localStorage.setItem("token", token);
       console.log(decodedToken);
 
@@ -51,11 +52,11 @@ export default function LoginPage() {
         {/* Right Panel */}
         <div className="w-1/2 p-10 flex flex-col justify-center">
           <div className="flex justify-center mb-4">
-            <img src={pnlogo} alt="My image" />
+            <img src={pnlogo} alt="Logo" />
           </div>
           <h3 className="text-2xl font-semibold text-center mb-6">Login</h3>
 
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleLogin}>
             <div className="relative">
               <FaUser className="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-400" />
               <input
@@ -79,7 +80,7 @@ export default function LoginPage() {
               />
             </div>
             <button
-              onClick={handleLogin}
+              type="submit"
               className="w-full bg-sky-500 text-white py-2 rounded-md hover:bg-sky-600"
             >
               Log in
