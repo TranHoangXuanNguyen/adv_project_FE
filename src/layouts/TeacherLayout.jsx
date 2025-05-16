@@ -1,3 +1,4 @@
+
 import { Outlet } from 'react-router-dom';
 import Sidebar from '../components/teacher/SideBar';
 import Header from '../components/teacher/Header';

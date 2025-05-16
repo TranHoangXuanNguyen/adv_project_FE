@@ -1,3 +1,4 @@
+
 *{
     margin:  0;
     padding: 0;
@@ -20,248 +21,260 @@
 .right{
     width: 83%;
     height: 100%;
-    
 }
 
-.title{
-    width: 90%;
-    height: 60px;
-    border-bottom: 1px solid rgb(249, 248, 248);
-    margin-bottom: 30px;
-    display: flex;
-    align-items: center;
-    color: white;
+.title {
+  width: 90%;
+  height: 60px;
+  border-bottom: 1px solid rgb(249, 248, 248);
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  color: white;
 }
-.cate{
-    width: 100%;
-    height: 150px;
-    
-}
-
-.logo-title{
-    width: 30px;
-    height: 30px;
-    margin-right: 5px;
-    display: flex;
-    align-items: center;
-    border-radius: 50%;
-}
-.logo-pnv{
-    width: 30px;
-    height: 30px;
-    margin-right: 5px;
-    display: flex;
-    align-items: center;
-    background-color: white;
-    border-radius: 50%;
+.cate {
+  width: 100%;
+  height: 150px;
 }
 
-.text-title{
-    width: 150px;
-    height: 30px;
-
-    display: flex;
-    align-items: center;
+.logo-title {
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
+  display: flex;
+  align-items: center;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.logo-pnv {
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 50%;
+  cursor: pointer;
 }
 
-.logo-pnv img{
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
+.text-title {
+  width: 150px;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
 }
 
-.cate-details{
-    width: 100%;
-    height: 33%;
-    color: white;
-    display: flex;
-    align-items: center;
-    
+.logo-pnv img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
 }
 
-.logo-cate{
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    margin-left: 12px;
+.cate-details {
+  width: 100%;
+  height: 33%;
+  color: white;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }
 
-.text-cate{
-    width: 150px;
-    height: 30px;
-    margin-left: 12px;
-    font-size: 17px;
-    display: flex;
-    align-items: center;
+.logo-cate {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  margin-left: 12px;
 }
 
-.logo-cate i{
-    color: black(180, 31, 31);
-    font-size: 20px;
-}
-.cate :hover{
-    background-color: orange;
-}
-
-.top{
-    width: 100%;
-    height: 60px;
-    display: flex;
-    justify-content: end;
-    align-items: center;
+.text-cate {
+  width: 150px;
+  height: 30px;
+  margin-left: 12px;
+  font-size: 17px;
+  display: flex;
+  align-items: center;
 }
 
-.top-box{
-    width: 30%;
-    height: 60%;
-    display: flex;
-    justify-content: space-around;
-    /* border: 1px solid black; */
+.logo-cate i {
+  color: black(180, 31, 31);
+  font-size: 20px;
+}
+.cate :hover {
+  background-color: orange;
 }
 
-.search{
-    width: 40%;
-    height: 100%;
-    border: 1px solid black;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    
+.top {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: end;
+  align-items: center;
 }
 
-.search input{
-    width: 100%;
-    height: 100%;
-    border-radius: 9px;
-    padding-left: 7px;
+.top-box {
+  width: 30%;
+  height: 60%;
+  display: flex;
+  justify-content: space-around;
 }
 
-.icon{
-    width: 35%;
-    height: 100%;
-    display: flex;
-    justify-content: space-between;
-}
-.icon-details{
-    width: 28%;
-    height: 100%;
-    border: 1px solid black;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: black;
+.search {
+  width: 40%;
+  height: 100%;
+  border: 1px solid black;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
 }
 
-.icon-details i{
-    font-family: 27px;
-    color: white;
-}
-.avatar{
-    width: 75%;
-    height: 75%;
-    border: 1px solid white;
-    border-radius: 50%;
-}
-.avatar img{
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-}
-.body{
-    width: 100%;
-    height: 670px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.body-center{
-    width: 90%;
-    height: 90%;
-}
-.body-center-title{
-    width: 100%;
-    height: 30px;
-    margin-bottom: 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 20px;
+.search input {
+  width: 100%;
+  height: 100%;
+  border-radius: 9px;
+  padding-left: 7px;
 }
 
-.body-center-list{
-    width: 100%;
-    height: 90%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    /* border: 1px solid black; */
+.icon {
+  width: 35%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.icon-details {
+  width: 28%;
+  height: 100%;
+  border: 1px solid black;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  cursor: pointer;
 }
 
-.list-students{
-    width: 100%;
-    height: 45%;
-    display: flex;
-    justify-content: space-between;
-    /* border: 1px solid black; */
-
+.icon-details i {
+  font-family: 27px;
+  color: white;
+}
+.avatar {
+  width: 75%;
+  height: 75%;
+  border: 1px solid white;
+  border-radius: 50%;
+}
+.avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
 }
 
-.student{
-    width: 20%;
-    height: 100%;
-    border: 1px solid black;
-    border-radius: 10px;
+.body {
+  width: 100%;
+  height: 670px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.infor{
-    width: 100%;
-    height: 75%;
-    border-bottom: 1px solid black;
+.body-center {
+  width: 90%;
+  height: 90%;
 }
-.student-details{
-    width: 100%;
-    height: 25%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-}
-
-.infor-logo{
-    width: 100%;
-    height: 70px;
-    margin-bottom: 25px;
-    display: flex;
-    justify-content: center;
-    align-items: end;
-}
-.infor-name{
-    width: 100%;
-    height: 80px;
+.body-center-title {
+  width: 100%;
+  height: 30px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 20px;
 }
 
-.logo-student{
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
+.body-center-list {
+  width: 100%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.infor-name h2{
-    text-align: center;
-    margin: 10px 0px;
-}
-.infor-name p{
-    text-align: center;
-}
-
-.logo-student img{
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
+.list-students {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 65px;
+  width: 100%;
 }
 
-.student-details p{
-    position: absolute;
-    left: 75px;
+.student {
+  height: 250px;
+  border-radius: 10px;
+  border: 2px solid rgb(0, 157, 255);
+  width: 230px;
+  transition: all 0.3s ease;
+}
+
+.student:hover {
+  box-shadow: 0 0 30px rgb(114, 185, 243);
+  transform: translateY(-5px);
+}
+
+.infor {
+  width: 100%;
+  height: 75%;
+  border-bottom: 1px solid rgb(79, 151, 233);
+}
+.student-details {
+  width: 100%;
+  height: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.student-details:hover {
+  background-color: orange;
+  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 8px;
+  color: white;
+}
+
+.infor-logo {
+  width: 100%;
+  height: 70px;
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+}
+.infor-name {
+  width: 100%;
+  height: 80px;
+}
+
+.logo-student {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
+.infor-name h2 {
+  text-align: center;
+  margin: 10px 0px;
+}
+.infor-name p {
+  text-align: center;
+}
+
+.logo-student img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.student-details p {
+  position: absolute;
+  left: 75px;
 }

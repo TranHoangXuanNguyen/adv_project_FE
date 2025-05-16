@@ -1,4 +1,4 @@
-.body{
+.body-class{
     width: 100%;
     height: 670px;
     display: flex;
@@ -6,13 +6,13 @@
     align-items: center;
     
 }
-.body-center{
+.body-center-class{
     width: 90%;
     height: 97%;
     /* border: 1px solid black; */
 
 }
-.body-center-title{
+.body-center-title-class{
     width: 100%;
     height: 30px;
     margin-bottom: 10px;
@@ -42,7 +42,7 @@
     align-items: center;
 }
 
-.body-center-list{
+.body-center-list-class{
     width: 100%;
     height: 94%;
     display: flex;
@@ -50,7 +50,7 @@
     justify-content: space-between;
 }
 
-.list-students{
+.list-class{
     width: 100%;
     height: 48%;
     display: flex;
@@ -59,9 +59,11 @@
 
 }
 
-.student{
-    gap: 10px;
-    width: 33%;
+.class{
+    width: 30%;
+// .student{
+    //gap: 10px;
+    // width: 33%;
     height: 100%;
     border: 1px solid rgb(196, 192, 192);
     border-radius: 10px;
@@ -71,53 +73,6 @@
     width: 100%;
     height: 75%;
     /* border-bottom: 1px solid black; */
-}
-.student-details{
-    width: 100%;
-    height: 25%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-}
-
-.infor-logo{
-    width: 100%;
-    height: 70px;
-    margin-bottom: 25px;
-    display: flex;
-    justify-content: center;
-    align-items: end;
-}
-.infor-name{
-    width: 100%;
-    height: 80px;
-}
-
-.logo-student{
-    width: 60px;
-    height: 60px;
-    /* border: 1px solid black; */
-    border-radius: 50%;
-}
-
-.infor-name h2{
-    text-align: center;
-    margin: 10px 0px;
-}
-.infor-name p{
-    text-align: center;
-}
-
-.logo-student img{
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-}
-
-.student-details p{
-    position: absolute;
-    left: 75px;
 }
 
 .title-class{
@@ -132,7 +87,7 @@
     padding-left: 20px;
     padding-top: 10px;
 }
-.avatar-teacher{
+.avatar-teacher-class{
     position: absolute;
     width: 80px;
     height: 80px;
@@ -140,7 +95,7 @@
     top: 60%;
     border-radius: 50%;
 }
-.avatar-teacher img{
+.avatar-teacher-class img{
     width: 100%;
     height: 100%;
     border-radius: 50%;

@@ -1,3 +1,4 @@
+
 import TeacherLayout from '../layouts/TeacherLayout';
 import ArchivedClass from '../pages/teacher/ArchivedClass';
 import Profile from '../pages/teacher/Profile';
