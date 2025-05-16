@@ -17,7 +17,7 @@ export default function LoginPage() {
       console.log("Token:", token); // Ghi log token để kiểm tra
       localStorage.setItem("token", token);
       console.log(decodedToken);
-
+      
       switch (decodedToken.role) {
         case "admin":
           navigate("/admin");
