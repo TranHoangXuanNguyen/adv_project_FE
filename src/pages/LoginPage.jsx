@@ -17,7 +17,7 @@ export default function LoginPage() {
       const { token, decodedToken } = await login(email, password); // call login function from auth service
       localStorage.setItem("token", token); // save token into local storage
       console.log(decodedToken);
-
+      
       switch (decodedToken.role) {
         case "admin":
           navigate("/admin");
