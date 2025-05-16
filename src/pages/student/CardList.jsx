@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -16,7 +17,7 @@ const Card = ({ isAddCard, title, startDate, endDate, goals, onAddCard }) => {
         onClick={onAddCard}
       >
         <div className="absolute w-16 h-16 bg-white rounded-full flex justify-center items-center">
-          <span className="text-4xl text-#9a7677]">+</span>
+          <span className="text-4xl text-[#9a7677]">+</span>
         </div>
       </div>
     );
@@ -163,13 +164,30 @@ const CardList = () => {
   const [cards, setCards] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
+  useEffect(() => {
+    axios
+      .get("http://127.0.0.1:8000/api/weekly-goals")
+      .then((response) => {
+        const transformed = response.data.map((item) => ({
+          title: item.week_name,
+          startDate: item.start_day,
+          endDate: item.end_day,
+          goals: item.task_des ? [item.task_des] : [],
+        }));
+        setCards(transformed);
+      })
+      .catch((error) => {
+        console.error("Lỗi khi lấy dữ liệu weekly goal:", error);
+      });
+  }, []);
+
   const addNewCard = (newCard) => {
     setCards([newCard, ...cards]);
     setShowModal(false);
   };
 
   return (
-    <div className=" py-5 pl-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+    <div className="py-5 pl-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
       <Card isAddCard onAddCard={() => setShowModal(true)} />
       {cards.map((card, index) => (
         <Card
