@@ -2,6 +2,9 @@ import StudentLayour from '../layouts/StudentLayout';
 import MyClass from '../pages/student/MyClass';
 import StudentList from '../pages/student/StudentList';
 import ClassJournal from '../pages/student/ClassJournal';
+import WeekInfor from '../pages/student/WeekInfor';
+import WeekList from '../pages/student/CardList';
+import Goal from '../pages/student/GoalTable';
 const studentRoutes = {
   path: '/student',
   element: <StudentLayour />,
@@ -13,6 +16,10 @@ const studentRoutes = {
     // { path: 'weeklist', element: <WeekList /> },
     // { path: 'Goal', element: <Goal /> },
     { path: 'classjournal', element: <ClassJournal /> },
+    { path:"weekinfo/:id", element:<WeekInfor /> },
+    { path: 'my-journal', element: <WeekList /> },
+    { path: 'goal', element: <Goal /> },
+
     // { path: 'users/:id', element: <UserDetail /> },
   ],
 };

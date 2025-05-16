@@ -5,7 +5,7 @@ import Header from "../components/student/Header";
 
 export default function StudentLayout() {
   return (
-    <div className="container">
+    <div className="containerr">
       <SideBar />
       <div className="right">
         <Header />
