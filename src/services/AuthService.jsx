@@ -30,7 +30,7 @@ export const login = async (email, password) => {
     // Decoding the token to get user data
     const decodedToken = jwtDecode(data.access_token);
 
-    return { token: data.token, decodedToken };
+    return { token: data.access_token, decodedToken };
   } catch (error) {
     throw error;  
   }

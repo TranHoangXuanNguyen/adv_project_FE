@@ -72,9 +72,11 @@ const WeeklyForm = () => {
 
 
 const WeekInfor = () => (
-
-
+  <div className="flex h-screen">
+    <div className="flex-1 p-8">
       <WeeklyForm />
+    </div>
+  </div>
 
 );
 
