@@ -6,7 +6,6 @@ import Student from '../pages/teacher/Student';
 // import ShowSelfStudy from '../pages/teacher/ShowSelfStudy';
 
 
-
 const teacherRoutes = {
   path: '/teacher',
   element: <TeacherLayout />,

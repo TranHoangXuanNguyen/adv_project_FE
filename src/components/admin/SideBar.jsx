@@ -17,7 +17,7 @@ const SideBar  = () => {
         <i className="fa fa-home" />
         <p>Dashboard</p>
       </Link>
-      <Link to="/admin/class" className="sub-sidebar text-decoration-none">
+      <Link to="/admin/addclass" className="sub-sidebar text-decoration-none">
         <i className="fa fa-users" />
         <p>Class Management</p>
       </Link>

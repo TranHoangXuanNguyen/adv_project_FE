@@ -8,14 +8,25 @@ const AddStudent = () => {
   const handleAddStudent = async () => {
     if (!email) return alert("Email is required");
     try {
-      const response = await axios.post("http://localhost:8000/api/student", {
+      const response = await axios.post("http://localhost:8000/api/users", {
         email,
       });
       console.log(response.data); 
       setStudents([...students, response.data]);
       setEmail("");
+      alert("Student added successfully");
     } catch (error) {
-      console.error("Error adding student: ", error);
+      if (error.response) {
+        if (error.response.status === 403) {
+          alert("You are not a Admin");
+        } else {
+          alert("Error: " + (error.response.data.message || "Unknown error"));
+        }
+      } else {
+        alert("Can not connect to server, please try again later");
+      }
+
+      console.error("Error adding class:", error);
     }
   };
   
