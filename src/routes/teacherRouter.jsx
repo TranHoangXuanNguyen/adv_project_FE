@@ -4,7 +4,6 @@ import Profile from '../pages/teacher/Profile';
 import Student from '../pages/teacher/Student';
 
 
-
 const teacherRoutes = {
   path: '/teacher',
   element: <TeacherLayout />,
