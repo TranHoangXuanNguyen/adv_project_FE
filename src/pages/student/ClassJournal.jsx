@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import '../../assets/css/pages/classjournal.css';
+import axios from 'axios';
 
 const ClassJournal = () => {
   const[showForm,setShowForm]=useState(false);
+  const [subjects, setSubjects] = useState([]);
   const [formData, setForm] = useState({
+        user_id: "",         
+        subject_id: "",      
+        week_track_id: "",   
         date:"",
         subject:"",
         learned:"",
@@ -12,9 +17,19 @@ const ClassJournal = () => {
         solved:""
   });
   const[ShowInfor, setShowInfor]=useState([]);
-useEffect(()=>{
-  const SaveInfor=localStorage.getItem('')
-})
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get('http://127.0.0.1:8000/api/classplan');
+        setShowInfor(res.data);
+      } catch (error) {
+        console.error('Lỗi khi lấy data:', error);
+      }
+    };
+    fetchData();
+  }, []);
+  
+
   const openForm = () => setShowForm(true);
   const closeForm = () => setShowForm(false);
 
@@ -28,17 +43,23 @@ useEffect(()=>{
 
     const handleSubmit=(e)=>{
       e.preventDefault();
-      setShowInfor([...ShowInfor,formData]);
+      
+      axios.post('http://127.0.0.1:8000/api/classplan', formData)
+      .then(() => {
+        setShowInfor((prev) => [...prev, formData]);
       setForm({
-        date:"",
-        subject:"",
-        learned:"",
-        challenges:"",
-        solution:"",
-        solved:""
+        date: "",
+        subject: "",
+        learned: "",
+        challenges: "",
+        solution: "",
+        solved: ""
       });
+    
       setShowForm(false);
-   };
+    });
+    };
+
   return (
     <>
       {/* Main Content */}
