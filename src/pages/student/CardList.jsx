@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -17,7 +18,7 @@ const Card = ({ isAddCard, title, startDate, endDate, goals, onAddCard }) => {
         onClick={onAddCard}
       >
         <div className="absolute w-16 h-16 bg-white rounded-full flex justify-center items-center">
-          <span className="text-4xl text-#9a7677]">+</span>
+          <span className="text-4xl text-[#9a7677]">+</span>
         </div>
       </div>
     );
@@ -36,7 +37,7 @@ const Card = ({ isAddCard, title, startDate, endDate, goals, onAddCard }) => {
       <div className="bg-[#fdefee] rounded-2xl py-1 px-3 shadow-md w-72 h-48 flex flex-col justify-between">
         <h3 className="text-lg font-semibold p-0">{title}</h3>
         <hr className="border-t border-black opacity-20" />
-        <p className="text-md pt-2">Start day: {startDate}</p>                              
+        <p className="text-md pt-2">Start day: {startDate}</p>
         <p className="text-md pb-4">End day: {endDate}</p>
         <hr className="border-t border-black opacity-20" />
         <h4 className="text-md font-semibold">Goals</h4>
@@ -164,13 +165,30 @@ const CardList = () => {
   const [cards, setCards] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
+  useEffect(() => {
+    axios
+      .get("http://127.0.0.1:8000/api/weekly-goals")
+      .then((response) => {
+        const transformed = response.data.map((item) => ({
+          title: item.week_name,
+          startDate: item.start_day,
+          endDate: item.end_day,
+          goals: item.task_des ? [item.task_des] : [],
+        }));
+        setCards(transformed);
+      })
+      .catch((error) => {
+        console.error("Lỗi khi lấy dữ liệu weekly goal:", error);
+      });
+  }, []);
+
   const addNewCard = (newCard) => {
     setCards([newCard, ...cards]);
     setShowModal(false);
   };
 
   return (
-    <div className=" py-5 pl-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+    <div className="py-5 pl-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
       <Card isAddCard onAddCard={() => setShowModal(true)} />
       {cards.map((card, index) => (
         <Card
@@ -190,6 +208,7 @@ const CardList = () => {
     </div>
   );
 };
+
 const Sidebar = () => (
   <div className="w-[250px] bg-gradient-to-b from-[#00aaff] to-[#0077cc] text-white p-5 flex flex-col">
     <div className="flex items-center mb-5">
@@ -222,10 +241,11 @@ const Sidebar = () => (
     </ul>
   </div>
 );
+
 const WeekList = () => {
   return (
     <div className="flex min-h-screen">
-      <Sidebar />
+      {/* <Sidebar /> */}
       <div className="flex-1 p-8 bg-gray-100 flex">
         <CardList />
       </div>
