@@ -21,7 +21,7 @@ export default function AddClass() {
   const fetchClasses = async () => {
     try {
       const response = await axios.get("http://localhost:8000/api/class");
-      setClasses(response.data);
+      setClasses(response.data.data);
     } catch (error) {
       console.error("Error fetching classes:", error);
     }
