@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 import {
   faBars,
   faUser,
@@ -8,7 +10,19 @@ import {
   faBook,
   faFolder,
 } from "@fortawesome/free-solid-svg-icons";
+
+
 const Card = ({ isAddCard, title, startDate, endDate, goals, onAddCard }) => {
+  const [isHovered, setIsHovered]=useState(false);
+
+  const calculateProgress=(goals)=>{
+    const total=goals.length;
+    const completed=goals.filter((goal)=>goal.completed).length;
+    return total===0 ? 0 :Math.round((completed/total)*100);
+  }
+
+  const percent=calculateProgress(goals || [] );
+
   if (isAddCard) {
     return (
       <div
@@ -25,6 +39,9 @@ const Card = ({ isAddCard, title, startDate, endDate, goals, onAddCard }) => {
   return (
     <Link
       to={`/student/weekinfo/${title}`}
+      onMouseEnter={()=>setIsHovered(true)}
+      onMouseLeave={()=>setIsHovered(false)}
+      
       onClick={() => {
         localStorage.setItem(
           "selectedCard",
@@ -32,7 +49,23 @@ const Card = ({ isAddCard, title, startDate, endDate, goals, onAddCard }) => {
         );
       }}
     >
-      <div className="bg-[#fdefee] rounded-2xl py-1 px-3 shadow-md w-72 h-48 flex flex-col justify-between">
+        <div className="bg-[#fdefee] rounded-2xl py-1 px-3 shadow-md w-72 h-48 flex flex-col justify-between relative">
+        {isHovered && (
+          <div className="absolute inset-0 bg-white bg-opacity-70 flex justify-center items-center rounded-2xl transition">
+            <div className="w-20 h-20">
+              <CircularProgressbar
+                value={percent}
+                text={`${percent}%`}
+                styles={buildStyles({
+                  pathColor: "#F3C9C9",
+                  trailColor: "#F8F9FA",
+                  textColor:"#F15F5F",
+                  textSize:'18px',
+                })}
+              />
+            </div>
+          </div>
+        )}
         <h3 className="text-lg font-semibold p-0">{title}</h3>
         <hr className="border-t border-black opacity-20" />
         <p className="text-md pt-2">Start day: {startDate}</p>

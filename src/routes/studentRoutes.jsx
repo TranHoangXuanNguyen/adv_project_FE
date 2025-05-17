@@ -5,9 +5,8 @@ import WeekInfor from '../pages/student/WeekInfor';
 import WeekList from '../pages/student/CardList';
 import SemesterGoals from '../pages/student/Semeter-Goals';
 import ClassJournal from '../pages/student/ClassJournal';
-import WeekInfor from '../pages/student/WeekInfor';
-import WeekList from '../pages/student/CardList';
 import Goal from '../pages/student/GoalTable';
+
 const studentRoutes = {
   path: '/student',
   element: <StudentLayour />,
