@@ -32,7 +32,7 @@ export default function SideBar() {
           { 
             icon: <FaBookOpen />,  
             text: 'My Journal',
-            to: '/student/myjournal'
+            to: '/student/my-journal'
           },
           { 
             icon: <FaArrowRightFromBracket />, 

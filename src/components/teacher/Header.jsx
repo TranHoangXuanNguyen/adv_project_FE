@@ -1,5 +1,3 @@
-
-export default Header;
 import React from 'react';
 import { FaBell, FaArrowRightFromBracket } from 'react-icons/fa6';
 import avatarImage from "../../assets/img/pnlogo.png";
