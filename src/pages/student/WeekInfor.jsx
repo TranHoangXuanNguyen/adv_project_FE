@@ -28,6 +28,16 @@ const WeeklyForm = () => {
     }
   }, []);
 
+   const handleCheckboxChange = (index) => {
+    const updatedGoals = [...weekData.goals];
+    updatedGoals[index].status = !updatedGoals[index].status;
+
+    const updatedData = { ...weekData, goals: updatedGoals };
+
+    setWeekData(updatedData);
+    localStorage.setItem("selectedCard", JSON.stringify(updatedData));
+  };
+
   if (!weekData) return <p>Loading...</p>;
 
   return (
@@ -51,7 +61,8 @@ const WeeklyForm = () => {
           {weekData.goals.map((goal, i) => (
             <div key={i} className="flex justify-between items-center mb-4">
               <label>{goal.description}</label>
-              <input type="checkbox" className="w-5 h-5 accent-blue-500" />
+              <input type="checkbox" className="w-5 h-5 accent-blue-500" checked={goal.status}
+                onChange={() => handleCheckboxChange(i)}            />
             </div>
           ))}
         </div>
