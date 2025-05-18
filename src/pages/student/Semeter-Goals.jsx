@@ -1,126 +1,59 @@
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-
-const fakeFetchSemesters = () => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([
-        { semester_id: 1, semester_name: "Semester 1" },
-        { semester_id: 2, semester_name: "Semester 2" },
-      ]);
-    }, 500);
-  });
-};
-
-const fakeFetchSubjects = (semester_id) => {
-  const data = {
-    1: [
-      { subject_id: 1, subject_name: "IT English" },
-      { subject_id: 2, subject_name: "Speaking" },
-      { subject_id: 3, subject_name: "Programming" },
-    ],
-    2: [
-      { subject_id: 4, subject_name: "Math" },
-      { subject_id: 5, subject_name: "Physics" },
-      { subject_id: 6, subject_name: "Chemistry" },
-    ],
-  };
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(data[semester_id] || []);
-    }, 500);
-  });
-};
 
 const GoalTable = () => {
   const [semesters, setSemesters] = useState([]);
   const [selectedSemester, setSelectedSemester] = useState(null);
-  const [courses, setCourses] = useState([]);
-  const [goalData, setGoalData] = useState({});
-  const [error, setError] = useState("");
+  const [subjects, setSubjects] = useState([]);
+  const [goals, setGoals] = useState([]);
 
-  // Fetch semesters
-  useEffect(() => {
-    fakeFetchSemesters().then((data) => {
-      setSemesters(data);
-      if (data.length > 0) {
-        setSelectedSemester(data[0].semester_id);
-      }
-    });
-  }, []);
-
-  // Fetch subjects and restore goal data from localStorage
-  useEffect(() => {
-    if (selectedSemester) {
-      fakeFetchSubjects(selectedSemester).then((data) => {
-        setCourses(data);
-
-        // Restore goal data from localStorage for the selected semester
-        const savedData = localStorage.getItem(
-          `goalData_semester_${selectedSemester}`
-        );
-        if (savedData) {
-          setGoalData(JSON.parse(savedData));
-        } else {
-          setGoalData({});
-        }
-      });
-    }
-  }, [selectedSemester]);
-
-  // Update goalData in localStorage whenever it changes
-  useEffect(() => {
-    if (selectedSemester) {
-      localStorage.setItem(
-        `goalData_semester_${selectedSemester}`,
-        JSON.stringify(goalData)
-      );
-    }
-  }, [goalData, selectedSemester]);
-
-  const handleInputChange = (e, courseId) => {
-    setGoalData({
-      ...goalData,
-      [courseId]: {
-        ...goalData[courseId],
-        [e.target.name]: e.target.value,
-      },
-    });
+  const fakeFetchSemesters = () => {
+    return Promise.resolve([
+      { semester_id: 1, semester_name: "Semester 1" },
+      { semester_id: 2, semester_name: "Semester 1" },
+      { semester_id: 3, semester_name: "Semester 1" },
+    ]);
   };
 
-  const handleSemesterChange = (e) => {
-    setSelectedSemester(parseInt(e.target.value));
+  const fakeFetchSubjects = (semester_id) => {
+    const data = {
+      1: [
+        { subject_id: 1, subject_name: "Math" },
+        { subject_id: 2, subject_name: "Science" },
+      ],
+      2: [
+        { subject_id: 3, subject_name: "Math" },
+        { subject_id: 4, subject_name: "Science" },
+      ],
+      3: [
+        { subject_id: 5, subject_name: "Math" },
+        { subject_id: 6, subject_name: "Science" },
+      ],
+    };
+    return Promise.resolve(data[semester_id] || []);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
+  const handleSelectSemester = (e) => {
+    const semesterId = parseInt(e.target.value);
+    setSelectedSemester(semesterId);
+  };
 
-    const token = localStorage.getItem("token");
+  const handleChange = (subjectId, field, value) => {
+    const updatedGoals = goals.map((goal) =>
+      goal.subject_id === subjectId ? { ...goal, [field]: value } : goal
+    );
+    setGoals(updatedGoals);
+  };
 
-    const payload = Object.entries(goalData)
-      .filter(([courseId, goals]) => {
-        return (
-          goals.course_expected?.trim() &&
-          goals.teacher_expected?.trim() &&
-          goals.themselves_expected?.trim()
-        );
-      })
-      .map(([courseId, goals]) => ({
-        subject_id: parseInt(courseId),
-        semester_id: selectedSemester,
-        course_expected: goals.course_expected.trim(),
-        teacher_expected: goals.teacher_expected.trim(),
-        themselves_expected: goals.themselves_expected.trim(),
+  const handleSubmit = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const payload = goals.map((goal) => ({
+        ...goal,
+        semester_id: selectedSemester, // Add semester_id here
       }));
 
-    if (payload.length === 0) {
-      setError("Please fill in all fields before submitting.");
-      return;
-    }
-
-    try {
-      const response = await axios.post(
+      await axios.post(
         "http://127.0.0.1:8000/api/semester-goals",
         payload,
         {
@@ -129,32 +62,71 @@ const GoalTable = () => {
           },
         }
       );
-      console.log("API response:", response.data);
-      alert("Goals saved to the database successfully!");
-
-      // Clear goal data from localStorage and reset the form
-      // localStorage.removeItem(`goalData_semester_${selectedSemester}`);
+      alert("Saved successfully!");
     } catch (error) {
-      console.error("Error submitting goals:", error.response || error);
-      setError(
-        error.response?.data?.message ||
-          "Failed to save goals. Please try again."
-      );
+      console.error(error);
+      alert("Something went wrong!");
     }
   };
 
+  const fetchSavedGoals = async (semester_id) => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.get(
+        `http://127.0.0.1:8000/api/semester-goals?semester_id=${semester_id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const savedGoals = res.data;
+
+      if (savedGoals.length > 0) {
+        setGoals(savedGoals);
+        const uniqueSubjects = savedGoals.map(g => ({
+          subject_id: g.subject_id,
+          subject_name: g.subject_name || "Unknown"
+        }));
+        setSubjects(uniqueSubjects);
+      } else {
+        const subjectList = await fakeFetchSubjects(semester_id);
+        setSubjects(subjectList);
+        const newGoals = subjectList.map((subject) => ({
+          semester_id: semester_id,
+          subject_id: subject.subject_id,
+          course_expected: "",
+          teacher_expected: "",
+          themselves_expected: "",
+        }));
+        setGoals(newGoals);
+      }
+    } catch (error) {
+      console.error("Error fetching saved goals:", error);
+    }
+  };
+
+  useEffect(() => {
+    fakeFetchSemesters().then(setSemesters);
+  }, []);
+
+  useEffect(() => {
+    if (selectedSemester) {
+      fetchSavedGoals(selectedSemester);
+    }
+  }, [selectedSemester]);
+
   return (
-    <div className=" p-2 pl-12">
+    <div className="p-4 max-w-5xl mx-auto">
+      <h1 className="text-2xl font-bold mb-4">Set Your Semester Goals</h1>
       <div className="mb-4">
-        <label htmlFor="semester" className="block mb-1 font-semibold">
-          Select Semester
-        </label>
+        <label className="mr-2 font-medium">Select Semester:</label>
         <select
-          id="semester_id"
           value={selectedSemester || ""}
-          onChange={handleSemesterChange}
-          className="border p-2 rounded"
+          onChange={handleSelectSemester}
+          className="border rounded px-2 py-1"
         >
+          <option value="" disabled>Select</option>
           {semesters.map((sem) => (
             <option key={sem.semester_id} value={sem.semester_id}>
               {sem.semester_name}
@@ -162,76 +134,65 @@ const GoalTable = () => {
           ))}
         </select>
       </div>
-      {error && <div className="text-red-500 mb-4">{error}</div>}
-      <form onSubmit={handleSubmit}>
-        <table className="w-full border border-gray-300 text-sm">
-          <thead>
-            <tr className="bg-gray-100 text-gray-700">
-              <th className="border border-gray-300 p-3 font-semibold text-left">
-                COURSE
-              </th>
-              <th className="border border-gray-300 p-3 font-semibold text-left">
-                What is your goal in this course?
-              </th>
-              <th className="border border-gray-300 p-3 font-semibold text-left">
-                What I expect from the teacher & instructor?
-              </th>
-              <th className="border border-gray-300 p-3 font-semibold text-left">
-                What I expect from myself?
-              </th>
+
+      {subjects.length > 0 && (
+        <table className="table-auto w-full border-collapse border border-gray-300">
+          <thead className="bg-gray-200">
+            <tr>
+              <th className="border px-2 py-1">Subject</th>
+              <th className="border px-2 py-1">Course Expected</th>
+              <th className="border px-2 py-1">Teacher Expected</th>
+              <th className="border px-2 py-1">Your Own Expected</th>
             </tr>
           </thead>
           <tbody>
-            {courses.map((course) => (
-              <tr key={course.subject_id} className="bg-white hover:bg-gray-50">
-                <td className="border border-gray-300 p-3 font-medium text-gray-800">
-                  {course.subject_name}
-                </td>
-                {[...Array(3)].map((_, index) => (
-                  <td key={index} className="border border-gray-300 p-3">
-                    <textarea
-                      name={
-                        index === 0
-                          ? "course_expected"
-                          : index === 1
-                          ? "teacher_expected"
-                          : "themselves_expected"
+            {subjects.map((subject) => {
+              const goal = goals.find((g) => g.subject_id === subject.subject_id);
+              return (
+                <tr key={subject.subject_id}>
+                  <td className="border px-2 py-1">{subject.subject_name}</td>
+                  <td className="border px-2 py-1">
+                    <input
+                      value={goal?.course_expected || ""}
+                      onChange={(e) =>
+                        handleChange(subject.subject_id, "course_expected", e.target.value)
                       }
-                      placeholder="Enter your goal..."
-                      value={
-                        goalData[course.subject_id]?.[
-                          index === 0
-                            ? "course_expected"
-                            : index === 1
-                            ? "teacher_expected"
-                            : "themselves_expected"
-                        ] || ""
-                      }
-                      onChange={(e) => handleInputChange(e, course.subject_id)}
-                      className="w-full p-2 border border-gray-300 rounded resize-none focus:outline-none focus:ring-2 focus:ring-blue-400"
-                      rows={3}
-                    ></textarea>
+                      className="w-full px-1 border rounded"
+                    />
                   </td>
-                ))}
-              </tr>
-            ))}
-            {courses.length === 0 && (
-              <tr>
-                <td colSpan={4} className="text-center p-4">
-                  No courses available for this semester.
-                </td>
-              </tr>
-            )}
+                  <td className="border px-2 py-1">
+                    <input
+                      value={goal?.teacher_expected || ""}
+                      onChange={(e) =>
+                        handleChange(subject.subject_id, "teacher_expected", e.target.value)
+                      }
+                      className="w-full px-1 border rounded"
+                    />
+                  </td>
+                  <td className="border px-2 py-1">
+                    <input
+                      value={goal?.themselves_expected || ""}
+                      onChange={(e) =>
+                        handleChange(subject.subject_id, "themselves_expected", e.target.value)
+                      }
+                      className="w-full px-1 border rounded"
+                    />
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
+      )}
 
+      {subjects.length > 0 && (
         <button
-          type="submit"
-          className="mt-6 w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded shadow-md transition duration-200"
+          onClick={handleSubmit}
+          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
         >
           Save Goals
         </button>
-      </form>
+      )}
     </div>
   );
 };

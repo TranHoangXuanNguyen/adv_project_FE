@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import MyJournal from './MyJournal';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBars,
   faUser,
@@ -12,16 +14,16 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 
-const Card = ({ isAddCard, title, startDate, endDate, goals, onAddCard }) => {
+const Card = ({ isAddCard, title, startDate, endDate, goals, week_track_id, onAddCard })  => {
   const [isHovered, setIsHovered]=useState(false);
 
   const calculateProgress=(goals)=>{
     const total=goals.length;
-    const completed=goals.filter((goal)=>goal.completed).length;
+    const completed=goals.filter((goal)=>goal.status === true).length;
     return total===0 ? 0 :Math.round((completed/total)*100);
-  }
+  };
 
-  const percent=calculateProgress(goals || [] );
+   const percent=calculateProgress(goals || [ ] );
 
   if (isAddCard) {
     return (
@@ -30,7 +32,7 @@ const Card = ({ isAddCard, title, startDate, endDate, goals, onAddCard }) => {
         onClick={onAddCard}
       >
         <div className="absolute w-16 h-16 bg-white rounded-full flex justify-center items-center">
-          <span className="text-4xl text-#9a7677]">+</span>
+          <span className="text-4xl text-[#9a7677]">+</span>
         </div>
       </div>
     );
@@ -38,14 +40,14 @@ const Card = ({ isAddCard, title, startDate, endDate, goals, onAddCard }) => {
 
   return (
     <Link
-      to={`/student/weekinfo/${title}`}
+      to={`/student/weekinfo/${week_track_id}`}
       onMouseEnter={()=>setIsHovered(true)}
       onMouseLeave={()=>setIsHovered(false)}
       
       onClick={() => {
         localStorage.setItem(
           "selectedCard",
-          JSON.stringify({ title, startDate, endDate, goals })
+          JSON.stringify({ title, startDate, endDate, goals,week_track_id })
         );
       }}
     >
@@ -73,11 +75,11 @@ const Card = ({ isAddCard, title, startDate, endDate, goals, onAddCard }) => {
         <hr className="border-t border-black opacity-20" />
         <h4 className="text-md font-semibold">Goals</h4>
         <div className="flex flex-col space-y-2">
-          {goals.slice(0, 2).map((goal, index) => (
-            <span key={index} className="text-md">{`${
-              index + 1
-            }. ${goal}`}</span>
-          ))}
+      {goals.slice(0, 2).map((goal, index) => (
+        <span key={index} className="text-md">{`${index + 1}. ${goal.task_des || goal}`}</span>
+      ))}
+
+
         </div>
       </div>
     </Link>
@@ -195,42 +197,154 @@ const CardFormModal = ({ onAddNewCard, onCancel }) => {
 const CardList = () => {
   const [cards, setCards] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [classInfo, setClassInfo] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const addNewCard = (newCard) => {
-    setCards([newCard, ...cards]);
-    setShowModal(false);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const class_id = localStorage.getItem("class_id");
+        const semester_id = localStorage.getItem("semester_id");
+        const user_id = localStorage.getItem("user_id");
+
+        if (!class_id || !semester_id) {
+          setErrorMessage(
+            "Bạn chưa được xếp lớp hoặc lớp chưa có kỳ học nào. Không thể nhập journal."
+          );
+          return;
+        }
+
+        // Cập nhật thông tin lớp học vào state
+        setClassInfo({
+          class_id,
+          semester_id,
+        });
+
+        // Gọi API lấy dữ liệu weekly goals
+        const res = await axios.get(
+          `http://127.0.0.1:8000/api/weekly-goals/${user_id}`
+        );
+
+  const transformed = (res.data.data || []).map((item) => ({
+          title: item.week_name,
+          startDate: item.start_day,
+          endDate: item.end_day,
+          goals: item.weekly_goals?.map((goal) => ({
+            task_des: goal.task_des,
+            status: goal.status,
+          })) || [],
+          
+          week_track_id: item.week_track_id,
+        }));
+  const cachedCard = JSON.parse(localStorage.getItem("selectedCard"));
+       // Kiểm tra trùng để không thêm lại nếu đã tồn tại
+      if (
+            cachedCard &&
+            !transformed.some((card) => card.week_track_id === cachedCard.week_track_id)
+          ) {
+            transformed.unshift(cachedCard);
+          }
+        setCards(transformed);
+      } catch (err) {
+        console.error("Lỗi khi lấy dữ liệu:", err);
+        setErrorMessage(
+          "Không thể lấy dữ liệu weekly goals hoặc thông tin lớp học."
+        );
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const addNewCard = async (newCard) => {
+    try {
+      const user_id = localStorage.getItem("user_id");
+      const { title, startDate, endDate, goals } = newCard;
+     localStorage.setItem("selectedCard", JSON.stringify(newCard));
+console.log("Đã lưu selectedCard vào localStorage:", newCard);
+
+      console.log("Dữ liệu gửi tạo weekly-tracking:", {
+        user_id: user_id,
+        week_name: title,
+        semester_id: classInfo.semester_id,
+        start_day: startDate,
+        end_day: endDate,
+      });
+
+      const trackingResponse = await axios.post(
+        "http://localhost:8000/api/weekly-tracking",
+        
+        {
+          user_id: user_id,
+          week_name: title,
+          semester_id: classInfo.semester_id,
+          start_day: startDate,
+          end_day: endDate,
+        }
+      );
+      const trackingData = trackingResponse.data.data;
+
+      const weekTrackId = trackingData.week_track_id;
+    for (const goal of goals) {
+  console.log("Gửi goal:", goal);
+  const goalResponse = await axios.post("http://localhost:8000/api/weekly-goal", {
+    user_id: user_id,
+    semester_id: classInfo.semester_id,
+    week_track_id: weekTrackId,
+    task_des: goal,
+    start_day: startDate,
+    end_day: endDate,
+    status: false,
+  });
+  console.log("goalResponse.data:", goalResponse.data);
+}
+
+
+      // Cập nhật giao diện
+      setCards((prev) => [
+        {
+          title,
+          startDate,
+          endDate,
+          goals,
+          week_track_id: weekTrackId, 
+        },
+        ...prev,
+      ]);
+      setShowModal(false);
+    } catch (error) {
+     console.error("Lỗi khi tạo weekly tracking và goals:", error.response?.data || error.message);
+
+      alert("Thêm tuần học thất bại.");
+    }
   };
 
   return (
-    <div className=" py-5 pl-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
-      <Card isAddCard onAddCard={() => setShowModal(true)} />
-      {cards.map((card, index) => (
-        <Card
-          key={index}
-          title={card.title}
-          startDate={card.startDate}
-          endDate={card.endDate}
-          goals={card.goals}
-        />
-      ))}
-      {showModal && (
-        <CardFormModal
-          onAddNewCard={addNewCard}
-          onCancel={() => setShowModal(false)}
-        />
+    <div className="py-5 pl-10">
+      {errorMessage ? (
+        <div className="text-red-500 font-semibold text-lg">{errorMessage}</div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+          <Card isAddCard onAddCard={() => setShowModal(true)} />
+          {cards.map((card, index) => (
+            <Card
+              key={index}
+              title={card.title}
+              startDate={card.startDate}
+              endDate={card.endDate}
+              goals={card.goals}
+              week_track_id={card.week_track_id}
+            />
+          ))}
+          {showModal && (
+            <CardFormModal
+              onAddNewCard={addNewCard}
+              onCancel={() => setShowModal(false)}
+            />
+          )}
+        </div>
       )}
     </div>
   );
 };
-
-const WeekList = () => {
-  return (
-    <div className="flex min-h-screen">
-      <div className="flex-1 flex">
-        <CardList />
-      </div>
-    </div>
-  );
-};
-
-export default WeekList;
+export default CardList;

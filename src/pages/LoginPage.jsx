@@ -3,6 +3,7 @@ import pnlogo from "../assets/img/pnlogo.png"; // Đảm bảo đường dẫn c
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import { login } from "../services/AuthService";
+import axios from "axios";
 export default function LoginPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -16,6 +17,14 @@ export default function LoginPage() {
       const { token, decodedToken } = await login(email, password);
       console.log("Token:", token); // Ghi log token để kiểm tra
       localStorage.setItem("token", token);
+      localStorage.setItem("user_id", decodedToken.id);
+      axios
+        .get(`http://localhost:8000/api/students/${decodedToken.id}/class-info`)
+        .then((response) => {
+          const original = response.data?.data?.original;
+          localStorage.setItem("class_id", original.class.class_id);
+          localStorage.setItem("semester_id", original.semester.semester_id);
+        });
       console.log(decodedToken);
 
       switch (decodedToken.role) {
