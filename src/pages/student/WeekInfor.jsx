@@ -2,6 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBars,
@@ -13,17 +14,45 @@ import {
 
 const WeeklyForm = () => {
   const { id } = useParams();
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const [weekData, setWeekData] = useState(null);
+
+  const handleStatusChange = async (goalId, newStatus) => {
+    try {
+      await axios.put(`http://localhost:8000/api/weekly-goal/${goalId}`, {
+        status: newStatus,
+      });
+
+      // Cập nhật trong local state
+      const updatedGoals = weekData.goals.map((goal) =>
+        goal.id === goalId ? { ...goal, status: newStatus } : goal
+      );
+      setWeekData((prev) => ({ ...prev, goals: updatedGoals }));
+    } catch (error) {
+      console.error(
+        "Lỗi khi cập nhật trạng thái goal:",
+        error?.response?.data || error.message
+      );
+      alert(
+        "Không thể cập nhật trạng thái. Có thể ID không tồn tại hoặc server lỗi."
+      );
+    }
+  };
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("selectedCard"));
+    console.log("Data from localStorage:", data);
     if (data) {
       setWeekData({
         title: data.title,
         startDate: data.startDate,
         endDate: data.endDate,
-        goals: data.goals.map((g) => ({ description: g })),
+        goals:
+          data.goals?.map((goal) => ({
+            id: goal.id,
+            description: goal.description,
+            status: goal.status,
+          })) || [],
       });
     }
   }, []);
@@ -48,10 +77,20 @@ const WeeklyForm = () => {
         </span>
         <div className="mt-9">
           <h3 className="text-lg font-semibold mb-4">Goals this week</h3>
-          {weekData.goals.map((goal, i) => (
-            <div key={i} className="flex justify-between items-center mb-4">
+          {weekData.goals.map((goal) => (
+            <div
+              key={goal.id}
+              className="flex justify-between items-center mb-4"
+            >
               <label>{goal.description}</label>
-              <input type="checkbox" className="w-5 h-5 accent-blue-500" />
+              <input
+                type="checkbox"
+                className="w-5 h-5 accent-blue-500"
+                checked={goal.status == 1}
+                onChange={(e) =>
+                  handleStatusChange(goal.id, e.target.checked ? 1 : 0)
+                }
+              />
             </div>
           ))}
         </div>
