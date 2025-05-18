@@ -1,29 +1,45 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
-import MyJournal from './MyJournal';
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
+import CircularProgress from "@mui/joy/CircularProgress";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBars,
-  faUser,
-  faBullseye,
-  faBook,
-  faFolder,
-} from "@fortawesome/free-solid-svg-icons";
-
-
-const Card = ({ isAddCard, title, startDate, endDate, goals, week_track_id, onAddCard })  => {
-  const [isHovered, setIsHovered]=useState(false);
-
-  const calculateProgress=(goals)=>{
-    const total=goals.length;
-    const completed=goals.filter((goal)=>goal.status === true).length;
-    return total===0 ? 0 :Math.round((completed/total)*100);
+const user_id = localStorage.getItem("user_id");
+const Card = ({
+  isAddCard,
+  title,
+  startDate,
+  endDate,
+  goals,
+  week_track_id,
+  onAddCard,
+}) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+  const handleCardClick = () => {
+    // Lưu thông tin card vào localStorage
+    localStorage.setItem(
+      "selectedCard",
+      JSON.stringify({ title, startDate, endDate, goals, week_track_id })
+    );
   };
 
-   const percent=calculateProgress(goals || [ ] );
+  const calculateProgress = (goals) => {
+    const total = goals.length;
+    const completed = goals.filter((goal) => goal.status === 1).length;
+    console.log("total", total);
+    console.log("completed", completed);
+    return total === 0 ? 0 : Math.round((completed / total) * 100);
+  };
+
+  const percent = calculateProgress(goals || []);
 
   if (isAddCard) {
     return (
@@ -40,47 +56,59 @@ const Card = ({ isAddCard, title, startDate, endDate, goals, week_track_id, onAd
 
   return (
     <Link
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       to={`/student/weekinfo/${week_track_id}`}
-      onMouseEnter={()=>setIsHovered(true)}
-      onMouseLeave={()=>setIsHovered(false)}
-      
-      onClick={() => {
-        localStorage.setItem(
-          "selectedCard",
-          JSON.stringify({ title, startDate, endDate, goals,week_track_id })
-        );
-      }}
+      onClick={handleCardClick}
     >
-        <div className="bg-[#fdefee] rounded-2xl py-1 px-3 shadow-md w-72 h-48 flex flex-col justify-between relative">
+      <div className="bg-[#fdefee] rounded-2xl py-1 px-3 shadow-md w-72 h-48 flex flex-col justify-between ">
         {isHovered && (
-          <div className="absolute inset-0 bg-white bg-opacity-70 flex justify-center items-center rounded-2xl transition">
-            <div className="w-20 h-20">
-              <CircularProgressbar
-                value={percent}
-                text={`${percent}%`}
-                styles={buildStyles({
-                  pathColor: "#F3C9C9",
-                  trailColor: "#F8F9FA",
-                  textColor:"#F15F5F",
-                  textSize:'18px',
-                })}
-              />
+          <div className="flex flex-col items-center justify-center p-3">
+            <CircularProgress
+              size="lg"
+              variant="solid"
+              color="success"
+              thickness={20}
+              determinate
+              value={percent}
+              sx={{
+                "--CircularProgress-size": "150px",
+                "--CircularProgress-progressThickness": "26px",
+                "--CircularProgress-trackThickness": "26px",
+                "--CircularProgress-trackColor": "#cecece",
+                "--CircularProgress-progressColor": "#4caf50",
+                // "--CircularProgress-linecap": "round",
+                "& > *": {
+                  fontSize: "1.8rem",
+                  fontWeight: "bold",
+                  color: "#4caf50",
+                },
+                backgroundColor: "rgba(0, 0, 0, 0.05)",
+                padding: "8px",
+                borderRadius: "50%",
+              }}
+            >
+              {percent}%
+            </CircularProgress>
+          </div>
+        )}
+        {!isHovered && (
+          <div>
+            <h3 className="text-lg font-semibold p-0">{title}</h3>
+            <hr className="border-t border-black opacity-20" />
+            <p className="text-md pt-2">Start day: {startDate}</p>
+            <p className="text-md pb-4">End day: {endDate}</p>
+            <hr className="border-t border-black opacity-20" />
+            <h4 className="text-md font-semibold">Goals</h4>
+            <div className="flex flex-col space-y-2">
+              {goals.slice(0, 2).map((goal, index) => (
+                <span key={goal.id} className="text-md">
+                  {`${index + 1}. ${goal.description}`}
+                </span>
+              ))}
             </div>
           </div>
         )}
-        <h3 className="text-lg font-semibold p-0">{title}</h3>
-        <hr className="border-t border-black opacity-20" />
-        <p className="text-md pt-2">Start day: {startDate}</p>
-        <p className="text-md pb-4">End day: {endDate}</p>
-        <hr className="border-t border-black opacity-20" />
-        <h4 className="text-md font-semibold">Goals</h4>
-        <div className="flex flex-col space-y-2">
-      {goals.slice(0, 2).map((goal, index) => (
-        <span key={index} className="text-md">{`${index + 1}. ${goal.task_des || goal}`}</span>
-      ))}
-
-
-        </div>
       </div>
     </Link>
   );
@@ -214,35 +242,29 @@ const CardList = () => {
           return;
         }
 
-        // Cập nhật thông tin lớp học vào state
-        setClassInfo({
-          class_id,
-          semester_id,
-        });
+        // Lưu thông tin class để dùng khi tạo tuần
+        setClassInfo({ class_id, semester_id });
 
-        // Gọi API lấy dữ liệu weekly goals
+        // Gọi API lấy danh sách tuần học và goals
         const res = await axios.get(
           `http://127.0.0.1:8000/api/weekly-goals/${user_id}`
         );
+        console.log("API response data:", res.data);
 
-  const transformed = (res.data.data || []).map((item) => ({
+        // Biến đổi dữ liệu nhận về từ API thành format mình cần
+        const transformed = res.data.map((item) => ({
           title: item.week_name,
           startDate: item.start_day,
           endDate: item.end_day,
-          goals: item.weekly_goals?.map((goal) => ({
-            task_des: goal.task_des,
-            status: goal.status,
-          })) || [],
-          
+          goals:
+            item.weekly_goals?.map((goal) => ({
+              id: goal.week_goal_id,
+              description: goal.task_des,
+              status: goal.status,
+            })) || [],
           week_track_id: item.week_track_id,
         }));
-  const cachedCard = JSON.parse(localStorage.getItem("selectedCard"));
-   if (
-        cachedCard &&
-        !transformed.some((card) => card.week_track_id === cachedCard.week_track_id)
-      ) {
-        transformed.unshift(cachedCard);
-      }
+
         setCards(transformed);
       } catch (err) {
         console.error("Lỗi khi lấy dữ liệu:", err);
@@ -257,63 +279,72 @@ const CardList = () => {
 
   const addNewCard = async (newCard) => {
     try {
-      const user_id = localStorage.getItem("user_id");
       const { title, startDate, endDate, goals } = newCard;
-     localStorage.setItem("selectedCard", JSON.stringify(newCard));
-console.log("Đã lưu selectedCard vào localStorage:", newCard);
-
-      console.log("Dữ liệu gửi tạo weekly-tracking:", {
-        user_id: user_id,
-        week_name: title,
-        semester_id: classInfo.semester_id,
-        start_day: startDate,
-        end_day: endDate,
-      });
+      const user_id = localStorage.getItem("user_id");
 
       const trackingResponse = await axios.post(
         "http://localhost:8000/api/weekly-tracking",
-        
         {
-          user_id: user_id,
+          user_id,
           week_name: title,
           semester_id: classInfo.semester_id,
           start_day: startDate,
           end_day: endDate,
         }
       );
-      const trackingData = trackingResponse.data.data;
 
-      const weekTrackId = trackingData.week_track_id;
-    for (const goal of goals) {
-  console.log("Gửi goal:", goal);
-  const goalResponse = await axios.post("http://localhost:8000/api/weekly-goal", {
-    user_id: user_id,
-    semester_id: classInfo.semester_id,
-    week_track_id: weekTrackId,
-    task_des: goal,
-    start_day: startDate,
-    end_day: endDate,
-    status: false,
-  });
-  console.log("goalResponse.data:", goalResponse.data);
-}
+      const weekTrackId = trackingResponse.data.data.week_track_id;
 
+      const savedGoals = [];
 
-      // Cập nhật giao diện
+      // 2. Với mỗi goal, gửi request tạo và lưu lại kết quả
+      for (const goal of goals) {
+        const goalResponse = await axios.post(
+          "http://localhost:8000/api/weekly-goal",
+          {
+            user_id,
+            semester_id: classInfo.semester_id,
+            week_track_id: weekTrackId,
+            task_des: goal,
+            start_day: startDate,
+            end_day: endDate,
+            status: false,
+          }
+        );
+
+        // 3. Lưu lại goal vừa tạo với id thực tế từ backend
+        savedGoals.push({
+          id: goalResponse.data.data.week_goal_id,
+          description: goal,
+          status: 0, // mặc định ban đầu là chưa hoàn thành
+        });
+      }
+
+      // 4. Lưu selected card vào localStorage
+      const selected = {
+        title,
+        startDate,
+        endDate,
+        goals: savedGoals, // ✅ chứa id, description, status
+        week_track_id: weekTrackId,
+      };
+      localStorage.setItem("selectedCard", JSON.stringify(selected));
+
+      // 5. Cập nhật UI
       setCards((prev) => [
         {
           title,
           startDate,
           endDate,
-          goals,
-          week_track_id: weekTrackId, 
+          goals: savedGoals,
+          week_track_id: weekTrackId,
         },
         ...prev,
       ]);
+
       setShowModal(false);
     } catch (error) {
-     console.error("Lỗi khi tạo weekly tracking và goals:", error.response?.data || error.message);
-
+      console.error("Lỗi khi tạo weekly tracking và goals:", error);
       alert("Thêm tuần học thất bại.");
     }
   };
@@ -346,4 +377,5 @@ console.log("Đã lưu selectedCard vào localStorage:", newCard);
     </div>
   );
 };
+
 export default CardList;
