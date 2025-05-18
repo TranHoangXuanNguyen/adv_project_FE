@@ -237,13 +237,12 @@ const CardList = () => {
           week_track_id: item.week_track_id,
         }));
   const cachedCard = JSON.parse(localStorage.getItem("selectedCard"));
-       // Kiểm tra trùng để không thêm lại nếu đã tồn tại
-      if (
-            cachedCard &&
-            !transformed.some((card) => card.week_track_id === cachedCard.week_track_id)
-          ) {
-            transformed.unshift(cachedCard);
-          }
+   if (
+        cachedCard &&
+        !transformed.some((card) => card.week_track_id === cachedCard.week_track_id)
+      ) {
+        transformed.unshift(cachedCard);
+      }
         setCards(transformed);
       } catch (err) {
         console.error("Lỗi khi lấy dữ liệu:", err);
