@@ -22,9 +22,15 @@ export default function LoginPage() {
         .get(`http://localhost:8000/api/students/${decodedToken.id}/class-info`)
         .then((response) => {
           const original = response.data?.data?.original;
-          localStorage.setItem("class_id", original.class.class_id);
-          localStorage.setItem("semester_id", original.semester.semester_id);
+
+          if (original?.class && original?.semester) {
+            localStorage.setItem("class_id", original.class.class_id);
+            localStorage.setItem("semester_id", original.semester.semester_id);
+          } else {
+            console.warn("Missing class or semester info", original);
+          }
         });
+
       console.log(decodedToken);
 
       switch (decodedToken.role) {

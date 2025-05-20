@@ -1,39 +1,19 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const TeacherViewGoals = () => {
-  const [semesters, setSemesters] = useState([]);
-  const [selectedSemester, setSelectedSemester] = useState(null);
+const ShowSemesterGoals = () => {
   const [goalList, setGoalList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const fakeFetchSemesters = () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve([
-          { semester_id: 1, semester_name: "Semester 1" },
-          { semester_id: 2, semester_name: "Semester 2" },
-          { semester_id: 3, semester_name: "Semester 3" },
-        ]);
-      }, 300);
-    });
-  };
-
   useEffect(() => {
-    fakeFetchSemesters().then((data) => {
-      setSemesters(data);
-      if (data.length > 0) {
-        setSelectedSemester(data[0].semester_id);
-      }
-    });
-  }, []);
-
-  useEffect(() => {
-    if (selectedSemester) {
-      fetchGoals(selectedSemester);
+    const semesterId = localStorage.getItem("semester_id");
+    if (semesterId) {
+      fetchGoals(semesterId);
+    } else {
+      setError("No semester ID found in localStorage.");
     }
-  }, [selectedSemester]);
+  }, []);
 
   const fetchGoals = async (semesterId) => {
     setLoading(true);
@@ -58,29 +38,9 @@ const TeacherViewGoals = () => {
     }
   };
 
-  const handleSemesterChange = (e) => {
-    setSelectedSemester(parseInt(e.target.value));
-  };
-
   return (
     <div className="min-h-screen">
-      <div className="mb-4">
-        <label htmlFor="semester" className="block text-lg font-bold mb-2">
-          Select Semester
-        </label>
-        <select
-          id="semester"
-          value={selectedSemester || ""}
-          onChange={handleSemesterChange}
-          className="p-3 border border-blue-500 rounded-lg shadow focus:outline-none focus:ring focus:ring-blue-300"
-        >
-          {semesters.map((sem) => (
-            <option key={sem.semester_id} value={sem.semester_id}>
-              {sem.semester_name}
-            </option>
-          ))}
-        </select>
-      </div>
+      <h2 className="text-2xl font-bold mb-4 text-blue-700">Semester Goals</h2>
 
       {loading ? (
         <p className="text-gray-600">Loading goals...</p>
@@ -101,7 +61,6 @@ const TeacherViewGoals = () => {
               {Array.isArray(goalList) && goalList.length > 0 ? (
                 goalList.map((goal, idx) => (
                   <tr key={idx} className="hover:bg-blue-100 transition duration-200">
-                
                     <td className="p-4 border">{goal.subject?.subject_name}</td>
                     <td className="p-4 border">{goal.course_expected}</td>
                     <td className="p-4 border">{goal.teacher_expected}</td>
@@ -123,4 +82,4 @@ const TeacherViewGoals = () => {
   );
 };
 
-export default TeacherViewGoals;
+export default ShowSemesterGoals;
