@@ -4,6 +4,7 @@ import UserDetail from '../pages/admin/UserDetail';
 import AddStudent from '../pages/admin/AddStudent';
 import AddTeacher from '../pages/admin/AddTeacher'
 import AddClass from '../pages/admin/AddClass';
+import Notification from '../pages/admin/Notification';
 const adminRoutes = {
   path: '/admin',
   element: <AdminLayout />,
@@ -13,6 +14,7 @@ const adminRoutes = {
     {path:'addclass',element:<AddClass/>},
     {path:'addteacher',element:<AddTeacher/>},
     { path: 'users/:id', element: <UserDetail /> },
+    { path: 'notification', element: <Notification/> },
   ],
 };
 
