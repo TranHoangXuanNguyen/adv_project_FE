@@ -8,9 +8,10 @@ function StudentList() {
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/api/students")
+      .get("http://127.0.0.1:8000/api/class/1")
       .then((response) => {
-        setStudents(response.data);
+        console.log("API data:", response.data.data); // kiểm tra dữ liệu
+        setStudents(response.data.data.students); // Giả sử dữ liệu sinh viên nằm trong trường "students"
       })
       .catch((error) => {
         console.error("Lỗi khi lấy dữ liệu sinh viên:", error);
