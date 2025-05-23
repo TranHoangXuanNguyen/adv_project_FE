@@ -1,15 +1,21 @@
-import { Outlet, Link } from "react-router-dom";
-import "../assets/css/pages/student.css";
-import SideBar from "../components/student/SideBar";
-import Header from "../components/student/Header";
+import { Outlet } from 'react-router-dom';
+import Sidebar from '../components/student/SideBar';
+import Header from '../components/student/Header';
 export default function StudentLayout() {
   return (
-    <div className="container">
-      <SideBar />
-      <div className="right">
-        <Header />
-        <Outlet />
+    <div className="bg-gray-50">
+      {/* Container */}
+      <div className="flex h-screen">
+        <Sidebar />      
+        {/* Main Content Area */}
+        <div className="flex-1 p-8 pl-12 overflow-auto">
+          <Header />
+          <main>
+            <Outlet />
+          </main>
+        </div>
       </div>
     </div>
   );
 }
+

@@ -1,0 +1,30 @@
+.folder-card {
+  position: relative;
+  background-color: #E8F0F7;
+  width: 16rem;
+  height: 10rem;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  padding-top: 1.5rem;
+  margin-top: 12px; /* Khoảng trống cho tab */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.folder-card::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: 0; /* Thay đổi từ 12px -> 0 để kéo sát góc trái */
+  width: 60px; /* Tăng độ rộng */
+  height: 25px;
+  background-color: #E8F0F7;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  z-index: 1;
+}
+
+.folder-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+}

@@ -1,30 +1,64 @@
 import StudentLayour from '../layouts/StudentLayout';
 import MyClass from '../pages/student/MyClass';
+// import StudentList from '../pages/student/StudentList';
 import WeekInfor from '../pages/student/WeekInfor';
+import WeekGoalsList from '../pages/student/WeekGoalsList';
+import SemesterGoals from '../pages/student/Semeter-Goals';
+import ClassJournal from '../pages/student/ClassJournal';
 import Goal from '../pages/student/GoalTable';
 import WeekList from '../pages/student/CardList';
 import UserDetail from '../pages/admin/UserDetail';
 import Archivements from '../pages/student/Archivements';
 import CardList from '../pages/student/CardList';
-
-
+import MyGoals from "../pages/student/MyGoals"; 
+import ArchivedClass from "../pages/student/ArchivedClass";
+import Profile from "../pages/student/Profile";
+import Student from "../pages/student/MyGoals";
+import MyJournal from "../pages/student/MyJournal";
+import HelpRequest from "../pages/student/HelpRequest";
+// import StudentLayout from "../layouts/StudentLayout";
+// import StudentLayour from "../layouts/StudentLayout";
+// import MyClass from "../pages/student/MyClass";
+// import StudentList from "../pages/student/StudentList";
+// import WeekInfor from "../pages/student/WeekInfor";
+// import SemesterGoals from "../pages/student/Semeter-Goals";
+// import ClassJournal from "../pages/student/ClassJournal";
+// import WeekList from "../pages/student/CardList";
+// import Goal from "../pages/student/GoalTable";
 
 
 const studentRoutes = {
-  path: '/student',
+  path: "/student",
   element: <StudentLayour />,
   children: [
+
     { index: true, element: <CardList /> },
     { path:'archivements', element: <Archivements /> },
     { path:"weekinfor", element:<WeekInfor/> },
     { path: 'weeklist', element: <WeekList /> },
     { path: 'Goal', element: <Goal /> },
-
     { path: 'users/:id', element: <UserDetail /> },
+    { index: true, element: <MyClass /> },
+    { path: "class", element: <MyClass /> },
+    { path: "weekinfor", element: <WeekInfor /> },
+    { path: "Goal", element: <Goal /> },
+    // { path: "student-list", element: <StudentList /> },
+    // { path:"weekinfo/:id", element:<WeekInfor /> },
+    { path: "weeklist", element: <WeekGoalsList /> },
+    // { path: 'Goal', element: <Goal /> },
+    { path: "weekinfo/:id/journal", element: <ClassJournal /> },
+    { path: "weekinfo/:id/self", element: <MyGoals /> },
+    { path: "weekinfo/:id", element: <WeekInfor /> },
+    { path: "my-journal", element: <WeekGoalsList /> },
+    { path: "Semester-goals", element: <SemesterGoals /> },
+    { path: "goal", element: <Goal /> },
+    { path: "archivedClass", element: <ArchivedClass /> },
+    { path: "profile", element: <Profile /> },
+    { path: "myJournal", element: <MyJournal /> },
+    { path: "helpRequest", element: <HelpRequest /> },
+    // { path: "users/:id", element: <UserDetail /> },
   ],
 };
-
 export default studentRoutes;
-
 
 
