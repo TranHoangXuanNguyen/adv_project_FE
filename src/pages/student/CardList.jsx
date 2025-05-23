@@ -3,8 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import CircularProgress from '@mui/material/CircularProgress';
-
+import CircularProgress from '@mui/joy/CircularProgress';
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const user_id = localStorage.getItem("user_id");
 const Card = ({
