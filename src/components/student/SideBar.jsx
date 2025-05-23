@@ -34,9 +34,9 @@ function SideBar() {
         </div>
         <div className="cate-details">
           <div className="logo-cate">
-            <i className="fa-solid fa-arrow-right-from-bracket" />
+            <i className="fa-solid fa-trophy" />
           </div>
-          <div className="text-cate">Archived Class</div>
+          <div className="text-cate">Achievements</div>
         </div>
       </div>
     </div>
