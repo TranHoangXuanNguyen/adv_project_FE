@@ -1,4 +1,3 @@
-
 import TeacherLayout from '../layouts/TeacherLayout';
 import ArchivedClass from '../pages/teacher/ArchivedClass';
 import Profile from '../pages/teacher/Profile';
@@ -9,6 +8,9 @@ import ShowSelfStudy from '../pages/teacher/ShowSelfStudy';
 import ShowSemesterGoals from '../pages/teacher/ShowSemesterGoals';
 import SemesterGoalManager from '../pages/student/Semeter-Goals';
 import TNotification from '../pages/teacher/Tnotification';
+import StudentList from '../pages/teacher/StudentList';
+
+
 
 
 const teacherRoutes = {
@@ -16,15 +18,23 @@ const teacherRoutes = {
   element: <TeacherLayout />,
   children: [
     { index: true, element: <Student /> },
+    { path: 'student-list', element: <StudentList /> },
     { path: 'archivedClass', element: <ArchivedClass /> },
     { path: 'profile', element: <Profile /> },
-    { path: 'viewGoals', element: < ShowSemesterGoals /> },
-    { path: 'class_study', element: <ShowClassStudy /> },
-    { path: 'self_study', element: <ShowSelfStudy /> },
+    { path: 'viewGoals/:studentId', element: < ShowSemesterGoals /> },
+    { path: 'class_study/:studentId/:weekId', element: <ShowClassStudy /> },
+    { path: 'self_study/:studentId/:weekId', element: <ShowSelfStudy /> },
     { path: 'notifications', element: <TNotification /> },
+
+
+
+
 
 
   ],
 };
 
+
 export default teacherRoutes;
+
+

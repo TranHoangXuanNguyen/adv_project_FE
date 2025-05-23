@@ -1,4 +1,3 @@
-
 import StudentLayour from '../layouts/StudentLayout';
 import MyClass from '../pages/student/MyClass';
 // import StudentList from '../pages/student/StudentList';
@@ -7,6 +6,7 @@ import WeekGoalsList from '../pages/student/WeekGoalsList';
 import SemesterGoals from '../pages/student/Semeter-Goals';
 import ClassJournal from '../pages/student/ClassJournal';
 import Goal from '../pages/student/GoalTable';
+
 
 import ArchivedClass from "../pages/student/ArchivedClass";
 import Profile from "../pages/student/Profile";
@@ -21,6 +21,7 @@ import MyJournal from "../pages/student/MyJournal";
 // import ClassJournal from "../pages/student/ClassJournal";
 // import WeekList from "../pages/student/CardList";
 // import Goal from "../pages/student/GoalTable";
+
 
 const studentRoutes = {
   path: "/student",
@@ -46,3 +47,5 @@ const studentRoutes = {
   ],
 };
 export default studentRoutes;
+
+
