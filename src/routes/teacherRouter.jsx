@@ -8,6 +8,7 @@ import ShowSelfStudy from '../pages/teacher/ShowSelfStudy';
 // import TeacherViewGoals from '../pages/teacher/TeacherviewGoals';
 import ShowSemesterGoals from '../pages/teacher/ShowSemesterGoals';
 import SemesterGoalManager from '../pages/student/Semeter-Goals';
+import TNotification from '../pages/teacher/Tnotification';
 
 
 const teacherRoutes = {
@@ -17,9 +18,10 @@ const teacherRoutes = {
     { index: true, element: <Student /> },
     { path: 'archivedClass', element: <ArchivedClass /> },
     { path: 'profile', element: <Profile /> },
-    { path: 'viewGoals', element: <SemesterGoalManager /> },
+    { path: 'viewGoals', element: < ShowSemesterGoals /> },
     { path: 'class_study', element: <ShowClassStudy /> },
     { path: 'self_study', element: <ShowSelfStudy /> },
+    { path: 'notifications', element: <TNotification /> },
 
 
   ],
