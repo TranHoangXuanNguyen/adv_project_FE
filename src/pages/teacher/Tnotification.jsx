@@ -1,85 +1,119 @@
-import React from 'react';
-import { useState } from 'react';
-export default function TNotification() {
-    const [activeButton, setActiveButton] = useState('All');
+import React, { useState } from 'react';
 
-  const notifications = [
+export default function TNotification() {
+  const [activeButton, setActiveButton] = useState('All');
+
+  // 🔹 Giả lập dữ liệu từ DB
+  const dbNotifications = [
     {
       id: 1,
-      message: "Deadline in 2 days!",
-      details: "Your Learning Journal Week 4 is due this Friday. Don't forget to complete it.",
-      date: "Apr 25, 2025, 8:00 AM",
-      type: "warning",
+      sender_id: 2,
+      receiver_id: 1,
+      content: "Your assignment 'Intro to AI' is due tomorrow!",
+      created_at: "2025-05-22T08:00:00Z",
     },
     {
       id: 2,
-      message: "You missed a deadline!",
-      details: "The deadline for your Reflection Essay has passed. Please...",
-      date: "Apr 24, 2025, 8:00 AM",
-      type: "error",
+      sender_id: 3,
+      receiver_id: 1,
+      content: "You missed the submission for 'Week 5 Reflection'.",
+      created_at: "2025-05-20T08:00:00Z",
     },
     {
       id: 3,
-      message: "Deadline in 2 days!",
-      details: "Your Learning Journal Week 4 is due this Friday. Don't forget to complete it.",
-      date: "Apr 25, 2025, 8:00 AM",
-      type: "warning",
+      sender_id: 5,
+      receiver_id: 1,
+      content: "Ms. Linh mentioned you in 'Discussion on Grammar Rules'.",
+      created_at: "2025-05-23T11:00:00Z",
     },
-    {
+     {
       id: 4,
-      message: "You were mentioned by Ms. Linh!",
-      details: "Ms. Linh mentioned you in the class discussion about grammar rules. Click to reply.",
-      date: "Apr 25, 2025, 11:30 AM",
-      type: "info",
+      sender_id: 5,
+      receiver_id: 1,
+      content: "Ms. Linh mentioned you in 'Discussion on Grammar Rules'.",
+      created_at: "2025-05-23T11:00:00Z",
     },
+     {
+      id: 5,
+      sender_id: 5,
+      receiver_id: 1,
+      content: "Ms. Linh mentioned you in 'Discussion on Grammar Rules'.",
+      created_at: "2025-05-23T11:00:00Z",
+    }
   ];
 
+  const notifications = dbNotifications.map(n => {
+    let type = "info";
+    if (n.content.toLowerCase().includes("due")) type = "warning";
+    else if (n.content.toLowerCase().includes("missed")) type = "error";
+
+    return {
+      id: n.id,
+      message: n.content.split(" ").slice(0, 5).join(" ") + "...",
+      details: n.content,
+      date: new Date(n.created_at).toLocaleString("en-US", {
+        month: "short", day: "numeric", year: "numeric",
+        hour: "numeric", minute: "numeric", hour12: true
+      }),
+      type,
+    };
+  });
+
   const Notification = ({ notification }) => {
-    return (
-        <div className='d-flex justify-content-end'>
-
-      <div className={`p-4 mb-4 rounded-lg ${notification.type === "error" ? "bg-red-100 text-red-700" : notification.type === "warning" ? "bg-yellow-100 text-yellow-700" : "bg-blue-100 text-blue-700"}`}>
-        <h3 className="font-semibold">{notification.message}</h3>
-        <p>{notification.details}</p>
-        <span className="text-sm text-gray-500">{notification.date}</span>
-        <div className="mt-2 d-flex justify-content-end">
-          <button className="text-blue-500 hover:underline">View task</button>
-          {notification.type === "info" && (
-            <button className="text-blue-500 hover:underline ml-4">Reply</button>
-          )}
-        </div>
-      </div>
-        </div>
-
-    );
+  const colorMap = {
+    error: "bg-red-100 text-red-700",
+    warning: "bg-yellow-100 text-yellow-700",
+    info: "bg-blue-100 text-blue-700"
   };
 
   return (
-   <div className="max-w-lg p-6 bg-white shadow-lg rounded-lg absolute right-0 mr-4 h-[80vh] overflow-y-auto">
-    <div className='flex items-center justify-between'>
-      <h2 className="text-2xl font-bold mb-2">Notifications</h2>
-      <span className='cursor-pointer text-gray-900'>⋮</span>
+    <div className={`group mb-3 p-3 rounded-xl ${colorMap[notification.type]} shadow-sm`}>
+      <div className='flex items-center justify-between'>
+        <h3 className="font-semibold text-lg">{notification.message}</h3>
+        <span className='cursor-pointer text-gray-900 text-xl'>⋮</span>
+      </div>
+
+      {/* Chi tiết - hiển thị 1 dòng bình thường, mở rộng khi hover */}
+      <p className="text-md mt-1 line-clamp-1 group-hover:line-clamp-none transition-all duration-200">
+        {notification.details}
+      </p>
+
+      {/* Date - chỉ hiện khi hover */}
+      <div className="text-sm text-gray-500 mt-1 hidden group-hover:block transition-opacity duration-200">
+        {notification.date}
+      </div>
+
+      {/* Buttons - chỉ hiện khi hover */}
+      <div className="mt-2 flex justify-end space-x-4 hidden group-hover:flex transition-opacity duration-200">
+        <button className="text-blue-500 hover:underline text-sm">View task</button>
+        {notification.type === "info" && (
+          <button className="text-blue-500 hover:underline text-sm">Reply</button>
+        )}
+      </div>
     </div>
-      <div className='flex mb-3'>
-      <button
-        className={`border rounded-[14px] p-2 ${activeButton === 'All' ? 'border-blue-500 bg-blue-100' : 'border-transparent'} hover:border-blue-500 hover:bg-blue-100`}
-        onClick={() => setActiveButton('All')}
-      >
-        All
-      </button>
-      <button
-        className={`ml-4 border rounded-[14px] p-2 ${activeButton === 'Unread' ? 'border-blue-500 bg-blue-100' : 'border-transparent'} hover:border-blue-500 hover:bg-blue-100`}
-        onClick={() => setActiveButton('Unread')}
-      >
-        Unread
-      </button>
-      <button
-        className={`ml-4 border rounded-[14px] p-2 ${activeButton === 'Read' ? 'border-blue-500 bg-blue-100' : 'border-transparent'} hover:border-blue-500 hover:bg-blue-100`}
-        onClick={() => setActiveButton('Read')}
-      >
-        Read
-      </button>
-    </div>
+  );
+};
+
+  return (
+    <div className="p-4 bg-white shadow-lg  rounded-xl h-[85vh] overflow-y-auto">
+      <div className='flex items-center justify-between mb-3'>
+        <h2 className="text-2xl font-bold text-justify-center">Notifications</h2>
+      </div>
+
+      {/* Filter buttons */}
+      <div className='flex space-x-4 mb-3'>
+        {["All", "Unread", "Read"].map(type => (
+          <button
+            key={type}
+            className={`px-4 py-1 rounded-2xl text-sm border ${activeButton === type ? 'border-blue-500 bg-blue-100 text-blue-700' : 'border-gray-200 hover:border-blue-300 hover:bg-blue-50'}`}
+            onClick={() => setActiveButton(type)}
+          >
+            {type}
+          </button>
+        ))}
+      </div>
+
+      {/* Notification list */}
       {notifications.map(notification => (
         <Notification key={notification.id} notification={notification} />
       ))}
