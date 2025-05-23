@@ -1,58 +1,58 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from "react";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBars,
   faUser,
   faBullseye,
   faBook,
-  faFolder
-} from '@fortawesome/free-solid-svg-icons';
-
-const Sidebar = () => (
-  <div className="w-[250px] bg-gradient-to-b from-[#00aaff] to-[#0077cc] text-white p-5 flex flex-col">
-    <div className="flex items-center mb-5">
-      <FontAwesomeIcon icon={faBars} className="text-xl mr-2" />
-      <img src="..src/assets/img/pnlogo.png" alt="Logo" className="w-10 h-10 rounded-full mr-2" />
-      <h3 className="text-2xl font-semibold">JOURNAL</h3>
-    </div>
-    <hr className="border border-white/50 my-3" />
-    <ul className="space-y-5 mt-3">
-      <li className="flex items-center cursor-pointer hover:bg-white/20 p-2 rounded">
-        <FontAwesomeIcon icon={faUser} className="mr-2" />
-        Profile
-      </li>
-      <li className="flex items-center cursor-pointer hover:bg-white/20 p-2 rounded">
-        <FontAwesomeIcon icon={faBullseye} className="mr-2" />
-        My Goals
-      </li>
-      <li className="flex items-center cursor-pointer hover:bg-white/20 p-2 rounded">
-        <FontAwesomeIcon icon={faBook} className="mr-2" />
-        My Journal
-      </li>
-      <li className="flex items-center cursor-pointer hover:bg-white/20 p-2 rounded">
-        <FontAwesomeIcon icon={faFolder} className="mr-2" />
-        Archived Class
-      </li>
-    </ul>
-  </div>
-);
+  faFolder,
+} from "@fortawesome/free-solid-svg-icons";
 
 const WeeklyForm = () => {
   const { id } = useParams();
-  const navigate = useNavigate(); // thêm dòng này
+  const navigate = useNavigate();
   const [weekData, setWeekData] = useState(null);
 
+  const handleStatusChange = async (goalId, newStatus) => {
+    try {
+      await axios.put(`http://localhost:8000/api/weekly-goal/${goalId}`, {
+        status: newStatus,
+      });
+
+      // Cập nhật trong local state
+      const updatedGoals = weekData.goals.map((goal) =>
+        goal.id === goalId ? { ...goal, status: newStatus } : goal
+      );
+      setWeekData((prev) => ({ ...prev, goals: updatedGoals }));
+    } catch (error) {
+      console.error(
+        "Lỗi khi cập nhật trạng thái goal:",
+        error?.response?.data || error.message
+      );
+      alert(
+        "Không thể cập nhật trạng thái. Có thể ID không tồn tại hoặc server lỗi."
+      );
+    }
+  };
+
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem('selectedCard'));
+    const data = JSON.parse(localStorage.getItem("selectedCard"));
+    console.log("Data from localStorage:", data);
     if (data) {
       setWeekData({
         title: data.title,
         startDate: data.startDate,
         endDate: data.endDate,
-        goals: data.goals.map((g) => ({ description: g })),
+        goals:
+          data.goals?.map((goal) => ({
+            id: goal.id,
+            description: goal.description,
+            status: goal.status,
+          })) || [],
       });
     }
   }, []);
@@ -61,43 +61,53 @@ const WeeklyForm = () => {
 
   return (
     <div>
-          <button
-        onClick={() => navigate('/weeklist')}
+      <button
+        onClick={() => navigate("/student/my-journal")}
         className="inline-block mt-6 px-5 py-2 bg-red-900 text-white rounded hover:bg-red-800 transition mr-4"
       >
         Back
       </button>
-    <div className="bg-white rounded-lg shadow-lg p-8 m-12 flex-grow">
-      <h4 className="text-lg font-medium">Weekly Information</h4>
-      <h2 className="text-2xl text-blue-800 font-bold mt-3">{weekData.title}</h2>
-      <span className="block text-gray-500 mt-1">
-        From {weekData.startDate} to {weekData.endDate}
-      </span>
-      <div className="mt-9">
-        <h3 className="text-lg font-semibold mb-4">Goals this week</h3>
-        {weekData.goals.map((goal, i) => (
-          <div key={i} className="flex justify-between items-center mb-4">
-            <label>{goal.description}</label>
-            <input type="checkbox" className="w-5 h-5 accent-blue-500" />
-          </div>
-        ))}
+      <div className="bg-white rounded-lg shadow-lg p-8 m-12 flex-grow">
+        <h4 className="text-lg font-medium">Weekly Information</h4>
+        <h2 className="text-2xl text-blue-800 font-bold mt-3">
+          {weekData.title}
+        </h2>
+        <span className="block text-gray-500 mt-1">
+          From {weekData.startDate} to {weekData.endDate}
+        </span>
+        <div className="mt-9">
+          <h3 className="text-lg font-semibold mb-4">Goals this week</h3>
+          {weekData.goals.map((goal) => (
+            <div
+              key={goal.id}
+              className="flex justify-between items-center mb-4"
+            >
+              <label>{goal.description}</label>
+              <input
+                type="checkbox"
+                className="w-5 h-5 accent-blue-500"
+                checked={goal.status == 1}
+                onChange={(e) =>
+                  handleStatusChange(goal.id, e.target.checked ? 1 : 0)
+                }
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Nút đến trang Journal */}
+        <a
+          onClick={() => navigate("journal")}
+          className="inline-block mt-6 px-5 py-2 bg-red-700 text-white rounded hover:bg-red-800 transition mr-4"
+        >
+          Go to journal page &rarr;
+        </a>
+
+        {/* Nút trở về WeekList */}
       </div>
-
-      {/* Nút đến trang Journal */}
-      <a
-        href="#"
-        className="inline-block mt-6 px-5 py-2 bg-red-700 text-white rounded hover:bg-red-800 transition mr-4"
-      >
-        Go to journal page &rarr;
-      </a>
-
-      {/* Nút trở về WeekList */}
-    </div>
-     
     </div>
   );
 };
-
 
 const WeekInfor = () => (
   <div className="flex h-screen">

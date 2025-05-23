@@ -1,46 +1,77 @@
-import React from "react";
-import logo from "../../assets/img/pnlogo.png";
+import { NavLink } from 'react-router-dom';
+import { FaList, FaUser, FaBullseye, FaArrowRightFromBracket, FaBookOpen, FaQuestion } from 'react-icons/fa6';
+import pnlogo from "../../assets/img/pnlogo.png";
 
-function SideBar() {
+export default function SideBar() {
   return (
-    <div className="left">
-      <div className="title">
-        <div className="logo-title">
-          <i className="fa-solid fa-list" />
+    <div className="w-1/6 h-screen flex flex-col items-center bg-gradient-to-b from-sky-400 to-indigo-500 rounded-lg">
+      {/* Title */}
+      <div className="w-11/12 h-16 border-b border-white mb-8 flex items-center text-white">
+        <div className="w-8 h-8 mr-2 flex items-center justify-center rounded-full">
+          <FaList className="text-xl" />
         </div>
-        <div className="logo-pnv">
-          <img src={logo} alt="Logo" />
+        <div className="w-8 h-8 mr-2 flex items-center justify-center bg-white rounded-full">
+          <img src={pnlogo} alt="PNV Logo" className="w-full h-full rounded-full" />
         </div>
-        <div className="text-title">JOURNAL</div>
+        <div className="w-40 h-8 flex items-center font-bold text-xl">JOURNAL</div>
       </div>
-      <div className="cate">
-        <div className="cate-details">
-          <div className="logo-cate">
-            <i className="fa-solid fa-user" />
-          </div>
-          <div className="text-cate">Profile</div>
-        </div>
-        <div className="cate-details">
-          <div className="logo-cate">
-            <i className="fa-solid fa-bullseye" />
-          </div>
-          <div className="text-cate">My Goals</div>
-        </div>
-        <div className="cate-details">
-          <div className="logo-cate">
-            <i className="fa-solid fa-book" />
-          </div>
-          <div className="text-cate">My Journal</div>
-        </div>
-        <div className="cate-details">
-          <div className="logo-cate">
-            <i className="fa-solid fa-trophy" />
-          </div>
-          <div className="text-cate">Achievements</div>
-        </div>
+
+
+      {/* Categories */}
+      <div className="w-full space-y-2">
+        {[
+          { 
+            icon: <FaUser />, 
+            text: 'Profile',
+            to: '/student/profile'
+          },
+          { 
+            icon: <FaBullseye />, 
+            text: 'My Goals',
+            to: '/student/Semester-Goals'
+          },
+          { 
+            icon: <FaBookOpen />,  
+            text: 'My Journal',
+            to: '/student/my-journal'
+          },
+          { 
+            icon: <FaArrowRightFromBracket />, 
+            text: 'Archived Class',
+            to: '/student/archivedClass'
+          },
+          { 
+            icon: <FaQuestion />, 
+            text: 'Help Request',
+            to: '/student/helpRequest'
+          },
+           { 
+            icon: <FaQuestion />, 
+            text: 'Achievements',
+            to: '/student/archivements'
+          }
+        ].map((item, index) => (
+          <NavLink
+            key={index}
+            to={item.to}
+            end={item.to === '/student'}
+            className={({ isActive }) => 
+              `w-full h-12 flex items-center cursor-pointer transition-colors ${
+                isActive 
+                  ? 'bg-orange-500 text-white' 
+                  : 'text-white hover:bg-orange-400'
+              }`
+            }
+          >
+            <div className="w-8 h-8 ml-3 flex items-center justify-center">
+              {item.icon}
+            </div>
+            <div className="w-40 h-8 ml-3 flex items-center text-lg">
+              {item.text}
+            </div>
+          </NavLink>
+        ))}
       </div>
     </div>
   );
-}
-
-export default SideBar;
+};

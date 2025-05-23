@@ -1,9 +1,15 @@
 import { FaUser, FaLock } from "react-icons/fa";
-import pnlogo from "../assets/img/pnlogo.png";
+import pnlogo from "../assets/img/pnlogo.png"; // Đảm bảo đường dẫn chính xác
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import { login } from "../services/AuthService";
-
+import axios from "axios";
+import {
+  messaging,
+  getToken,
+  onMessage,
+  firebaseConfig,
+} from "../services/FireBaseConfig";
 export default function LoginPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -14,8 +20,45 @@ export default function LoginPage() {
     e.preventDefault();
     setError("");
     try {
-      const { token, decodedToken } = await login(email, password); // call login function from auth service
-      localStorage.setItem("token", token); // save token into local storage
+      const { token, decodedToken } = await login(email, password);
+      console.log("Token:", token); // Ghi log token để kiểm tra
+      localStorage.setItem("token", token);
+      localStorage.setItem("user_id", decodedToken.id);
+      axios
+        .get(`http://localhost:8000/api/students/${decodedToken.id}/class-info`)
+        .then((response) => {
+          const original = response.data?.data?.original;
+
+          if (original?.class && original?.semester) {
+            localStorage.setItem("class_id", original.class.class_id);
+            localStorage.setItem("semester_id", original.semester.semester_id);
+          } else {
+            console.warn("Missing class or semester info", original);
+          }
+        });
+
+      const fcmToken = await getToken(messaging, {
+        vapidKey: firebaseConfig.vapidKey,
+      });
+      if (fcmToken) {
+        fetch("http://localhost:8000/api/fcm-token", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({
+            token: fcmToken,
+            device_info: "Chrome on Ubuntu",
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => console.log(data))
+          .catch((err) => console.error(err));
+      } else {
+        console.warn("No FCM token available");
+      }
+
       console.log(decodedToken);
 
       switch (decodedToken.role) {
@@ -48,16 +91,15 @@ export default function LoginPage() {
             We’re glad to have you back. Please sign in to continue.
           </p>
         </div>
+
         {/* Right Panel */}
         <div className="w-1/2 p-10 flex flex-col justify-center">
           <div className="flex justify-center mb-4">
-            <div>
-              <img src={pnlogo} alt="My image" />
-            </div>
+            <img src={pnlogo} alt="Logo" />
           </div>
           <h3 className="text-2xl font-semibold text-center mb-6">Login</h3>
 
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleLogin}>
             <div className="relative">
               <FaUser className="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-400" />
               <input
@@ -81,7 +123,7 @@ export default function LoginPage() {
               />
             </div>
             <button
-              onClick={handleLogin}
+              type="submit"
               className="w-full bg-sky-500 text-white py-2 rounded-md hover:bg-sky-600"
             >
               Log in
