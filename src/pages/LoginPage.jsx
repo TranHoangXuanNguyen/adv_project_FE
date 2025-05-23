@@ -4,6 +4,12 @@ import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import { login } from "../services/AuthService";
 import axios from "axios";
+import {
+  messaging,
+  getToken,
+  onMessage,
+  firebaseConfig,
+} from "../services/FireBaseConfig";
 export default function LoginPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -22,9 +28,37 @@ export default function LoginPage() {
         .get(`http://localhost:8000/api/students/${decodedToken.id}/class-info`)
         .then((response) => {
           const original = response.data?.data?.original;
-          localStorage.setItem("class_id", original.class.class_id);
-          localStorage.setItem("semester_id", original.semester.semester_id);
+
+          if (original?.class && original?.semester) {
+            localStorage.setItem("class_id", original.class.class_id);
+            localStorage.setItem("semester_id", original.semester.semester_id);
+          } else {
+            console.warn("Missing class or semester info", original);
+          }
         });
+
+      const fcmToken = await getToken(messaging, {
+        vapidKey: firebaseConfig.vapidKey,
+      });
+      if (fcmToken) {
+        fetch("http://localhost:8000/api/fcm-token", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({
+            token: fcmToken,
+            device_info: "Chrome on Ubuntu",
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => console.log(data))
+          .catch((err) => console.error(err));
+      } else {
+        console.warn("No FCM token available");
+      }
+
       console.log(decodedToken);
 
       switch (decodedToken.role) {

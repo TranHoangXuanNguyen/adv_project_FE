@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { FaList, FaUser, FaBook, FaArrowRightFromBracket } from 'react-icons/fa6';
+import { FaList, FaUser, FaBook,FaQuestion, FaArrowRightFromBracket } from 'react-icons/fa6';
 import pnlogo from "../../assets/img/pnlogo.png";
 
 export default function SideBar() {
@@ -28,13 +28,18 @@ export default function SideBar() {
           },
           { 
             icon: <FaBook />, 
-            text: 'Student',
-            to: '/teacher'
+            text: 'Class',
+            to: '/teacher/class'
           },
           { 
             icon: <FaArrowRightFromBracket />, 
             text: 'Archived Class',
             to: '/teacher/archivedClass'
+          },
+          { 
+            icon: <FaQuestion />, 
+            text: 'Help Request',
+            to: '/teacher/helpRequest'
           }
         ].map((item, index) => (
           <NavLink

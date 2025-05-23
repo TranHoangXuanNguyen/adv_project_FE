@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { FaList, FaUser, FaBullseye , FaArrowRightFromBracket, FaBookOpen } from 'react-icons/fa6';
+import { FaList, FaUser, FaBullseye, FaArrowRightFromBracket, FaBookOpen, FaQuestion } from 'react-icons/fa6';
 import pnlogo from "../../assets/img/pnlogo.png";
 
 export default function SideBar() {
@@ -16,6 +16,7 @@ export default function SideBar() {
         <div className="w-40 h-8 flex items-center font-bold text-xl">JOURNAL</div>
       </div>
 
+
       {/* Categories */}
       <div className="w-full space-y-2">
         {[
@@ -25,9 +26,9 @@ export default function SideBar() {
             to: '/student/profile'
           },
           { 
-            icon: <FaBullseye  />, 
+            icon: <FaBullseye />, 
             text: 'My Goals',
-            to: '/student'
+            to: '/student/Semester-Goals'
           },
           { 
             icon: <FaBookOpen />,  
@@ -38,6 +39,16 @@ export default function SideBar() {
             icon: <FaArrowRightFromBracket />, 
             text: 'Archived Class',
             to: '/student/archivedClass'
+          },
+          { 
+            icon: <FaQuestion />, 
+            text: 'Help Request',
+            to: '/student/helpRequest'
+          },
+           { 
+            icon: <FaQuestion />, 
+            text: 'Achievements',
+            to: '/student/archivements'
           }
         ].map((item, index) => (
           <NavLink
@@ -64,4 +75,3 @@ export default function SideBar() {
     </div>
   );
 };
-

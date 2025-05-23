@@ -1,31 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const fields = [
-  'Date',
-  'Skill/subject',
-  'What I learned',
-  'Time allocation',
-  'Learning resources',
-  'Learning activities',
-  'Plan & follow plan',
-  'Evaluation of my work',
-  'Reinforcing learning',
+  "Date",
+  "Skill/subject",
+  "What I learned",
+  "Time allocation",
+  "Learning resources",
+  "Learning activities",
+  "Plan & follow plan",
+  "Evaluation of my work",
+  "Reinforcing learning",
 ];
 
 export default function MyGoals() {
-  const [mode, setMode] = useState('Self study');
+  const { id } = useParams(); // week_track_id
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
-    date: '',
-    skill: '',
-    whatLearned: '',
-    time: '',
-    resources: '',
-    activities: '',
-    plan: '',
-    evaluation: '',
-    reinforce: '',
+    date: "",
+    skill: "",
+    whatLearned: "",
+    time: "",
+    resources: "",
+    activities: "",
+    plan: "",
+    evaluation: "",
+    reinforce: "",
   });
   const [dataRows, setDataRows] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -35,11 +37,13 @@ export default function MyGoals() {
   const fetchPlans = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get('http://127.0.0.1:8000/api/self-study-plans');
+      const response = await axios.get(
+        "http://127.0.0.1:8000/api/self-study-plans"
+      );
       setDataRows(response.data.data);
     } catch (err) {
       setError(err.message);
-      console.error('Error fetching data:', err);
+      console.error("Error fetching data:", err);
     } finally {
       setIsLoading(false);
     }
@@ -60,7 +64,7 @@ export default function MyGoals() {
   const handleAddRow = async () => {
     try {
       setIsLoading(true);
-      
+
       // Chuẩn bị dữ liệu để gửi lên API
       const postData = {
         subject_id: 1, // Bạn cần lấy ID môn học thực tế
@@ -71,41 +75,40 @@ export default function MyGoals() {
         learning_activities: formData.activities,
         in_solve: formData.plan,
         concentration: formData.evaluation,
-        date: formData.date
+        date: formData.date,
       };
 
       // Gọi API POST
       const response = await axios.post(
-        'http://your-api-domain/api/self-study-plans', 
+        "http://your-api-domain/api/self-study-plans",
         postData,
         {
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`, // Nếu có auth
-            'Content-Type': 'application/json'
-          }
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // Nếu có auth
+            "Content-Type": "application/json",
+          },
         }
       );
 
       // Cập nhật state với dữ liệu mới từ server
       setDataRows([...dataRows, response.data.data]);
-      
+
       // Reset form
       setFormData({
-        date: '',
-        skill: '',
-        whatLearned: '',
-        time: '',
-        resources: '',
-        activities: '',
-        plan: '',
-        evaluation: '',
-        reinforce: '',
+        date: "",
+        skill: "",
+        whatLearned: "",
+        time: "",
+        resources: "",
+        activities: "",
+        plan: "",
+        evaluation: "",
+        reinforce: "",
       });
       setShowForm(false);
-      
     } catch (err) {
       setError(err.response?.data?.message || err.message);
-      console.error('Error submitting form:', err);
+      console.error("Error submitting form:", err);
     } finally {
       setIsLoading(false);
     }
@@ -115,32 +118,20 @@ export default function MyGoals() {
     <div className="p-4">
       {/* Hiển thị lỗi nếu có */}
       {error && (
-        <div className="mb-4 p-2 bg-red-100 text-red-700 rounded">
-          {error}
-        </div>
+        <div className="mb-4 p-2 bg-red-100 text-red-700 rounded">{error}</div>
       )}
 
       {/* Mode buttons */}
       <div className="mb-4 flex gap-2">
-        <button
-          onClick={() => setMode('In class')}
-          className={`px-4 py-1 rounded ${mode === 'In class' ? 'bg-blue-700 text-white' : 'bg-gray-200'}`}
-        >
+        <Link to={`/student/weekinfo/${id}/journal`} className="btn-class">
           In class
-        </button>
-        <button
-          onClick={() => setMode('Self study')}
-          className={`px-4 py-1 rounded ${mode === 'Self study' ? 'bg-blue-700 text-white' : 'bg-gray-200'}`}
-        >
+        </Link>
+        <Link to={`/student/weekinfo/${id}/self`} className="btn-class">
           Self study
-        </button>
+        </Link>
       </div>
 
-      {/* Bảng dữ liệu */}
-      <h2 className="text-center text-xl font-bold bg-red-500 text-white py-2 mb-2">
-        {mode === 'Self study' ? 'Self-Study' : 'In-Class'} Journal
-      </h2>
-      
+
       {isLoading ? (
         <div className="text-center py-4">Loading...</div>
       ) : (
@@ -149,7 +140,10 @@ export default function MyGoals() {
             <thead>
               <tr className="bg-gray-100">
                 {fields.map((field, index) => (
-                  <th key={index} className="border border-gray-300 px-2 py-2 text-center font-medium">
+                  <th
+                    key={index}
+                    className="border border-gray-300 px-2 py-2 text-center font-medium"
+                  >
                     {field}
                   </th>
                 ))}
@@ -159,14 +153,28 @@ export default function MyGoals() {
               {dataRows.map((row, index) => (
                 <tr key={index} className="even:bg-gray-50">
                   <td className="border px-2 py-1">{row.date}</td>
-                  <td className="border px-2 py-1">{row.skill || row.subject?.name}</td>
-                  <td className="border px-2 py-1">{row.whatLearned || row.lesson_learn}</td>
-                  <td className="border px-2 py-1">{row.time || row.time_spend}</td>
-                  <td className="border px-2 py-1">{row.resources || row.learning_resource}</td>
-                  <td className="border px-2 py-1">{row.activities || row.learning_activities}</td>
-                  <td className="border px-2 py-1">{row.plan || row.in_solve}</td>
-                  <td className="border px-2 py-1">{row.evaluation || row.concentration}</td>
-                  <td className="border px-2 py-1">{row.reinforce || '-'}</td>
+                  <td className="border px-2 py-1">
+                    {row.skill || row.subject?.name}
+                  </td>
+                  <td className="border px-2 py-1">
+                    {row.whatLearned || row.lesson_learn}
+                  </td>
+                  <td className="border px-2 py-1">
+                    {row.time || row.time_spend}
+                  </td>
+                  <td className="border px-2 py-1">
+                    {row.resources || row.learning_resource}
+                  </td>
+                  <td className="border px-2 py-1">
+                    {row.activities || row.learning_activities}
+                  </td>
+                  <td className="border px-2 py-1">
+                    {row.plan || row.in_solve}
+                  </td>
+                  <td className="border px-2 py-1">
+                    {row.evaluation || row.concentration}
+                  </td>
+                  <td className="border px-2 py-1">{row.reinforce || "-"}</td>
                 </tr>
               ))}
             </tbody>
@@ -182,7 +190,7 @@ export default function MyGoals() {
             className="text-2xl px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
             disabled={isLoading}
           >
-            {isLoading ? 'Processing...' : '+'}
+            {isLoading ? "Processing..." : "+"}
           </button>
         ) : (
           <div className="mt-4 border p-4 rounded bg-gray-50 shadow">
@@ -272,7 +280,7 @@ export default function MyGoals() {
                 className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:bg-gray-400"
                 disabled={isLoading}
               >
-                {isLoading ? 'Saving...' : 'Save'}
+                {isLoading ? "Saving..." : "Save"}
               </button>
               <button
                 onClick={() => setShowForm(false)}
@@ -287,4 +295,4 @@ export default function MyGoals() {
       </div>
     </div>
   );
-};
+}
