@@ -6,6 +6,10 @@ import WeekGoalsList from '../pages/student/WeekGoalsList';
 import SemesterGoals from '../pages/student/Semeter-Goals';
 import ClassJournal from '../pages/student/ClassJournal';
 import Goal from '../pages/student/GoalTable';
+import WeekList from '../pages/student/CardList';
+import UserDetail from '../pages/admin/UserDetail';
+import Archivements from '../pages/student/Archivements';
+import CardList from '../pages/student/CardList';
 import MyGoals from "../pages/student/MyGoals"; 
 import ArchivedClass from "../pages/student/ArchivedClass";
 import Profile from "../pages/student/Profile";
@@ -27,6 +31,13 @@ const studentRoutes = {
   path: "/student",
   element: <StudentLayour />,
   children: [
+
+    { index: true, element: <CardList /> },
+    { path:'archivements', element: <Archivements /> },
+    { path:"weekinfor", element:<WeekInfor/> },
+    { path: 'weeklist', element: <WeekList /> },
+    { path: 'Goal', element: <Goal /> },
+    { path: 'users/:id', element: <UserDetail /> },
     { index: true, element: <MyClass /> },
     { path: "class", element: <MyClass /> },
     { path: "weekinfor", element: <WeekInfor /> },
