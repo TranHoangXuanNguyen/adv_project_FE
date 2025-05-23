@@ -1,13 +1,12 @@
-
-import StudentLayour from '../layouts/StudentLayout';
-import MyClass from '../pages/student/MyClass';
+import StudentLayour from "../layouts/StudentLayout";
+import MyClass from "../pages/student/MyClass";
 // import StudentList from '../pages/student/StudentList';
-import WeekInfor from '../pages/student/WeekInfor';
-import WeekGoalsList from '../pages/student/WeekGoalsList';
-import SemesterGoals from '../pages/student/Semeter-Goals';
-import ClassJournal from '../pages/student/ClassJournal';
-import Goal from '../pages/student/GoalTable';
-
+import WeekInfor from "../pages/student/WeekInfor";
+import WeekGoalsList from "../pages/student/WeekGoalsList";
+import SemesterGoals from "../pages/student/Semeter-Goals";
+import ClassJournal from "../pages/student/ClassJournal";
+import Goal from "../pages/student/GoalTable";
+import MyGoals from "../pages/student/MyGoals"; 
 import ArchivedClass from "../pages/student/ArchivedClass";
 import Profile from "../pages/student/Profile";
 import Student from "../pages/student/MyGoals";
@@ -32,9 +31,10 @@ const studentRoutes = {
     { path: "Goal", element: <Goal /> },
     // { path: "student-list", element: <StudentList /> },
     // { path:"weekinfo/:id", element:<WeekInfor /> },
-    { path: 'weeklist', element: <WeekGoalsList /> },
+    { path: "weeklist", element: <WeekGoalsList /> },
     // { path: 'Goal', element: <Goal /> },
     { path: "weekinfo/:id/journal", element: <ClassJournal /> },
+    { path: "weekinfo/:id/self", element: <MyGoals /> },
     { path: "weekinfo/:id", element: <WeekInfor /> },
     { path: "my-journal", element: <WeekGoalsList /> },
     { path: "Semester-goals", element: <SemesterGoals /> },

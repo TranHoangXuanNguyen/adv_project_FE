@@ -2,13 +2,15 @@ import { useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import "../../assets/css/pages/classjournal.css";
 import axios from "axios";
+import HelpRequestForm from "../../components/student/HelpRequestForm";
+import { Link } from "react-router-dom";
 // import { useParams } from "react-router-dom";
 
 const ClassJournal = () => {
   const { id } = useParams(); // week_track_id
   const user_id = localStorage.getItem("user_id");
-
   const [showForm, setShowForm] = useState(false);
+  const [showFormHelp, setShowFormHelp] = useState(false);
   const [subjects, setSubjects] = useState([]);
   const [ShowInfor, setShowInfor] = useState([]);
   const [formData, setForm] = useState({
@@ -46,9 +48,7 @@ const ClassJournal = () => {
       }
     };
     const fetchWeeklyClassPlan = async () => {
-      const user_id = localStorage.getItem("user_id");
       if (!user_id || !id) return;
-
       try {
         const res = await axios.get(
           "http://127.0.0.1:8000/api/weekly/class-plan",
@@ -78,12 +78,16 @@ const ClassJournal = () => {
   }, [id]);
 
   const openForm = () => {
-    const user_id = localStorage.getItem("user_id") || "";
     setForm((prev) => ({
       ...prev,
       user_id,
     }));
     setShowForm(true);
+  };
+
+  const openFormHelp = () => {
+    const user_id = localStorage.getItem("user_id") || "";
+    console.log("Open form help");
   };
 
   const closeForm = () => setShowForm(false);
@@ -136,12 +140,28 @@ const ClassJournal = () => {
     <div className="main-content">
       <div className="top-controls">
         <div className="tab-buttons">
-          <button type="button" className="btn-class">
+          <Link to={`/student/weekinfo/${id}/journal`} className="btn-class">
             In class
-          </button>
-          <button type="button" className="btn-class">
+          </Link>
+          <Link to={`/student/weekinfo/${id}/self`} className="btn-class">
             Self study
+          </Link>
+        </div>
+        <div>
+          <button
+            className="bg-green-600 text-white px-4 py-2 rounded-lg mb-4 hover:bg-green-700"
+            onClick={() => setShowFormHelp(!showFormHelp)}
+          >
+            {showFormHelp ? "Close form" : "Open form"}
           </button>
+
+          {showFormHelp && (
+            <HelpRequestForm
+              onClose={() => setShowFormHelp(false)}
+              student_id={user_id}
+              week_id={id}
+            />
+          )}
         </div>
       </div>
 

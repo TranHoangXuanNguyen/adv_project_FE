@@ -27,7 +27,7 @@ export default function SideBar() {
           { 
             icon: <FaBullseye  />, 
             text: 'My Goals',
-            to: '/student'
+            to: '/student/Semester-Goals'
           },
           { 
             icon: <FaBookOpen />,  

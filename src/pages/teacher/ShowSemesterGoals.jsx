@@ -40,7 +40,11 @@ const ShowSemesterGoals = () => {
 
   return (
     <div className="min-h-screen">
-      <h2 className="text-2xl font-bold mb-4 text-blue-700">Semester Goals</h2>
+      <div className="flex justify-content-center items-center ">
+        <h2 className="text-2xl font-bold mb-2 text-blue-700">
+          Semester Goals
+        </h2>
+      </div>
 
       {loading ? (
         <p className="text-gray-600">Loading goals...</p>
@@ -49,19 +53,24 @@ const ShowSemesterGoals = () => {
       ) : (
         <div className="overflow-x-auto shadow-lg rounded-lg">
           <table className="min-w-full bg-white border border-gray-300">
-            <thead className="bg-blue-700 text-white">
+            <thead className="bg-[#72afff] text-white">
               <tr>
-                <th className="border px-4 py-2">Subject</th>
-                <th className="border px-4 py-2">Course Goal</th>
-                <th className="border px-4 py-2">Expect from Teacher</th>
-                <th className="border px-4 py-2">Expect from Themselves</th>
+                <th className="border px-4 py-4">Subject</th>
+                <th className="border px-4 py-4">Course Goal</th>
+                <th className="border px-4 py-4">Expect from Teacher</th>
+                <th className="border px-4 py-4">Expect from Themselves</th>
               </tr>
             </thead>
             <tbody>
               {Array.isArray(goalList) && goalList.length > 0 ? (
                 goalList.map((goal, idx) => (
-                  <tr key={idx} className="hover:bg-blue-100 transition duration-200">
-                    <td className="p-4 border">{goal.subject?.subject_name}</td>
+                  <tr
+                    key={idx}
+                    className=""
+                  >
+                    <td className="p-4 border font-bold">
+                      {goal.subject?.subject_name}
+                    </td>
                     <td className="p-4 border">{goal.course_expected}</td>
                     <td className="p-4 border">{goal.teacher_expected}</td>
                     <td className="p-4 border">{goal.themselves_expected}</td>

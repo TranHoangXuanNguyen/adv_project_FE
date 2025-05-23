@@ -28,8 +28,8 @@ export default function SideBar() {
           },
           { 
             icon: <FaBook />, 
-            text: 'Student',
-            to: '/teacher'
+            text: 'Class',
+            to: '/teacher/class'
           },
           { 
             icon: <FaArrowRightFromBracket />, 
