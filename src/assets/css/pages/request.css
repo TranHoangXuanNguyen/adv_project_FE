@@ -20,8 +20,8 @@ body {
   font-weight: 600;
   font-size: 22px;
   text-align: center;
-  margin-bottom: 20px;
-  color: #853737;
+  margin-bottom: 10px !important;
+  color: #344767 ;
 }
 
 .table {
@@ -73,22 +73,31 @@ table tbody tr:hover td {
 }
 
 .pagination .page-item.active .page-link {
-  background-color: #0d6efd;
-  border-color: #0d6efd;
-  color: white;
+  background-color: #53a749; 
+  border-color: #8dd694;
+  color: #1b3c1a;
+  font-weight: bold;
 }
 
 .pagination .page-link {
-  color: #0d6efd;
-  border: none;
+  color: #3b6e3b; 
+  background-color: #e6f9e5;
+  border: 1px solid #bfe6bf;
   border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.pagination .page-link:hover {
+  background-color: #c6f1c6;
+  color: #285c28;
 }
 
 .pagination .page-item.disabled .page-link {
-  color: #aaa;
-  background-color: #e9ecef;
-  border: none;
+  color: #a6c8a6;
+  background-color: #f2fcf2;
+  border: 1px solid #dfeede;
 }
+
 .bigbox{
   border-top:0px; 
 }
