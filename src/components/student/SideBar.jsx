@@ -16,6 +16,7 @@ export default function SideBar() {
         <div className="w-40 h-8 flex items-center font-bold text-xl">JOURNAL</div>
       </div>
 
+
       {/* Categories */}
       <div className="w-full space-y-2">
         {[
@@ -43,6 +44,11 @@ export default function SideBar() {
             icon: <FaQuestion />, 
             text: 'Help Request',
             to: '/student/helpRequest'
+          },
+           { 
+            icon: <FaQuestion />, 
+            text: 'Achievements',
+            to: '/student/archivements'
           }
         ].map((item, index) => (
           <NavLink
