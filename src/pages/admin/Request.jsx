@@ -1,58 +1,58 @@
-import React from 'react'
-import "../../assets/css/pages/notification.css";
-export default function Notification() {
+import { useState, useEffect } from "react";
+import "../../assets/css/pages/request.css";
+import axios from 'axios';
+export default function Request() {
+  const[request,setRequest]=useState([]);
+  
+  useEffect(()=>{
+    const fetchRequest=async()=>{
+    try{
+      const res=await axios.get('http://localhost:8000/api/requesthelp');
+        console.log("API response:", res.data);
+      setRequest(res.data);
+    }
+    catch(error){
+      console.error('Not found ',error);
+    }
+  };
+  fetchRequest();
+},[]);
+
   return (
       <div className="col-md-9 content">
       <div className="container py-4">
   <div className="card card-table">
-    <div className="card-body">
-      <h4 className="card-title mb-4">Danh sách câu hỏi</h4>
+    <div className="card-body bigbox">
+      <h4 className="card-title mb-4 main-title">List of questions</h4>
       <div className="table-responsive">
         <table className="table align-middle">
           <thead className="table-light">
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">Tiêu đề câu hỏi</th>
-              <th scope="col">Ngày tạo</th>
+              <th scope="col">Full Name</th>
+              <th scope="col">Content </th>
+              <th scope="col">Date of time</th>
               <th scope="col" className="text-end">
-                Hành động
+                Action
               </th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>Làm thế nào để học React hiệu quả?</td>
-              <td>20/05/2025</td>
+              {request.map((item,index)=>(
+               <tr key={index}>
+                <td className="fullname">{ item.sender_id}</td>
+                <td className="content">{item.content}</td>
+                <td className="datetime"> {item.created_at} 
+                  </td>
               <td className="text-end">
-                <button className="btn btn-sm btn-view me-2">
-                  Xem chi tiết
-                </button>
                 <button className="btn btn-sm btn-delete">Xóa</button>
               </td>
             </tr>
-            <tr>
-              <td>2</td>
-              <td>Sự khác biệt giữa useState và useEffect?</td>
-              <td>19/05/2025</td>
-              <td className="text-end">
-                <button className="btn btn-sm btn-view me-2">
-                  Xem chi tiết
-                </button>
-                <button className="btn btn-sm btn-delete">Xóa</button>
-              </td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>REST API là gì?</td>
-              <td>18/05/2025</td>
-              <td className="text-end">
-                <button className="btn btn-sm btn-view me-2">
-                  Xem chi tiết
-                </button>
-                <button className="btn btn-sm btn-delete">Xóa</button>
-              </td>
-            </tr>
+               ))}
+               {request.length === 0 && (
+                    <tr>
+                      <td colSpan="4" className="text-center">Không có dữ liệu</td>
+                    </tr>
+                  )}
           </tbody>
         </table>
       </div>
