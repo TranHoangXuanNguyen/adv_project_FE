@@ -11,6 +11,7 @@ import ArchivedClass from "../pages/student/ArchivedClass";
 import Profile from "../pages/student/Profile";
 import Student from "../pages/student/MyGoals";
 import MyJournal from "../pages/student/MyJournal";
+import HelpRequest from "../pages/student/HelpRequest";
 // import StudentLayout from "../layouts/StudentLayout";
 // import StudentLayour from "../layouts/StudentLayout";
 // import MyClass from "../pages/student/MyClass";
@@ -42,6 +43,7 @@ const studentRoutes = {
     { path: "archivedClass", element: <ArchivedClass /> },
     { path: "profile", element: <Profile /> },
     { path: "myJournal", element: <MyJournal /> },
+    { path: "helpRequest", element: <HelpRequest /> },
     // { path: "users/:id", element: <UserDetail /> },
   ],
 };
