@@ -6,12 +6,12 @@ import WeekGoalsList from '../pages/student/WeekGoalsList';
 import SemesterGoals from '../pages/student/Semeter-Goals';
 import ClassJournal from '../pages/student/ClassJournal';
 import Goal from '../pages/student/GoalTable';
-
-
+import MyGoals from "../pages/student/MyGoals"; 
 import ArchivedClass from "../pages/student/ArchivedClass";
 import Profile from "../pages/student/Profile";
 import Student from "../pages/student/MyGoals";
 import MyJournal from "../pages/student/MyJournal";
+import HelpRequest from "../pages/student/HelpRequest";
 // import StudentLayout from "../layouts/StudentLayout";
 // import StudentLayour from "../layouts/StudentLayout";
 // import MyClass from "../pages/student/MyClass";
@@ -33,9 +33,10 @@ const studentRoutes = {
     { path: "Goal", element: <Goal /> },
     // { path: "student-list", element: <StudentList /> },
     // { path:"weekinfo/:id", element:<WeekInfor /> },
-    { path: 'weeklist', element: <WeekGoalsList /> },
+    { path: "weeklist", element: <WeekGoalsList /> },
     // { path: 'Goal', element: <Goal /> },
     { path: "weekinfo/:id/journal", element: <ClassJournal /> },
+    { path: "weekinfo/:id/self", element: <MyGoals /> },
     { path: "weekinfo/:id", element: <WeekInfor /> },
     { path: "my-journal", element: <WeekGoalsList /> },
     { path: "Semester-goals", element: <SemesterGoals /> },
@@ -43,6 +44,7 @@ const studentRoutes = {
     { path: "archivedClass", element: <ArchivedClass /> },
     { path: "profile", element: <Profile /> },
     { path: "myJournal", element: <MyJournal /> },
+    { path: "helpRequest", element: <HelpRequest /> },
     // { path: "users/:id", element: <UserDetail /> },
   ],
 };
