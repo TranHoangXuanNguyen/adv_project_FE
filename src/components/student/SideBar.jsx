@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { FaList, FaUser, FaBullseye , FaArrowRightFromBracket, FaBookOpen } from 'react-icons/fa6';
+import { FaList, FaUser, FaBullseye, FaArrowRightFromBracket, FaBookOpen, FaQuestion } from 'react-icons/fa6';
 import pnlogo from "../../assets/img/pnlogo.png";
 
 export default function SideBar() {
@@ -25,7 +25,7 @@ export default function SideBar() {
             to: '/student/profile'
           },
           { 
-            icon: <FaBullseye  />, 
+            icon: <FaBullseye />, 
             text: 'My Goals',
             to: '/student'
           },
@@ -38,6 +38,11 @@ export default function SideBar() {
             icon: <FaArrowRightFromBracket />, 
             text: 'Archived Class',
             to: '/student/archivedClass'
+          },
+          { 
+            icon: <FaQuestion />, 
+            text: 'Help Request',
+            to: '/student/helpRequest'
           }
         ].map((item, index) => (
           <NavLink
@@ -64,4 +69,3 @@ export default function SideBar() {
     </div>
   );
 };
-
