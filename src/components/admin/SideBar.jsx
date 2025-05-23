@@ -29,6 +29,10 @@ const SideBar  = () => {
         <i className="fas fa-chalkboard-teacher" />
         <p>Teacher Management</p>
       </Link>
+            <Link to="/admin/request" className="sub-sidebar text-decoration-none">
+        <i className="fa-solid fa-bullhorn"></i>
+        <p>Notification</p>
+      </Link>
       </div>)
        
 
