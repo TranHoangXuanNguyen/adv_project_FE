@@ -84,7 +84,7 @@ export default function SemesterGoals() {
     if (goalList.length === 0) return alert("No goals to save.");
 
     try {
-      await axios.post(
+      await axios.put(
         "http://127.0.0.1:8000/api/semester-goals",
         { goals: goalList },
         {

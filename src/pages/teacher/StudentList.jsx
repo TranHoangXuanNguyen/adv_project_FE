@@ -2,13 +2,16 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../../assets/css/pages/student.css";
 import avatar from "../../assets/img/avatar.jpg";
-
+import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 function StudentList() {
+const { id } = useParams();
   const [students, setStudents] = useState([]);
 
   useEffect(() => {
+    console.log("ID:", id); 
     axios
-      .get("http://127.0.0.1:8000/api/class/1")
+      .get(`http://127.0.0.1:8000/api/class/${id}`)
       .then((response) => {
         console.log("API data:", response.data.data); // kiểm tra dữ liệu
         setStudents(response.data.data.students); // Giả sử dữ liệu sinh viên nằm trong trường "students"
@@ -42,12 +45,12 @@ function StudentList() {
                     <p>{student.email}</p>
                   </div>
                 </div>
-                <div className="student-details">
+                <Link to={`/teacher/viewGoals/1`} className="student-details">
                   <p>
                     <i className="fa-solid fa-hand-pointer" />
                   </p>
                   <h5>Detail</h5>
-                </div>
+                </Link>
               </div>
             ))}
           </div>
