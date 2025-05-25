@@ -71,6 +71,9 @@ export default function Class() {
           <Link
             key={folder.class_id}
             to={`/teacher/class/${folder.class_id}`}
+            onClick={() => {
+              localStorage.setItem("class_id", folder.class_id);
+            }}
             className="folder-card cursor-pointer"
           >
             <h3 className="text-md font-semibold mb-3">{folder.name}</h3>
