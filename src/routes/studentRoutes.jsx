@@ -33,6 +33,7 @@ const studentRoutes = {
   children: [
 
     { index: true, element: <CardList /> },
+    { path: "my-journal", element: <CardList /> },
     { path:'archivements', element: <Archivements /> },
     { path:"weekinfor", element:<WeekInfor/> },
     { path: 'weeklist', element: <WeekList /> },
@@ -49,12 +50,10 @@ const studentRoutes = {
     { path: "weekinfo/:id/journal", element: <ClassJournal /> },
     { path: "weekinfo/:id/self", element: <MyGoals /> },
     { path: "weekinfo/:id", element: <WeekInfor /> },
-    { path: "my-journal", element: <WeekGoalsList /> },
     { path: "Semester-goals", element: <SemesterGoals /> },
     { path: "goal", element: <Goal /> },
     { path: "archivedClass", element: <ArchivedClass /> },
     { path: "profile", element: <Profile /> },
-    { path: "myJournal", element: <MyJournal /> },
     { path: "helpRequest", element: <HelpRequest /> },
     // { path: "users/:id", element: <UserDetail /> },
   ],
