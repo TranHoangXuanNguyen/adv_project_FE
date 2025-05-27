@@ -3,51 +3,36 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
 
-
-
-
 const ShowClassStudy = () => {
-  const { studentId, weekId } = useParams(); // lấy từ URL
-
-
-
+  const { studentId, selectedWeek} = useParams();
 
   const [showInfor, setShowInfor] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-
-
-
   useEffect(() => {
     const fetchWeeklyClassPlan = async () => {
-      if (!studentId || !weekId) {
+      if (!studentId || !selectedWeek) {
         setError("Missing student ID or week ID");
         return;
       }
 
-
-
-
       setLoading(true);
       setError("");
 
-
-
-
       try {
+        const token = localStorage.getItem("token"); // Nếu API cần token
+
         const res = await axios.get(
           "http://127.0.0.1:8000/api/weekly/class-plan",
           {
             params: {
               user_id: studentId,
-              week_track_id: weekId,
+              week_track_id: selectedWeek,
             },
+            headers: { Authorization: `Bearer ${token}` }, // nếu API cần
           }
         );
-
-
-
 
         if (res.data.success) {
           setShowInfor(res.data.data || []);
@@ -64,20 +49,14 @@ const ShowClassStudy = () => {
       }
     };
 
-
-
-
     fetchWeeklyClassPlan();
-  }, [studentId, weekId]);
-
-
-
+  }, [studentId, selectedWeek]);
 
   return (
     <div className="main-content">
       <div className="mb-2 flex gap-2">
         <NavLink
-          to={`/teacher/class_study/${studentId}/${weekId}`}
+          to={`/teacher/class_study/${studentId}/${selectedWeek}`}
           className={({ isActive }) =>
             `bg-[#73aeff] text-white px-4 py-2 rounded-lg hover:bg-[#7a9ab6] ${
               isActive ? "bg-orange-400" : ""
@@ -87,7 +66,7 @@ const ShowClassStudy = () => {
           In Class
         </NavLink>
         <NavLink
-          to={`/teacher/self_study/${studentId}/${weekId}`}
+          to={`/teacher/self_study/${studentId}/${selectedWeek}`}
           className={({ isActive }) =>
             `bg-[#73aeff] text-white px-4 py-2 rounded-lg hover:bg-[#7a9ab6] ${
               isActive ? "bg-orange-400" : ""
@@ -98,21 +77,12 @@ const ShowClassStudy = () => {
         </NavLink>
       </div>
 
-
-
-
       <div className="bg-[#73aeff] py-2 rounded flex justify-center items-center">
         <h2 className="text-center text-lg font-semibold">In Class-Study</h2>
       </div>
 
-
-
-
       {loading && <p>Loading data...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
-
-
-
 
       {!loading && !error && (
         <div className="table-responsive">
@@ -130,7 +100,7 @@ const ShowClassStudy = () => {
             <tbody>
               {showInfor.length > 0 ? (
                 showInfor.map((infor, index) => (
-                  <tr key={index}>
+                  <tr key={infor.id || index}>
                     <td>{infor.date}</td>
                     <td>{infor.subject?.subject_name || "N/A"}</td>
                     <td>{infor.lesson_learn}</td>
@@ -154,10 +124,4 @@ const ShowClassStudy = () => {
   );
 };
 
-
-
-
 export default ShowClassStudy;
-
-
-
