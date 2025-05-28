@@ -35,7 +35,7 @@ useEffect(() => {
  }
 
   return (
-      <div className="col-md-9 content">
+      <div className="col-md-9 w-100 content">
       <div className="container py-4">
   <div className="card card-table">
     <div className="card-body bigbox">
