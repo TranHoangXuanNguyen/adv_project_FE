@@ -49,7 +49,7 @@ const AddTeacher = () => {
   };
 
   return (
-    <div className="col-md-9 content">
+    <div className="col-md-9 content w-100">
       <div className="d-flex justify-content-between align-items-center mb-5">
         <h4 className="student-titlte">Add new teacher</h4>
         <i className="fa fa-user-circle fa-2x header-icon" />
