@@ -117,7 +117,7 @@ export default function AddClass() {
   return (
     <div className="col-md-9 w-full content">
       <div className="d-flex justify-content-start align-items-start mb-5">
-        <h4 className="student-titlte">Class Manager</h4>
+        <h4 className="student-titlte text-2xl">Class Manager</h4>
       </div>
       <div className="input-add mb-4">
         <input
@@ -138,17 +138,17 @@ export default function AddClass() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {classes.map((cls) => (
           <div  key={cls.class_id}
-          className="bg-white shadow-md rounded-lg p-4 flex items-start gap-4"
-          >
+          className="bg-white shadow-md rounded-lg p-4 flex items-start gap-4 hover:shadow-xl transition-shadow duration-300" >
+          
             <div
-              className="bg-red-800 text-white p-4 rounded-xl shadow-lg cursor-pointer"
+              className="bg-blue-400 text-white p-4 rounded-xl shadow-md cursor-pointer hover:bg-blue-700 transition-colors duration-300"
               onClick={() => handleOpenModal(cls)}    >
               <FaUniversity className="text-3xl" />
             </div>
             <div>
-              <p className="font-semibold">Class: {cls.name}</p>
-              <p>Semester: {cls.current_semester?.semester_name || "N/A"}</p>
-              <p>Total students: {cls.student_count}</p>
+              <p className="font-semibold text-gray-800">Class: {cls.name}</p>
+              <p className="text-gray-600">Semester: {cls.current_semester?.semester_name || "N/A"}</p>
+              <p className="text-gray-600">Total students: {cls.student_count}</p>
             </div>
           </div>
         ))}

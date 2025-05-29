@@ -39,7 +39,7 @@ useEffect(() => {
       <div className="container py-4">
   <div className="card card-table">
     <div className="card-body bigbox">
-      <h4 className="card-title mb-4 main-title">List of questions</h4>
+      <h4 className="card-title mb-4 main-title text-2xl ">List of questions</h4>
       <div className="table-responsive">
         <table className="table align-middle">
           <thead className="table-light">
@@ -60,7 +60,7 @@ useEffect(() => {
                 <td className="datetime"> {item.created_at} 
                   </td>
               <td className="text-end">
-                <button className="btn btn-sm btn-delete" onClick={()=>handleDelete(item.id)}>Delete</button>
+                <button className="btn btn-sm btn-delete_request" onClick={()=>handleDelete(item.id)}>Delete</button>
               </td>
             </tr>
                ))}
