@@ -1,7 +1,7 @@
 import { FaUser, FaLock } from "react-icons/fa";
 import pnlogo from "../assets/img/pnlogo.png"; // Đảm bảo đường dẫn chính xác
 import { useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { login } from "../services/AuthService";
 import axios from "axios";
 import {
@@ -16,14 +16,34 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  useEffect(() => {
+    const user_role = localStorage.getItem("user_role");
+    if (user_role) {
+      switch (user_role) {
+        case "admin":
+          navigate("/admin");
+          break;
+        case "student":
+          navigate("/student");
+          break;
+        case "teacher":
+          navigate("/teacher");
+          break;
+        default:
+          navigate("/");
+      }
+    }
+  });
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
     try {
       const { token, decodedToken } = await login(email, password);
-      console.log("Token:", token); // Ghi log token để kiểm tra
+      console.log("Token:", token);
       localStorage.setItem("token", token);
       localStorage.setItem("user_id", decodedToken.id);
+      localStorage.setItem("user_role", decodedToken.role);
       axios
         .get(`http://localhost:8000/api/students/${decodedToken.id}/class-info`)
         .then((response) => {

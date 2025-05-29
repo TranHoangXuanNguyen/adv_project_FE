@@ -1,47 +1,23 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useState,useEffect } from 'react';
 
 export default function TNotification() {
   const [activeButton, setActiveButton] = useState('All');
+  const [dbNotifications, setDbNotifications] = useState([]);
+  const teacherId = localStorage.getItem('user_id');
 
+  useEffect(() => {
+   axios.get(`http://localhost:8000/api/notification/${teacherId}`).
+   then((response) => {
+    console.log("Notification from BE:", response.data);
+    setDbNotifications(response.data);
+   })
+   .catch((error) => {
+      console.error("Error fetching notifications:", error);
+      alert("Failed to load notifications. Please try again later.");
+   })
+  },[])
   // 🔹 Giả lập dữ liệu từ DB
-  const dbNotifications = [
-    {
-      id: 1,
-      sender_id: 2,
-      receiver_id: 1,
-      content: "Your assignment 'Intro to AI' is due tomorrow!",
-      created_at: "2025-05-22T08:00:00Z",
-    },
-    {
-      id: 2,
-      sender_id: 3,
-      receiver_id: 1,
-      content: "You missed the submission for 'Week 5 Reflection'.",
-      created_at: "2025-05-20T08:00:00Z",
-    },
-    {
-      id: 3,
-      sender_id: 5,
-      receiver_id: 1,
-      content: "Ms. Linh mentioned you in 'Discussion on Grammar Rules'.",
-      created_at: "2025-05-23T11:00:00Z",
-    },
-     {
-      id: 4,
-      sender_id: 5,
-      receiver_id: 1,
-      content: "Ms. Linh mentioned you in 'Discussion on Grammar Rules'.",
-      created_at: "2025-05-23T11:00:00Z",
-    },
-     {
-      id: 5,
-      sender_id: 5,
-      receiver_id: 1,
-      content: "Ms. Linh mentioned you in 'Discussion on Grammar Rules'.",
-      created_at: "2025-05-23T11:00:00Z",
-    }
-  ];
-
   const notifications = dbNotifications.map(n => {
     let type = "info";
     if (n.content.toLowerCase().includes("due")) type = "warning";
