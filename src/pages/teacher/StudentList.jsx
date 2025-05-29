@@ -21,6 +21,8 @@ const { id } = useParams();
       });
   }, []);
 
+  
+
   return (
     <div className="body">
       <div className="body-center">
@@ -45,7 +47,7 @@ const { id } = useParams();
                     <p>{student.email}</p>
                   </div>
                 </div>
-                <Link to={`/teacher/viewGoals/1`} className="student-details">
+                <Link to={`/teacher/viewGoals/${student.user_id}`}className="student-details">
                   <p>
                     <i className="fa-solid fa-hand-pointer" />
                   </p>

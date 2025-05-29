@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 export default function Class() {
   const [folders, setFolders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [semester, setSemesterState] = useState(null);
+  const [students, setStudents] = useState([]);
 
   useEffect(() => {
     const fetchClasses = async () => {
@@ -61,6 +63,38 @@ export default function Class() {
 
     fetchClasses();
   }, []);
+
+  const setSemester = (classId) => {
+  if (!classId) {
+    console.error("Không có classId");
+    return;
+  }
+
+  axios
+    .get(`http://127.0.0.1:8000/api/class/lastest-semester/${classId}`)
+    .then((response) => {
+      console.log(">> Raw response:", response);
+
+      if (response?.data?.success && response?.data?.data) {
+        const { semester, students } = response.data.data;
+
+        // ✅ Lưu vào localStorage
+        localStorage.setItem("sem_id", semester.semester_id); // <-- thêm dòng này nếu chỉ cần sem_id
+        localStorage.setItem("semester_data", JSON.stringify(semester));
+        localStorage.setItem("students_data", JSON.stringify(students));
+
+        // ✅ Cập nhật state
+        setSemesterState(semester);
+        setStudents(students);
+      } else {
+        console.error("❌ response.data không đúng định dạng", response);
+      }
+    })
+    .catch((error) => {
+      console.error("❌ Lỗi khi lấy dữ liệu học kỳ:", error);
+    });
+};
+
   if (loading) return <div>Loading...</div>;
 
   return (
@@ -73,6 +107,7 @@ export default function Class() {
             to={`/teacher/class/${folder.class_id}`}
             onClick={() => {
               localStorage.setItem("class_id", folder.class_id);
+              setSemester(folder.class_id);
             }}
             className="folder-card cursor-pointer"
           >
