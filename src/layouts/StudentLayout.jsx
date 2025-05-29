@@ -8,7 +8,7 @@ export default function StudentLayout() {
       <div className="flex h-screen">
         <Sidebar />      
         {/* Main Content Area */}
-        <div className="flex-1 p-8 pl-12 overflow-auto">
+        <div className="flex-1 p-8 pl-9 overflow-auto">
           <Header />
           <main>
             <Outlet />
