@@ -246,7 +246,7 @@ const CardList = () => {
 
         // Gọi API lấy danh sách tuần học và goals
         const res = await axios.get(
-          `http://127.0.0.1:8000/api/weekly-goals/${user_id}`
+          `http://127.0.0.1:8000/api/weekly-goals/${user_id}/${semester_id}`
         );
         console.log("API response data:", res.data);
 

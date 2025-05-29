@@ -11,8 +11,10 @@ const AddStudent = () => {
 
   const fetchStudent = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/api/users/student");
-      setStudents(response.data); 
+      const response = await axios.get(
+        "http://localhost:8000/api/users/student"
+      );
+      setStudents(response.data);
     } catch (error) {
       console.error("Error fetching students:", error);
       alert("Lỗi khi tải danh sách học sinh");
@@ -25,12 +27,12 @@ const AddStudent = () => {
     try {
       const response = await axios.post("http://localhost:8000/api/users", {
         email,
-        role: "student", // nếu cần phân biệt
+        role: "student",
       });
 
       alert("Student added successfully");
       setEmail("");
-      fetchStudent(); // cập nhật danh sách sau khi thêm
+      fetchStudent();
     } catch (error) {
       if (error.response) {
         const message = error.response.data.message || "Error occurred";
