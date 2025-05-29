@@ -3,17 +3,20 @@ import axios from "axios";
 const AddTeacher = () => {
   const [email, setEmail] = useState("");
   const [teachers, setTeacher] = useState([]);
+  const [page,setPage]=useState(1);
+  const [lastPage,setLastPage]=useState(1);
 
   useEffect(() => {
     fetchTeacher();
-  }, []);
+  }, [page]);
 
   const fetchTeacher = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:8000/api/users/teacher"
-      );
-      setTeacher(response.data);
+      const response = await axios.get( `http://localhost:8000/api/users/teacher/paginate?page=${page}`);
+
+      setTeacher(response.data.data.data);
+      setLastPage(response.data.data.last_page);
+
     } catch (error) {
       console.error("Error fetching teacher:", error);
     }
@@ -48,10 +51,32 @@ const AddTeacher = () => {
     setEmail(e.target.value);
   };
 
+    const handleDeleteTeacher=async(id)=>{
+      if (!id) {
+    alert("Không thể xác định ID của học sinh cần xóa.");
+    return;
+  }
+
+    const confirmDelete=window.confirm("Are you sure you want to delete this student ?");
+    if(!confirmDelete)
+      return;
+
+    try{
+        const  response =await axios.delete(`http://localhost:8000/api/users/${id}`);
+        alert("Student deleted successfully");
+        fetchTeacher();
+    }catch(error){
+      if(error.response){
+        alert("Error: " + error.response.data.message);
+      }else{
+        alert("Cannot connect to serve");
+      }
+    }
+  };
   return (
     <div className="col-md-9 content w-100">
       <div className="d-flex justify-content-between align-items-center mb-5">
-        <h4 className="student-titlte">Add new teacher</h4>
+        <h4 className="student-titlte text-2xl">Add new teacher</h4>
         <i className="fa fa-user-circle fa-2x header-icon" />
       </div>
       <div className="input-add mb-4">
@@ -68,7 +93,7 @@ const AddTeacher = () => {
       </div>
       <hr className="custom-divider mb-4 mt-3" />
       {/* Duplicate Student Info Cards for demo */}
-      <div className="student-card-big">
+      <div className="student-big">
         <h4 className="mb-4 student-titlte">Teacher information</h4>
         {teachers.length === 0 ? (
           <p>No teachers available.</p>
@@ -85,7 +110,7 @@ const AddTeacher = () => {
                 <div className="value">{teacher.email}</div>
               </div>
               <div className="actions mt-2">
-                <span className="btn-delete">
+                <span className="btn-delete" onClick={()=>handleDeleteTeacher(teacher.user_id)}>
                   <i className="fa fa-trash" /> DELETE
                 </span>
                 <span className="btn-edit">
@@ -96,6 +121,27 @@ const AddTeacher = () => {
           ))
         )}
       </div>
+            {/* Phân trang */}
+            <nav className="d-flex justify-content-center mt-3">
+              <ul className="pagination">
+                {/* Nút trang trước */}
+                <li className={`page-item ${page === 1 ? "disabled" : ""}`}>
+                  <button className="page-link"  onClick={() => setPage(page - 1)}  disabled={page === 1}  > «  </button>
+                </li>
+
+                {/* Số trang */}
+                {Array.from({ length: lastPage }, (_, i) => (
+                  <li key={i}className={`page-item ${page === i + 1 ? "active" : ""}`} >
+                    <button     className="page-link"  onClick={() => setPage(i + 1)} >{i + 1} </button>
+                  </li>
+                ))}
+
+                {/* Nút trang sau */}
+                <li className={`page-item ${page === lastPage ? "disabled" : ""}`}>
+                  <button className="page-link"  onClick={() => setPage(page + 1)}  disabled={page === lastPage}> »</button>
+                </li>
+              </ul>
+            </nav>
     </div>
   );
 };
