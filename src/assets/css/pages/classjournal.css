@@ -86,7 +86,7 @@ body {
   padding: 25px;
   border-radius: 10px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-  max-width: 1200px;
+  max-width: 1000px;
 }
 .form-row {
   display: flex;
@@ -202,4 +202,19 @@ body {
 
 .button-exist:hover {
   background-color: red;
+}
+.checkbox-group {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.checkbox {
+ margin-right: 10px;
+}
+.check{
+  display:flex;
+  margin-top: 5px;
 }
