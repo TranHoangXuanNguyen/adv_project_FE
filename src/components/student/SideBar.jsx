@@ -1,7 +1,14 @@
-import { NavLink } from 'react-router-dom';
-import { FaList, FaUser, FaBullseye, FaArrowRightFromBracket, FaBookOpen, FaQuestion } from 'react-icons/fa6';
+import { NavLink } from "react-router-dom";
+import {
+  FaList,
+  FaUser,
+  FaBullseye,
+  FaArrowRightFromBracket,
+  FaBookOpen,
+  FaQuestion,
+} from "react-icons/fa6";
 import pnlogo from "../../assets/img/pnlogo.png";
-
+import LogoutBtn from "../common/LogoutBtn";
 export default function SideBar() {
   return (
     <div className="w-1/6 h-screen flex flex-col items-center bg-gradient-to-b from-sky-400 to-indigo-500 rounded-lg">
@@ -11,55 +18,60 @@ export default function SideBar() {
           <FaList className="text-xl" />
         </div>
         <div className="w-8 h-8 mr-2 flex items-center justify-center bg-white rounded-full">
-          <img src={pnlogo} alt="PNV Logo" className="w-full h-full rounded-full" />
+          <img
+            src={pnlogo}
+            alt="PNV Logo"
+            className="w-full h-full rounded-full"
+          />
         </div>
-        <div className="w-40 h-8 flex items-center font-bold text-xl">JOURNAL</div>
+        <div className="w-40 h-8 flex items-center font-bold text-xl">
+          JOURNAL
+        </div>
       </div>
-
 
       {/* Categories */}
       <div className="w-full space-y-2">
         {[
-          { 
-            icon: <FaUser />, 
-            text: 'Profile',
-            to: '/student/profile'
+          {
+            icon: <FaUser />,
+            text: "Profile",
+            to: "/student/profile",
           },
-          { 
-            icon: <FaBullseye />, 
-            text: 'My Goals',
-            to: '/student/Semester-Goals'
+          {
+            icon: <FaBullseye />,
+            text: "My Goals",
+            to: "/student/Semester-Goals",
           },
-          { 
-            icon: <FaBookOpen />,  
-            text: 'My Journal',
-            to: '/student/my-journal'
+          {
+            icon: <FaBookOpen />,
+            text: "My Journal",
+            to: "/student/my-journal",
           },
-          { 
-            icon: <FaArrowRightFromBracket />, 
-            text: 'Archived Class',
-            to: '/student/archivedClass'
+          {
+            icon: <FaArrowRightFromBracket />,
+            text: "Archived Class",
+            to: "/student/archivedClass",
           },
-          { 
-            icon: <FaQuestion />, 
-            text: 'Help Request',
-            to: '/student/helpRequest'
+          {
+            icon: <FaQuestion />,
+            text: "Help Request",
+            to: "/student/helpRequest",
           },
-           { 
-            icon: <FaQuestion />, 
-            text: 'Achievements',
-            to: '/student/archivements'
-          }
+          {
+            icon: <FaQuestion />,
+            text: "Achievements",
+            to: "/student/archivements",
+          },
         ].map((item, index) => (
           <NavLink
             key={index}
             to={item.to}
-            end={item.to === '/student'}
-            className={({ isActive }) => 
+            end={item.to === "/student"}
+            className={({ isActive }) =>
               `w-full h-12 flex items-center cursor-pointer transition-colors ${
-                isActive 
-                  ? 'bg-orange-500 text-white' 
-                  : 'text-white hover:bg-orange-400'
+                isActive
+                  ? "bg-orange-500 text-white"
+                  : "text-white hover:bg-orange-400"
               }`
             }
           >
@@ -72,6 +84,10 @@ export default function SideBar() {
           </NavLink>
         ))}
       </div>
+      {/* Logout Button */}
+      <div className="w-full h-12 flex items-center justify-center mt-auto mb-4">
+        <LogoutBtn />
+      </div>
     </div>
   );
-};
+}

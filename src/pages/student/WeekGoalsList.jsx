@@ -15,7 +15,9 @@ const WeekGoalsList = () => {
       const user_id = localStorage.getItem("user_id");
       const class_id = localStorage.getItem("class_id");
       const semester_id = localStorage.getItem("semester_id");
-
+      console.log("user_id:", user_id);
+      console.log("class_id:", class_id);
+      console.log("semester_id:", semester_id);
       if (!class_id || !semester_id) {
         setErrorMessage("Bạn chưa được xếp lớp hoặc lớp chưa có kỳ học nào.");
         return;
@@ -24,16 +26,19 @@ const WeekGoalsList = () => {
       setClassInfo({ class_id, semester_id });
 
       try {
-        const res = await axios.get(`http://127.0.0.1:8000/api/weekly-goals/${user_id}`);
+        const res = await axios.get(
+          `http://127.0.0.1:8000/api/weekly-goals/${user_id}/${semester_id}`
+        );
         const transformed = res.data.map((item) => ({
           title: item.week_name,
           startDate: item.start_day,
           endDate: item.end_day,
-          goals: item.weekly_goals?.map((goal) => ({
-            id: goal.week_goal_id,
-            description: goal.task_des,
-            status: goal.status,
-          })) || [],
+          goals:
+            item.weekly_goals?.map((goal) => ({
+              id: goal.week_goal_id,
+              description: goal.task_des,
+              status: goal.status,
+            })) || [],
           week_track_id: item.week_track_id,
         }));
         setCards(transformed);

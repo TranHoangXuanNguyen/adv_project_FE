@@ -32,7 +32,7 @@ const studentRoutes = {
   element: <StudentLayour />,
   children: [
 
-    { index: true, element: <CardList /> },
+    { index: true, element: <Profile /> },
     { path: "my-journal", element: <CardList /> },
     { path:'archivements', element: <Archivements /> },
     { path:"weekinfor", element:<WeekInfor/> },

@@ -43,11 +43,11 @@ const Card = ({
   if (isAddCard) {
     return (
       <div
-        className="bg-[#fdefee] rounded-2xl p-4 shadow-md w-72 h-48 relative cursor-pointer flex justify-center items-center"
+        className="bg-gradient-to-br from-cyan-100 to-blue-200 rounded-2xl p-4 shadow-md w-72 h-48 relative cursor-pointer flex justify-center items-center"
         onClick={onAddCard}
       >
-        <div className="absolute w-16 h-16 bg-white rounded-full flex justify-center items-center">
-          <span className="text-4xl text-[#9a7677]">+</span>
+        <div className="absolute w-16 h-16 bg-white rounded-full flex justify-center items-center shadow">
+          <span className="text-4xl text-blue-700]">+</span>
         </div>
       </div>
     );
@@ -60,30 +60,31 @@ const Card = ({
       to={`/student/weekinfo/${week_track_id}`}
       onClick={handleCardClick}
     >
-      <div className="bg-[#fdefee] rounded-2xl py-1 px-3 shadow-md w-72 h-48 flex flex-col justify-between ">
+      <div className="bg-gradient-to-br from-cyan-100 to-blue-200 rounded-2xl py-1 px-3 shadow-md w-72 h-48 flex flex-col justify-between ">
         {isHovered && (
           <div className="flex flex-col items-center justify-center p-3">
             <CircularProgress
               size="lg"
               variant="solid"
               color="success"
-              thickness={20}
+              thickness={10}
               determinate
               value={percent}
               sx={{
-                "--CircularProgress-size": "150px",
-                "--CircularProgress-progressThickness": "26px",
-                "--CircularProgress-trackThickness": "26px",
-                "--CircularProgress-trackColor": "#cecece",
-                "--CircularProgress-progressColor": "#4caf50",
+                "--CircularProgress-size": "130px",
+                "--CircularProgress-progressThickness": "15px",
+                "--CircularProgress-trackThickness": "15px",
+                "--CircularProgress-trackColor": "white",
+                "--CircularProgress-progressColor":   "#2196f3",
                 // "--CircularProgress-linecap": "round",
-                "& > *": {
-                  fontSize: "1.8rem",
+                "& span": {
+                  color: 'black  !important',
+                  fontSize: "1.6rem",
                   fontWeight: "bold",
-                  color: "#4caf50",
+         
                 },
-                backgroundColor: "rgba(0, 0, 0, 0.05)",
-                padding: "8px",
+                backgroundColor:"rgba(0, 0, 0, 0.02)",
+                padding: "6px",
                 borderRadius: "50%",
               }}
             >
@@ -246,7 +247,7 @@ const CardList = () => {
 
         // Gọi API lấy danh sách tuần học và goals
         const res = await axios.get(
-          `http://127.0.0.1:8000/api/weekly-goals/${user_id}`
+          `http://127.0.0.1:8000/api/weekly-goals/${user_id}/${semester_id}`
         );
         console.log("API response data:", res.data);
 

@@ -1,0 +1,37 @@
+.table-container {
+  overflow-x: auto;
+}
+
+.table-header {
+  background-color: #e5e7eb; /* Tailwind's gray-200 */
+}
+
+ th {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+
+ td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+textarea{
+  padding: 8px;
+  border-radius: 4px;
+  resize: none;
+  text-align: left;
+}
+
+.save-button {
+  background-color: #fea500;
+  color: black;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.save-button:hover {
+  background-color: #fcd34d; /* Tailwind's yellow-300 */
+}

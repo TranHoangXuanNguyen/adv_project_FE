@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const fields = [
   "Date",
@@ -16,10 +15,12 @@ const fields = [
 ];
 
 export default function MyGoals() {
-  const { id } = useParams(); // week_track_id
+  const { id } = useParams();
+  const user_id = localStorage.getItem("user_id");
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
     date: "",
+    subject_id: "",
     skill: "",
     whatLearned: "",
     time: "",
@@ -29,16 +30,23 @@ export default function MyGoals() {
     evaluation: "",
     reinforce: "",
   });
+
   const [dataRows, setDataRows] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [subjects, setSubjects] = useState([]);
 
-  // Hàm fetch dữ liệu từ API
   const fetchPlans = async () => {
     try {
       setIsLoading(true);
       const response = await axios.get(
-        "http://127.0.0.1:8000/api/self-study-plans"
+        "http://127.0.0.1:8000/api/weekly/self-plan",
+        {
+          params: {
+            user_id: user_id,
+            week_track_id: id,
+          },
+        }
       );
       setDataRows(response.data.data);
     } catch (err) {
@@ -49,26 +57,36 @@ export default function MyGoals() {
     }
   };
 
-  // Load dữ liệu khi component mount
-  useEffect(() => {
-    fetchPlans();
-  }, []);
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+  const fetchSubjects = async () => {
+    const semester_id = localStorage.getItem("semester_id");
+    try {
+      const res = await axios.get(
+        `http://localhost:8000/api/semesters/${semester_id}/subjects`
+      );
+      setSubjects(res.data);
+    } catch (error) {
+      console.error("Lỗi khi lấy môn học:", error);
+    }
   };
 
+  useEffect(() => {
+    fetchPlans();
+    fetchSubjects();
+  }, []);
+
+  // Xử lý khi thay đổi form input
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // Gửi dữ liệu mới lên server
   const handleAddRow = async () => {
     try {
       setIsLoading(true);
-
-      // Chuẩn bị dữ liệu để gửi lên API
       const postData = {
-        subject_id: 1, // Bạn cần lấy ID môn học thực tế
-        week_track_id: 1, // Bạn cần lấy ID tuần thực tế
+        user_id: parseInt(user_id),
+        subject_id: formData.subject_id,
+        week_track_id: parseInt(id),
         lesson_learn: formData.whatLearned,
         time_spend: formData.time,
         learning_resource: formData.resources,
@@ -78,22 +96,19 @@ export default function MyGoals() {
         date: formData.date,
       };
 
-      // Gọi API POST
       const response = await axios.post(
-        "http://your-api-domain/api/self-study-plans",
+        "http://127.0.0.1:8000/api/weekly/self-plan",
         postData,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`, // Nếu có auth
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
             "Content-Type": "application/json",
           },
         }
       );
 
-      // Cập nhật state với dữ liệu mới từ server
+      // Cập nhật danh sách và reset form
       setDataRows([...dataRows, response.data.data]);
-
-      // Reset form
       setFormData({
         date: "",
         skill: "",
@@ -115,14 +130,16 @@ export default function MyGoals() {
   };
 
   return (
-    <div className="p-4">
-      {/* Hiển thị lỗi nếu có */}
+    <div className=" max-w-7xl mx-auto">
+      {/* Hiển thị lỗi */}
       {error && (
-        <div className="mb-4 p-2 bg-red-100 text-red-700 rounded">{error}</div>
+        <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md border border-red-200">
+          {error}
+        </div>
       )}
 
-      {/* Mode buttons */}
-      <div className="mb-4 flex gap-2">
+      {/* Nút chuyển chế độ */}
+      <div className="tab-buttons mb-4 flex gap-3">
         <Link to={`/student/weekinfo/${id}/journal`} className="btn-class">
           In class
         </Link>
@@ -131,58 +148,78 @@ export default function MyGoals() {
         </Link>
       </div>
 
-
+      {/* Bảng dữ liệu */}
       {isLoading ? (
-        <div className="text-center py-4">Loading...</div>
+        <div className=" py-4 text-gray-600 text-sm">Loading data...</div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="table-auto w-full border-collapse border border-gray-300 text-sm">
-            <thead>
-              <tr className="bg-gray-100">
+        <div className="overflow-x-auto shadow-md rounded-lg">
+          <table
+            className="min-w-full divide-y divide-gray-200"
+            style={{ tableLayout: "fixed" }}
+          >
+            <thead className="bg-blue-100">
+              <tr>
                 {fields.map((field, index) => (
                   <th
                     key={index}
-                    className="border border-gray-300 px-2 py-2 text-center font-medium"
+                    className=" break-words whitespace-normal px-2 py-1 text-sm"
+                    style={{ minWidth: "80px" }}
                   >
                     {field}
                   </th>
                 ))}
               </tr>
             </thead>
-            <tbody>
-              {dataRows.map((row, index) => (
-                <tr key={index} className="even:bg-gray-50">
-                  <td className="border px-2 py-1">{row.date}</td>
-                  <td className="border px-2 py-1">
-                    {row.skill || row.subject?.name}
+            <tbody className="bg-white divide-y divide-gray-200">
+              {dataRows.length > 0 ? (
+                dataRows.map((row, index) => (
+                  <tr
+                    key={index}
+                    className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
+                  >
+                    <td className="px-6 py-4 text-sm">{row.date}</td>
+                    <td className="px-6 py-4 text-sm">
+                      {row.skill || row.subject?.name}
+                    </td>
+                    <td className="px-6 py-4 text-sm">
+                      {row.whatLearned || row.lesson_learn}
+                    </td>
+                    <td className="px-6 py-4 text-sm">
+                      {row.time || row.time_spend}
+                    </td>
+                    <td className="px-6 py-4 text-sm">
+                      {row.resources || row.learning_resource}
+                    </td>
+                    <td className="px-6 py-4 text-sm">
+                      {row.activities || row.learning_activities}
+                    </td>
+                    <td className="px-6 py-4 text-sm">
+                      {row.plan || row.in_solve}
+                    </td>
+                    <td className="px-6 py-4 text-sm">
+                      {row.evaluation || row.concentration}
+                    </td>
+                    <td className="px-6 py-4 text-sm">
+                      {row.reinforce || "-"}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan={fields.length}
+                    className="px-6 py-4 text-center text-gray-500"
+                  >
+                    No data available
                   </td>
-                  <td className="border px-2 py-1">
-                    {row.whatLearned || row.lesson_learn}
-                  </td>
-                  <td className="border px-2 py-1">
-                    {row.time || row.time_spend}
-                  </td>
-                  <td className="border px-2 py-1">
-                    {row.resources || row.learning_resource}
-                  </td>
-                  <td className="border px-2 py-1">
-                    {row.activities || row.learning_activities}
-                  </td>
-                  <td className="border px-2 py-1">
-                    {row.plan || row.in_solve}
-                  </td>
-                  <td className="border px-2 py-1">
-                    {row.evaluation || row.concentration}
-                  </td>
-                  <td className="border px-2 py-1">{row.reinforce || "-"}</td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
       )}
 
-      {/* Nút + để mở form */}
+      {/* Nút mở form thêm mới */}
       <div className="mt-4">
         {!showForm ? (
           <button
@@ -190,7 +227,7 @@ export default function MyGoals() {
             className="text-2xl px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
             disabled={isLoading}
           >
-            {isLoading ? "Processing..." : "+"}
+            +
           </button>
         ) : (
           <div className="mt-4 border p-4 rounded bg-gray-50 shadow">
@@ -201,32 +238,37 @@ export default function MyGoals() {
                 name="date"
                 value={formData.date}
                 onChange={handleChange}
-                className="input border p-2 rounded"
+                className="border p-2 rounded"
                 required
               />
-              <input
-                name="skill"
-                value={formData.skill}
+              <select
+                name="subject_id"
+                value={formData.subject_id}
                 onChange={handleChange}
-                placeholder="Skill/Subject"
-                className="input border p-2 rounded"
                 required
-              />
+              >
+                <option value="">-- Select Subject --</option>
+                {subjects.map((subj) => (
+                  <option key={subj.subject_id} value={subj.subject_id}>
+                    {subj.subject_name}
+                  </option>
+                ))}
+              </select>
               <textarea
                 name="whatLearned"
                 value={formData.whatLearned}
                 onChange={handleChange}
                 placeholder="What I learned"
-                className="input border p-2 rounded"
-                required
+                className="border p-2 rounded"
                 rows={2}
+                required
               />
               <input
                 name="time"
                 value={formData.time}
                 onChange={handleChange}
-                placeholder="Time allocation (e.g., 2 hours)"
-                className="input border p-2 rounded"
+                placeholder="Time allocation"
+                className="border p-2 rounded"
                 required
               />
               <input
@@ -234,29 +276,33 @@ export default function MyGoals() {
                 value={formData.resources}
                 onChange={handleChange}
                 placeholder="Learning resources"
-                className="input border p-2 rounded"
+                className="border p-2 rounded"
               />
               <textarea
                 name="activities"
                 value={formData.activities}
                 onChange={handleChange}
                 placeholder="Learning activities"
-                className="input border p-2 rounded"
+                className="border p-2 rounded"
                 rows={2}
               />
-              <textarea
+              <select
                 name="plan"
                 value={formData.plan}
                 onChange={handleChange}
-                placeholder="Plan & follow plan"
-                className="input border p-2 rounded"
-                rows={2}
-              />
+                className="border p-2 rounded"
+              >
+                <option value="" disabled>
+                  is Solve
+                </option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+              </select>
               <select
                 name="evaluation"
                 value={formData.evaluation}
                 onChange={handleChange}
-                className="input border p-2 rounded"
+                className="border p-2 rounded"
               >
                 <option value="">Select evaluation</option>
                 <option value="1">1 - Poor</option>
@@ -270,14 +316,14 @@ export default function MyGoals() {
                 value={formData.reinforce}
                 onChange={handleChange}
                 placeholder="Reinforcing learning"
-                className="input border p-2 rounded"
+                className="border p-2 rounded"
                 rows={2}
               />
             </div>
             <div className="mt-4 flex gap-2">
               <button
                 onClick={handleAddRow}
-                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:bg-gray-400"
+                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
                 disabled={isLoading}
               >
                 {isLoading ? "Saving..." : "Save"}
