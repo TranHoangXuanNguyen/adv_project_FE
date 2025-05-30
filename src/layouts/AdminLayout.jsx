@@ -7,7 +7,11 @@ export default function AdminLayout() {
       {/* Sidebar */}
       <SideBar />
       {/* Main Content */}
-        <Outlet />
+   <div className="w-full pl-[16.67%]">
+     <div className="flex justify-center items-start h-full">
+  <Outlet />
+</div>
+        </div>
     </div>
   </div>)
   
