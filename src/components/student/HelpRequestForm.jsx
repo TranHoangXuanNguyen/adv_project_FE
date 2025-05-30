@@ -75,9 +75,9 @@ const HelpRequestForm = ({ onClose, student_id, week_id }) => {
         >
           &times;
         </button>
-
-        <h2 className="text-xl font-bold mb-4">Send help request</h2>
-
+      <div className="w-full flex justify-center">
+        <h2 className="text-xl font-bold mb-4 text-center">Send help request</h2>
+        </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block mb-1 font-medium">Choose teacher:</label>
@@ -105,13 +105,15 @@ const HelpRequestForm = ({ onClose, student_id, week_id }) => {
               placeholder="Enter your content..."
             />
           </div>
-
+             <div className="flex justify-center mt-8">
           <button
             type="submit"
             className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
           >
+            
             Send
           </button>
+          </div>
         </form>
       </div>
     </div>
