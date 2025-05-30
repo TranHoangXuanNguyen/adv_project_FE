@@ -63,20 +63,25 @@ const WeeklyForm = () => {
     <div>
       <button
         onClick={() => navigate("/student/my-journal")}
-        className="inline-block mt-6 px-5 py-2 bg-red-900 text-white rounded hover:bg-red-800 transition mr-4"
+        className="inline-block mt-6 px-5 py-2 bg-blue-400 text-white rounded hover:bg-blue-500 transition mr-4"
       >
         Back
       </button>
-      <div className="bg-white rounded-lg shadow-lg p-8 m-12 flex-grow">
-        <h4 className="text-lg font-medium">Weekly Information</h4>
-        <h2 className="text-2xl text-blue-800 font-bold mt-3">
+      <div className="bg-white rounded-lg shadow-lg p-8 mt-4 flex-grow">
+     <div className="w-full flex justify-center">
+          <h2 className="text-2xl font-bold text-black-700 text-center">
+            Weekly Information
+          </h2>
+      </div>
+
+        <h4 className="text-xl text-blue-800 font-bold mt-3">
           {weekData.title}
-        </h2>
-        <span className="block text-gray-500 mt-1">
+        </h4>
+        <span className="block text-black-500 mt-1">
           From {weekData.startDate} to {weekData.endDate}
         </span>
         <div className="mt-9">
-          <h3 className="text-lg font-semibold mb-4">Goals this week</h3>
+          <h3 className="text-lg font-semibold mb-4 text-blue-800">Goals this week</h3>
           {weekData.goals.map((goal) => (
             <div
               key={goal.id}
@@ -96,13 +101,14 @@ const WeeklyForm = () => {
         </div>
 
         {/* Nút đến trang Journal */}
+        <div className="flex justify-end mt-8">
         <a
           onClick={() => navigate("journal")}
-          className="inline-block mt-6 px-5 py-2 bg-red-700 text-white rounded hover:bg-red-800 transition mr-4"
+          className="inline-block mt-6 px-5 py-2 bg-red-500 text-white rounded hover:bg- red-300 transition"
         >
           Go to journal page &rarr;
         </a>
-
+      </div>
         {/* Nút trở về WeekList */}
       </div>
     </div>

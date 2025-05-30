@@ -149,10 +149,10 @@ const ClassJournal = () => {
         </div>
         <div>
           <button
-            className="bg-green-600 text-white px-4 py-2 rounded-lg mb-4 hover:bg-green-700"
+            className="bg-red-600 text-white px-4 py-2 rounded-lg mb-4 hover:bg-red-700"
             onClick={() => setShowFormHelp(!showFormHelp)}
           >
-            {showFormHelp ? "Close form" : "Open form"}
+            {showFormHelp ? "Close" : "Help"}
           </button>
 
           {showFormHelp && (
@@ -218,7 +218,7 @@ const ClassJournal = () => {
               <form onSubmit={handleSubmit}>
                 <div className="form-row">
                   <div className="form-group">
-                    <label htmlFor="date">Date</label>
+                    <label htmlFor="date">Date : </label>
                     <input
                       type="date"
                       id="date"
@@ -230,7 +230,7 @@ const ClassJournal = () => {
                   </div>
 
                   <div className="form-group">
-                    <label htmlFor="subject_id">Subject</label>
+                    <label htmlFor="subject_id">Subject : </label>
                     <select
                       name="subject_id"
                       value={formData.subject_id}
@@ -245,22 +245,28 @@ const ClassJournal = () => {
                       ))}
                     </select>
                   </div>
-
-                  <div className="form-group">
-                    <label htmlFor="lesson_learn">What I learned today</label>
-                    <textarea
-                      id="lesson_learn"
-                      name="lesson_learn"
-                      value={formData.lesson_learn}
+                                   <div className="form-group">
+                    <label htmlFor="self_assessment">Self Assessment : </label>
+                    <select
+                      id="self_assessment"
+                      name="self_assessment"
+                      value={formData.self_assessment}
                       onChange={handleChange}
                       required
-                    />
+                    >
+                      <option value="">-- Select Level --</option>
+                      <option value="1">1 - Needs improvement</option>
+                      <option value="2">2 - Average</option>
+                      <option value="3">3 - Good</option>
+                    </select>
                   </div>
+
+
                 </div>
 
                 <div className="form-row">
                   <div className="form-group">
-                    <label htmlFor="difficult">Challenges faced</label>
+                    <label htmlFor="difficult">Challenges faced : </label>
                     <textarea
                       id="difficult"
                       name="difficult"
@@ -270,23 +276,19 @@ const ClassJournal = () => {
                   </div>
 
                   <div className="form-group">
-                    <label htmlFor="self_assessment">Self Assessment</label>
-                    <select
-                      id="self_assessment"
-                      name="self_assessment"
-                      value={formData.self_assessment}
+                    <label htmlFor="lesson_learn">What I learned today :</label>
+                    <textarea
+                      id="lesson_learn"
+                      name="lesson_learn"
+                      value={formData.lesson_learn}
                       onChange={handleChange}
                       required
-                    >
-                      <option value="">-- Select Level --</option>
-                      <option value="1">1 - Chưa tốt</option>
-                      <option value="2">2 - Tạm ổn</option>
-                      <option value="3">3 - Tốt</option>
-                    </select>
+                    />
                   </div>
+ 
 
                   <div className="form-group">
-                    <label htmlFor="plan_to_improve">How to solve</label>
+                    <label htmlFor="plan_to_improve">How to solve :</label>
                     <textarea
                       id="plan_to_improve"
                       name="plan_to_improve"
@@ -295,19 +297,21 @@ const ClassJournal = () => {
                     />
                   </div>
 
-                  <div className="form-group">
-                    <label htmlFor="in_solve">Problem solved</label>
-                    <br />
-                    <input
-                      type="checkbox"
+
+                </div>
+                  <div className="form-group checkbox-group">
+                    <label htmlFor="in_solve">Problem solved :</label>
+                      <div className="check">
+                           <input  type="checkbox" className="checkbox"
                       id="in_solve"
                       name="in_solve"
                       checked={formData.in_solve}
                       onChange={handleChange}
                     />
                     <label htmlFor="in_solve"> Yes</label>
+                      </div>
+                   
                   </div>
-                </div>
 
                 <button type="submit" className="submit-btn">
                   Save
