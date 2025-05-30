@@ -1,0 +1,15 @@
+.min-h-screen {
+  min-height: 100vh;
+}
+
+.table-container {
+  margin-top: 1rem;
+}
+
+.table-header {
+  background-color: #e0f2ff;
+}
+
+.table-row:hover {
+  background-color: #f9f9f9;
+}
