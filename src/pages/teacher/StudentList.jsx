@@ -5,11 +5,11 @@ import avatar from "../../assets/img/avatar.jpg";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 function StudentList() {
-const { id } = useParams();
+  const { id } = useParams();
   const [students, setStudents] = useState([]);
 
   useEffect(() => {
-    console.log("ID:", id); 
+    console.log("ID:", id);
     axios
       .get(`http://127.0.0.1:8000/api/class/${id}`)
       .then((response) => {
@@ -21,16 +21,14 @@ const { id } = useParams();
       });
   }, []);
 
-  
-
   return (
     <div className="body">
       <div className="body-center">
         <div className="body-center-title">
           <p>
-            <b>Students Manager</b>
+            <b>Students Management</b>
           </p>
-          <p>{students.length} Students</p>
+          <p className="pr-5 font-weight-bold">{students.length} Students</p>
         </div>
         <div className="body-center-list">
           <div className="list-students">
@@ -44,14 +42,21 @@ const { id } = useParams();
                   </div>
                   <div className="infor-name">
                     <h2>{student.name}</h2>
-                    <p>{student.email}</p>
+                    <p className="infor-name">
+                      {student.email.length > 15
+                        ? student.email.slice(0, 15) + "..."
+                        : student.email}
+                    </p>
                   </div>
                 </div>
-                <Link to={`/teacher/viewGoals/${student.user_id}`}className="student-details">
-                  <p>
-                    <i className="fa-solid fa-hand-pointer" />
-                  </p>
-                  <h5>Detail</h5>
+                <Link
+                  to={`/teacher/viewGoals/${student.user_id}`}
+                  className="student-details"
+                >
+                    <p>
+                      <i className="fas fa-hand-pointer"></i>
+                    </p>
+                    <h5 className=" pe-4 pl-4">Detail</h5>
                 </Link>
               </div>
             ))}

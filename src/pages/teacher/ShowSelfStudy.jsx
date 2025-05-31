@@ -75,29 +75,29 @@ export default function ShowSelfStudy() {
           <table className="min-w-full text-sm text-left">
             <thead className="bg-blue-50 text-gray-700">
               <tr>
-                <th className="px-4 py-2 border">
-                  <span className="text-sm mr-1">📅</span> StudyDate 
+                <th className="px-4 py-2 border text-blue-900">
+                  <span className="text-sm mr-1 "></span> StudyDate 
                 </th>
-                <th className="px-4 py-2 border">
-                  <span className="text-sm mr-1">📘</span> Subject
+                <th className="px-4 py-2 border text-blue-900">
+                  <span className="text-sm mr-1"></span> Subject
                 </th>
-                <th className="px-4 py-2 border">
-                  <span className="text-sm mr-1">🧠</span> Learned
+                <th className="px-4 py-2 border text-blue-900">
+                  <span className="text-sm mr-1"></span> Learned
                 </th>
-                <th className="px-4 py-2 border">
-                  <span className="text-sm mr-1">⏰</span> Time
+                <th className="px-4 py-2 border text-blue-900">
+                  <span className="text-sm mr-1"></span> Time
                 </th>
-                <th className="px-4 py-2 border">
-                  <span className="text-sm mr-1">📂</span> Resources
+                <th className="px-4 py-2 border text-blue-900">
+                  <span className="text-sm mr-1"></span> Resources
                 </th>
-                <th className="px-4 py-2 border">
-                  <span className="text-sm mr-1">📝</span> Activities
+                <th className="px-4 py-2 border text-blue-900">
+                  <span className="text-sm mr-1"></span> Activities
                 </th>
-                <th className="px-4 py-2 border">
-                  <span className="text-sm mr-1">✅</span> Follow/Plan
+                <th className="px-4 py-2 border text-blue-900">
+                  <span className="text-sm mr-1"></span> Follow/Plan
                 </th>
-                <th className="px-4 py-2 border">
-                  <span className="text-sm mr-1">🎯</span> Concentration
+                <th className="px-4 py-2 border text-blue-900">
+                  <span className="text-sm mr-1"></span> Concentration
                 </th>
               </tr>
             </thead>
@@ -105,7 +105,7 @@ export default function ShowSelfStudy() {
             <tbody>
               {showInfor.length > 0 ? (
                 showInfor.map((infor, index) => (
-                  <tr key={index} className="hover:bg-gray-50">
+                  <tr key={index} className="hover:bg-gray-50 ">
                     <td className="px-4 py-2 border">{infor.date}</td>
                     <td className="px-4 py-2 border">
                       {infor.subject?.subject_name || infor.subject_id}

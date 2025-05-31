@@ -77,7 +77,7 @@ const ShowSemesterGoals = () => {
     <div className="min-h-screen px-4 bg-gray-50">
       <div className="max-w-5xl mx-auto space-y-4">
         <div className="flex justify-center">
-          <h2 className="text-3xl font-bold text-blue-600">🎯 Semester Goals</h2>
+          <h2 className="text-3xl font-bold text-blue-600"> Semester Goals</h2>
         </div>
 
         {loading ? (

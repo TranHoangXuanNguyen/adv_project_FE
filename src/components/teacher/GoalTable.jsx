@@ -1,13 +1,15 @@
+import "../../assets/css/pages/showSemesterGoals.css";
+
 const GoalTable = ({ goalList, getSubjectName }) => {
   return (
     <div className="overflow-x-auto shadow-sm rounded-lg border border-gray-200">
-      <table className="min-w-full text-sm text-left">
+      <table className="min-w-full text-md text-left">
         <thead className="bg-[#dbeaff] text-gray-700">
           <tr>
-            <th className="px-4 py-3 border">📘 Subject</th>
-            <th className="px-4 py-3 border">🎯 Course Goal</th>
-            <th className="px-4 py-3 border">👩‍🏫 Expect From Teacher</th>
-            <th className="px-4 py-3 border">🙋 Expect From Themselves</th>
+            <th className="px-4 py-3 border text-blue-900">Subject</th>
+            <th className="px-4 py-3 border text-blue-900">Course Goal</th>
+            <th className="px-4 py-3 border text-blue-900">Expect From Teacher</th>
+            <th className="px-4 py-3 border text-blue-900">Expect From Themselves</th>
           </tr>
         </thead>
         <tbody>

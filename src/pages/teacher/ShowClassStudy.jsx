@@ -69,12 +69,13 @@ const ShowClassStudy = () => {
           <table className="min-w-full text-sm text-left">
             <thead className="bg-blue-50 text-gray-700">
               <tr>
-                <th className="px-4 py-2 border">📅Study Date</th>
-                <th className="px-4 py-2 border">📘 Skill/Subject</th>
-                <th className="px-4 py-2 border">📖 What I learned</th>
-                <th className="px-4 py-2 border">⚠️ Challenges</th>
-                <th className="px-4 py-2 border">💡 How to solve</th>
-                <th className="px-4 py-2 border">✅ Solved?</th>
+                <th className="px-4 py-2 border text-blue-900">Study Date</th>
+                <th className="px-4 py-2 border text-blue-900"> Skill/Subject</th>
+                <th className="px-4 py-2 border text-blue-900"> What I learned</th>
+                <th className="px-4 py-2 border text-blue-900">Self-assessment</th>
+                <th className="px-4 py-2 border text-blue-900"> Challenges</th>
+                <th className="px-4 py-2 border text-blue-900"> How to solve</th>
+                <th className="px-4 py-2 border text-blue-900"> Solved?</th>
               </tr>
             </thead>
             <tbody>
@@ -84,9 +85,10 @@ const ShowClassStudy = () => {
                     <td className="px-4 py-2 border">{infor.date}</td>
                     <td className="px-4 py-2 border">{infor.subject?.subject_name || "N/A"}</td>
                     <td className="px-4 py-2 border">{infor.lesson_learn}</td>
+                    <td className="px-4 py-2 border">{infor.self_assessment}</td>
                     <td className="px-4 py-2 border">{infor.difficult}</td>
                     <td className="px-4 py-2 border">{infor.plan_to_improve}</td>
-                    <td className="px-4 py-2 border text-center">
+                    <td className="px-4 py-2 border">
                       {infor.in_solve ? "✔️" : "❌"}
                     </td>
                   </tr>
