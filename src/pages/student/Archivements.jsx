@@ -14,7 +14,7 @@ function Achievements() {
     last_page: 1,
     per_page: 7,
   });
-
+  const user_id = localStorage.getItem("user_id");
   // Fetch images from backend
   const fetchImages = async (page = 1) => {
     try {
@@ -22,7 +22,7 @@ function Achievements() {
       setError(null);
 
       const response = await fetch(
-        `http://localhost:8000/api/images?page=${page}&per_page=${pagination.per_page}`
+        `http://localhost:8000/api/images?page=${page}&per_page=${pagination.per_page}&user_id=${user_id}`
       );
 
       if (!response.ok) {
@@ -33,9 +33,10 @@ function Achievements() {
 
       setItems(
         data.data.data.map((item) => ({
-          id: item.id,
-          title: item.name,
-          image: item.url,
+          id: item.achievement_id,
+          title: item.title,
+          image: item.img,
+          description: item.description,
           createdAt: item.created_at,
         }))
       );
@@ -138,12 +139,17 @@ function Achievements() {
       const uploadData = await uploadRes.json();
       console.log("Cloudinary upload response:", uploadData);
       const imageUrl = uploadData.secure_url;
-
+      console.log("Uploaded image URL:", imageUrl);
       // Save to backend
       const saveRes = await fetch("http://localhost:8000/api/images", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: title, url: imageUrl }),
+        body: JSON.stringify({
+          user_id: user_id,
+          title: title,
+          img: imageUrl,
+          description: "hello",
+        }),
       });
 
       if (!saveRes.ok) {
@@ -205,7 +211,7 @@ function Achievements() {
                 className="achievement-card"
                 style={{
                   position: "relative",
-                  width: "16rem", 
+                  width: "16rem",
                   height: "15rem",
                   borderRadius: "0.75rem",
                   overflow: "hidden",
@@ -298,7 +304,7 @@ function Achievements() {
               </div>
             ))}
           </div>
-          
+
           {pagination.last_page > 1 && (
             <div className="flex justify-center mt-6 space-x-2">
               <button

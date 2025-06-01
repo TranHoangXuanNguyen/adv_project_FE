@@ -1,4 +1,6 @@
-const WeekSelector = ({ weeks, selectedWeek, setSelectedWeek }) => {
+const WeekSelector = ({ weeks, selectedWeek, setSelectedWeek, weekInfo }) => {
+  const arrayValues = Object.values(weekInfo);
+  console.log(arrayValues);
   return (
     <div className="bg-blue-50 p-4 rounded-lg shadow-sm border">
       <label className="block text-sm font-medium text-blue-700 mb-1">
@@ -13,9 +15,12 @@ const WeekSelector = ({ weeks, selectedWeek, setSelectedWeek }) => {
           <option value="" disabled>
             -- Choose Week --
           </option>
-          {weeks.map((weekName, idx) => (
-            <option key={idx} value={weekName}>
-              {weekName}
+          {arrayValues.map((item) => (
+            <option
+              key={item.week_track_id}
+              value={parseInt(item.week_track_id)}
+            >
+              {item.week_name}
             </option>
           ))}
         </select>

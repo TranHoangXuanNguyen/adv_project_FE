@@ -5,23 +5,40 @@ import avatar from "../../assets/img/avatar.jpg";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 function StudentList() {
-const { id } = useParams();
+  const { id } = useParams();
   const [students, setStudents] = useState([]);
-
+  const [quantity, setQuantity] = useState(0);
   useEffect(() => {
-    console.log("ID:", id); 
-    axios
-      .get(`http://127.0.0.1:8000/api/class/${id}`)
-      .then((response) => {
-        console.log("API data:", response.data.data); // kiểm tra dữ liệu
-        setStudents(response.data.data.students); // Giả sử dữ liệu sinh viên nằm trong trường "students"
-      })
-      .catch((error) => {
-        console.error("Lỗi khi lấy dữ liệu sinh viên:", error);
-      });
+    console.log("ID:", id);
+    getStudentByClassId(id);
+    getWeeklyGoalsByClassId(id);
   }, []);
 
-  
+  const getWeeklyGoalsByClassId = async (classId) => {
+    try {
+      const response = await axios.get(
+        `http://127.0.0.1:8000/api/quantity/${classId}`
+      );
+      console.log("Weekly goals:", response.data);
+      setQuantity(response.data);
+    } catch (error) {
+      console.error("Error fetching weekly goals:", error);
+      return [];
+    }
+  };
+
+  const getStudentByClassId = async (classId) => {
+    try {
+      const response = await axios.get(
+        `http://127.0.0.1:8000/api/class/${classId}/students`
+      );
+      setStudents(response.data.data.students);
+      console.log("Students:", response.data.data.students);
+    } catch (error) {
+      console.error("Error fetching students:", error);
+      return [];
+    }
+  };
 
   return (
     <div className="body">
@@ -35,7 +52,16 @@ const { id } = useParams();
         <div className="body-center-list">
           <div className="list-students">
             {students.map((student, index) => (
-              <div className="student" key={index}>
+              <div
+                className="student"
+                key={index}
+                style={{
+                  color:
+                    quantity - student.weekly_goal_count > 0
+                      ? "red"
+                      : "inherit",
+                }}
+              >
                 <div className="infor">
                   <div className="infor-logo">
                     <div className="logo-student">
@@ -45,9 +71,16 @@ const { id } = useParams();
                   <div className="infor-name">
                     <h2>{student.name}</h2>
                     <p>{student.email}</p>
+                    <p>
+                      Missing weekly goal:{" "}
+                      {Math.max(0, quantity - student.weekly_goal_count)}
+                    </p>
                   </div>
                 </div>
-                <Link to={`/teacher/viewGoals/${student.user_id}`}className="student-details">
+                <Link
+                  to={`/teacher/viewGoals/${student.user_id}`}
+                  className="student-details"
+                >
                   <p>
                     <i className="fa-solid fa-hand-pointer" />
                   </p>

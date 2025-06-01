@@ -2,6 +2,7 @@ import { useParams, NavLink } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import WeekNavigation from "../../components/teacher/WeekNavigation";
+import Chat from "../../components/common/Chat";
 
 const ShowClassStudy = () => {
   const { studentId, selectedWeek } = useParams();
@@ -9,6 +10,7 @@ const ShowClassStudy = () => {
   const [showInfor, setShowInfor] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showChat, setShowChat] = useState(false);
 
   useEffect(() => {
     const fetchWeeklyClassPlan = async () => {
@@ -22,13 +24,16 @@ const ShowClassStudy = () => {
 
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get("http://127.0.0.1:8000/api/weekly/class-plan", {
-          params: {
-            user_id: studentId,
-            week_track_id: selectedWeek,
-          },
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await axios.get(
+          "http://127.0.0.1:8000/api/weekly/class-plan",
+          {
+            params: {
+              user_id: parseInt(studentId),
+              week_track_id: parseInt(selectedWeek),
+            },
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
 
         if (res.data.success) {
           setShowInfor(res.data.data || []);
@@ -51,12 +56,40 @@ const ShowClassStudy = () => {
   return (
     <div className="main-content">
       {/* Navigation Tabs */}
-              <WeekNavigation studentId={studentId} selectedWeek={selectedWeek} />
+      <WeekNavigation studentId={studentId} selectedWeek={selectedWeek} />
 
-
+      {/* Chat Component */}
+      <button
+        onClick={() => setShowChat(!showChat)}
+        style={{
+          display: "inline-block",
+          padding: "8px 20px",
+          backgroundColor: "#444",
+          color: "white",
+          border: "none",
+          borderRadius: "8px",
+          cursor: "pointer",
+          fontSize: "16px",
+          margin: "20px",
+          position: "fixed",
+          right: "20px",
+          top: "80px",
+        }}
+      >
+        {showChat ? "Hide chat" : "Show chat"}
+      </button>
+      {showChat && (
+        <div
+          style={{ display: "flex", justifyContent: "center", padding: "20px" }}
+        >
+          <Chat />
+        </div>
+      )}
       {/* Title */}
       <div className="bg-blue-100 py-2 rounded-lg shadow">
-        <h2 className="d flex justify-content-center text-xl font-bold text-blue-800">📚 In Class Study</h2>
+        <h2 className="d flex justify-content-center text-xl font-bold text-blue-800">
+          📚 In Class Study
+        </h2>
       </div>
 
       {/* Loading / Error */}
@@ -82,10 +115,14 @@ const ShowClassStudy = () => {
                 showInfor.map((infor, index) => (
                   <tr key={infor.id || index} className="hover:bg-gray-50">
                     <td className="px-4 py-2 border">{infor.date}</td>
-                    <td className="px-4 py-2 border">{infor.subject?.subject_name || "N/A"}</td>
+                    <td className="px-4 py-2 border">
+                      {infor.subject?.subject_name || "N/A"}
+                    </td>
                     <td className="px-4 py-2 border">{infor.lesson_learn}</td>
                     <td className="px-4 py-2 border">{infor.difficult}</td>
-                    <td className="px-4 py-2 border">{infor.plan_to_improve}</td>
+                    <td className="px-4 py-2 border">
+                      {infor.plan_to_improve}
+                    </td>
                     <td className="px-4 py-2 border text-center">
                       {infor.in_solve ? "✔️" : "❌"}
                     </td>
@@ -93,7 +130,10 @@ const ShowClassStudy = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={6} className="text-center px-4 py-4 text-gray-500 border">
+                  <td
+                    colSpan={6}
+                    className="text-center px-4 py-4 text-gray-500 border"
+                  >
                     No data available.
                   </td>
                 </tr>

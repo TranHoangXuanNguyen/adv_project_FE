@@ -1,6 +1,9 @@
 import { NavLink } from "react-router-dom";
 
 const WeekNavigation = ({ studentId, selectedWeek }) => {
+  selectedWeek = parseInt(selectedWeek);
+  console.log("Selected Week:", selectedWeek);
+  console.log(typeof selectedWeek);
   return (
     <div className="flex gap-4 mb-2">
       <NavLink

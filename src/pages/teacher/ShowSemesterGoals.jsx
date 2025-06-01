@@ -6,7 +6,7 @@ import WeekSelector from "../../components/teacher/WeekSelector";
 import WeekNavigation from "../../components/teacher/WeekNavigation";
 
 const ShowSemesterGoals = () => {
-  const { studentId } = useParams();
+  let { studentId } = useParams();
   const [semesterId, setSemesterId] = useState(null);
   const [goalList, setGoalList] = useState([]);
   const [subjects, setSubjects] = useState([]);
@@ -14,8 +14,10 @@ const ShowSemesterGoals = () => {
   const [selectedWeek, setSelectedWeek] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [weekInfo, setWeekInfo] = useState([]);
 
   useEffect(() => {
+    console.log(studentId);
     const storedSemesterId = localStorage.getItem("sem_id");
     if (storedSemesterId) setSemesterId(storedSemesterId);
     else setError("Semester not found in localStorage.");
@@ -30,15 +32,25 @@ const ShowSemesterGoals = () => {
 
   useEffect(() => {
     const students = JSON.parse(localStorage.getItem("students_data") || "[]");
-    const student = students.find((s) => String(s.user_id) === String(studentId));
+    const student = students.find(
+      (s) => String(s.user_id) === String(studentId)
+    );
     if (student && student.week_tracks) {
-      const uniqueWeeks = [...new Set(student.week_tracks.map((w) => w.week_track_id))];
+      const uniqueWeeks = [
+        ...new Set(student.week_tracks.map((w) => w.week_track_id)),
+      ];
       setWeeks(uniqueWeeks);
     } else {
       setWeeks([]);
     }
   }, [studentId]);
 
+  useEffect(() => {
+    if (semesterId && studentId) {
+      studentId = parseInt(studentId);
+      fetchWeekInfo(studentId);
+    }
+  }, [semesterId, studentId]);
   const fetchSubjects = async (semesterId) => {
     try {
       const token = localStorage.getItem("token");
@@ -47,6 +59,21 @@ const ShowSemesterGoals = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setSubjects(res.data || []);
+    } catch (err) {
+      setError("Failed to fetch subjects.");
+    }
+  };
+
+  const fetchWeekInfo = async (studentId) => {
+    try {
+      studentId = parseInt(studentId);
+      const token = localStorage.getItem("token");
+      const res = await axios.get(
+        `http://127.0.0.1:8000/api/weekly-info/${studentId}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setWeekInfo(res.data);
+      console.log("Week Info:", res.data);
     } catch (err) {
       setError("Failed to fetch subjects.");
     }
@@ -69,7 +96,9 @@ const ShowSemesterGoals = () => {
   };
 
   const getSubjectName = (subjectId) => {
-    const subject = subjects.find((sub) => String(sub.subject_id) === String(subjectId));
+    const subject = subjects.find(
+      (sub) => String(sub.subject_id) === String(subjectId)
+    );
     return subject ? subject.subject_name : "N/A";
   };
 
@@ -77,7 +106,9 @@ const ShowSemesterGoals = () => {
     <div className="min-h-screen px-4 bg-gray-50">
       <div className="max-w-5xl mx-auto space-y-4">
         <div className="flex justify-center">
-          <h2 className="text-3xl font-bold text-blue-600">🎯 Semester Goals</h2>
+          <h2 className="text-3xl font-bold text-blue-600">
+            🎯 Semester Goals
+          </h2>
         </div>
 
         {loading ? (
@@ -92,6 +123,7 @@ const ShowSemesterGoals = () => {
           weeks={weeks}
           selectedWeek={selectedWeek}
           setSelectedWeek={setSelectedWeek}
+          weekInfo={weekInfo}
         />
 
         <WeekNavigation studentId={studentId} selectedWeek={selectedWeek} />

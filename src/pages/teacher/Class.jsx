@@ -13,13 +13,8 @@ export default function Class() {
       try {
         setLoading(true);
         const response = await axios.get("http://127.0.0.1:8000/api/class");
-
-        console.log("Toàn bộ response:", response); // Debug
-
-        // Xử lý nhiều định dạng response khác nhau
+        console.log("Toàn bộ response:", response);
         let classesData = response.data;
-
-        // Nếu response có cấu trúc { data: [...] }
         if (
           response.data &&
           response.data.data &&
@@ -27,22 +22,19 @@ export default function Class() {
         ) {
           classesData = response.data.data;
         }
-        // Nếu response là array trực tiếp
         else if (Array.isArray(response.data)) {
           classesData = response.data;
         }
-        // Nếu response là object có thể convert thành array
         else if (typeof response.data === "object" && response.data !== null) {
           classesData = Object.values(response.data);
         }
 
-        // Kiểm tra lần cuối
         if (Array.isArray(classesData)) {
           setFolders(
             classesData.map((item) => ({
               name: item.name || item.className || item,
               student_count: item.student_count,
-              class_id: item.class_id, // Xử lý nhiều định dạng tên
+              class_id: item.class_id, 
               bgColor: "#E8F0F7",
             }))
           );
@@ -71,27 +63,23 @@ export default function Class() {
   }
 
   axios
-    .get(`http://127.0.0.1:8000/api/class/lastest-semester/${classId}`)
+    .get(`http://127.0.0.1:8000/api/class/lastest-semester/${classId}`) // get semester data by classId
     .then((response) => {
       console.log(">> Raw response:", response);
 
       if (response?.data?.success && response?.data?.data) {
         const { semester, students } = response.data.data;
-
-        // ✅ Lưu vào localStorage
-        localStorage.setItem("sem_id", semester.semester_id); // <-- thêm dòng này nếu chỉ cần sem_id
+        localStorage.setItem("sem_id", semester.semester_id); 
         localStorage.setItem("semester_data", JSON.stringify(semester));
         localStorage.setItem("students_data", JSON.stringify(students));
-
-        // ✅ Cập nhật state
         setSemesterState(semester);
         setStudents(students);
       } else {
-        console.error("❌ response.data không đúng định dạng", response);
+        console.error(" response.data have wrong format", response);
       }
     })
     .catch((error) => {
-      console.error("❌ Lỗi khi lấy dữ liệu học kỳ:", error);
+      console.error(" Error when fetch semester data:", error);
     });
 };
 
