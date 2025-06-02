@@ -20,7 +20,7 @@ export default function AddClass() {
 
   const fetchClasses = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/api/class");
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}0/api/class`);
       setClasses(response.data.data);
     } catch (error) {
       console.error("Error fetching classes:", error);
@@ -29,7 +29,7 @@ export default function AddClass() {
 
   const fetchStudents = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/api/users/student");
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/users/student`);
       setStudents(response.data);
     } catch (error) {
       console.error("Error fetching students:", error);
@@ -45,7 +45,7 @@ export default function AddClass() {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/class",
+        `${process.env.REACT_APP_API_URL}/api/class`,
         { name: className },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -74,7 +74,7 @@ export default function AddClass() {
     const token = localStorage.getItem("token");
     try {
       await axios.post(
-        `http://localhost:8000/api/class/${selectedClass.class_id}/students`,
+        `${process.env.REACT_APP_API_URL}/api/class/${selectedClass.class_id}/students`,
         { student_ids: selectedStudentId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -89,7 +89,7 @@ export default function AddClass() {
     const token = localStorage.getItem("token");
     try {
       await axios.post(
-        `http://localhost:8000/api/class/${selectedClass.class_id}/semester`,
+        `${process.env.REACT_APP_API_URL}/api/class/${selectedClass.class_id}/semester`,
         { semester_name: semesterName },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -103,7 +103,7 @@ export default function AddClass() {
     const token = localStorage.getItem("token");
     try {
       await axios.post(
-        `http://localhost:8000/api/semesters/${selectedClass.current_semester.semester_id}/subject`,
+        `${process.env.REACT_APP_API_URL}/api/semesters/${selectedClass.current_semester.semester_id}/subject`,
         { subject_name: subjectName },
         { headers: { Authorization: `Bearer ${token}` } }
       );

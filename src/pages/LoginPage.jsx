@@ -45,7 +45,7 @@ export default function LoginPage() {
       localStorage.setItem("user_id", decodedToken.id);
       localStorage.setItem("user_role", decodedToken.role);
       axios
-        .get(`http://localhost:8000/api/students/${decodedToken.id}/class-info`)
+        .get(`${process.env.REACT_APP_API_URL}/api/students/${decodedToken.id}/class-info`)
         .then((response) => {
           const original = response.data?.data?.original;
 
@@ -61,7 +61,7 @@ export default function LoginPage() {
         vapidKey: firebaseConfig.vapidKey,
       });
       if (fcmToken) {
-        fetch("http://localhost:8000/api/fcm-token", {
+        fetch(`${process.env.REACT_APP_API_URL}/api/fcm-token`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

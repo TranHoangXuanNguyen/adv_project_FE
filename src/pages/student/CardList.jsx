@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import CircularProgress from '@mui/joy/CircularProgress';
+import CircularProgress from "@mui/joy/CircularProgress";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const user_id = localStorage.getItem("user_id");
 const Card = ({
@@ -75,15 +75,14 @@ const Card = ({
                 "--CircularProgress-progressThickness": "15px",
                 "--CircularProgress-trackThickness": "15px",
                 "--CircularProgress-trackColor": "white",
-                "--CircularProgress-progressColor":   "#2196f3",
+                "--CircularProgress-progressColor": "#2196f3",
                 // "--CircularProgress-linecap": "round",
                 "& span": {
-                  color: 'black  !important',
+                  color: "black  !important",
                   fontSize: "1.6rem",
                   fontWeight: "bold",
-         
                 },
-                backgroundColor:"rgba(0, 0, 0, 0.02)",
+                backgroundColor: "rgba(0, 0, 0, 0.02)",
                 padding: "6px",
                 borderRadius: "50%",
               }}
@@ -247,7 +246,7 @@ const CardList = () => {
 
         // Gọi API lấy danh sách tuần học và goals
         const res = await axios.get(
-          `http://127.0.0.1:8000/api/weekly-goals/${user_id}/${semester_id}`
+          `${process.env.REACT_APP_API_URL}/api/weekly-goals/${user_id}/${semester_id}`
         );
         console.log("API response data:", res.data);
 
@@ -283,7 +282,7 @@ const CardList = () => {
       const user_id = localStorage.getItem("user_id");
 
       const trackingResponse = await axios.post(
-        "http://localhost:8000/api/weekly-tracking",
+        `${process.env.REACT_APP_API_URL}/api/weekly-tracking`,
         {
           user_id,
           week_name: title,
@@ -300,7 +299,7 @@ const CardList = () => {
       // 2. Với mỗi goal, gửi request tạo và lưu lại kết quả
       for (const goal of goals) {
         const goalResponse = await axios.post(
-          "http://localhost:8000/api/weekly-goal",
+          `${process.env.REACT_APP_API_URL}/api/weekly-goal`,
           {
             user_id,
             semester_id: classInfo.semester_id,

@@ -16,7 +16,7 @@ const Chat = () => {
   const handleSend = () => {
     console.log("Sending message:", inputValue);
     axios
-      .post("http://localhost:8000/api/send-notification", {
+      .post(`${process.env.REACT_APP_API_URL}/api/send-notification`, {
         receiver: studentId,
         content: inputValue,
         sender: teacherId,

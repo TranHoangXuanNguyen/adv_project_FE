@@ -9,7 +9,7 @@ export default function TNotification() {
   const navigate = useNavigate();
   useEffect(() => {
     axios
-      .get(`http://localhost:8000/api/notification/${userId}`)
+      .get(`${process.env.REACT_APP_API_URL}/api/notification/${userId}`)
       .then((response) => {
         console.log("Notification from BE:", response.data);
         setDbNotifications(response.data);

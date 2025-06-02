@@ -19,7 +19,7 @@ const WeeklyForm = () => {
 
   const handleStatusChange = async (goalId, newStatus) => {
     try {
-      await axios.put(`http://localhost:8000/api/weekly-goal/${goalId}`, {
+      await axios.put(`${process.env.REACT_APP_API_URL}/api/weekly-goal/${goalId}`, {
         status: newStatus,
       });
 

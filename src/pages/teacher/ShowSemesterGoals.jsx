@@ -55,7 +55,7 @@ const ShowSemesterGoals = () => {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get(
-        `http://127.0.0.1:8000/api/semesters/${semesterId}/subjects`,
+        `${process.env.REACT_APP_API_URL}/api/semesters/${semesterId}/subjects`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setSubjects(res.data || []);
@@ -69,7 +69,7 @@ const ShowSemesterGoals = () => {
       studentId = parseInt(studentId);
       const token = localStorage.getItem("token");
       const res = await axios.get(
-        `http://127.0.0.1:8000/api/weekly-info/${studentId}`,
+        `${process.env.REACT_APP_API_URL}/api/weekly-info/${studentId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setWeekInfo(res.data);
@@ -84,7 +84,7 @@ const ShowSemesterGoals = () => {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get(
-        `http://127.0.0.1:8000/api/semester-goals?semester_id=${semesterId}&student_id=${studentId}`,
+        `${process.env.REACT_APP_API_URL}/api/semester-goals?semester_id=${semesterId}&student_id=${studentId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setGoalList(res.data?.data || []);

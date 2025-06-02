@@ -24,7 +24,7 @@ export default function SemesterGoals() {
       try {
         // Lấy danh sách môn theo semester
         const subjectRes = await axios.get(
-          `http://127.0.0.1:8000/api/semesters/${semId}/subjects`,
+          `${process.env.REACT_APP_API_URL}/api/semesters/${semId}/subjects`,
           {
             headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
           }
@@ -32,7 +32,7 @@ export default function SemesterGoals() {
 
         // Lấy goal hiện tại của student theo semester
         const goalRes = await axios.get(
-          `http://127.0.0.1:8000/api/semester-goals?semester_id=${semId}&student_id=${studentId}`,
+          `${process.env.REACT_APP_API_URL}/api/semester-goals?semester_id=${semId}&student_id=${studentId}`,
           {
             headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
           }
@@ -101,7 +101,7 @@ export default function SemesterGoals() {
 
   try {
     await axios.put(
-      "http://127.0.0.1:8000/api/semester-goals",
+      `${process.env.REACT_APP_API_URL}/api/semester-goals`,
       { goals: goalsToSave },
       {
         headers: {

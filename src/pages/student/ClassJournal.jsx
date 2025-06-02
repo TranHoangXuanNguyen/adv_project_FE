@@ -40,7 +40,7 @@ const ClassJournal = () => {
       const semester_id = localStorage.getItem("semester_id");
       try {
         const res = await axios.get(
-          `http://localhost:8000/api/semesters/${semester_id}/subjects`
+          `${process.env.REACT_APP_API_URL}/api/semesters/${semester_id}/subjects`
         );
         setSubjects(res.data);
       } catch (error) {
@@ -51,7 +51,7 @@ const ClassJournal = () => {
       if (!user_id || !id) return;
       try {
         const res = await axios.get(
-          "http://127.0.0.1:8000/api/weekly/class-plan",
+          `${process.env.REACT_APP_API_URL}/api/weekly/class-plan`,
           {
             params: {
               user_id: user_id,
@@ -116,7 +116,7 @@ const ClassJournal = () => {
 
     try {
       const res = await axios.post(
-        "http://127.0.0.1:8000/api/classplan",
+        `${process.env.REACT_APP_API_URL}/api/classplan`,
         payload
       );
       setShowInfor((prev) => [...prev, res.data]);

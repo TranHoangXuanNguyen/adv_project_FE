@@ -22,7 +22,7 @@ function Achievements() {
       setError(null);
 
       const response = await fetch(
-        `http://localhost:8000/api/images?page=${page}&per_page=${pagination.per_page}&user_id=${user_id}`
+        `${process.env.REACT_APP_API_URL}/api/images?page=${page}&per_page=${pagination.per_page}&user_id=${user_id}`
       );
 
       if (!response.ok) {
@@ -70,7 +70,7 @@ function Achievements() {
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch(`http://localhost:8000/api/images/${id}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/images/${id}`, {
         method: "DELETE",
       });
 
@@ -141,7 +141,7 @@ function Achievements() {
       const imageUrl = uploadData.secure_url;
       console.log("Uploaded image URL:", imageUrl);
       // Save to backend
-      const saveRes = await fetch("http://localhost:8000/api/images", {
+      const saveRes = await fetch(`${process.env.REACT_APP_API_URL}/api/images`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

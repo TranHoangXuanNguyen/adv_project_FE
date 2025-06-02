@@ -27,7 +27,7 @@ const WeekGoalsList = () => {
 
       try {
         const res = await axios.get(
-          `http://127.0.0.1:8000/api/weekly-goals/${user_id}/${semester_id}`
+          `${process.env.REACT_APP_API_URL}/api/weekly-goals/${user_id}/${semester_id}`
         );
         const transformed = res.data.map((item) => ({
           title: item.week_name,

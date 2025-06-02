@@ -8,7 +8,7 @@ const HelpRequestForm = ({ onClose, student_id, week_id }) => {
   const featchTeacher = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/api/users/teacher"
+        `${process.env.REACT_APP_API_URL}/api/users/teacher`
       );
       setTeachers(response.data);
       console.log(response.data);
@@ -32,7 +32,7 @@ const HelpRequestForm = ({ onClose, student_id, week_id }) => {
 
     // Send the help request to the server
     axios
-      .post("http://localhost:8000/api/send-notification", {
+      .post(`${process.env.REACT_APP_API_URL}/api/send-notification`, {
         receiver: selectedTeacher,
         content: message,
         sender: student_id,
@@ -75,8 +75,10 @@ const HelpRequestForm = ({ onClose, student_id, week_id }) => {
         >
           &times;
         </button>
-      <div className="w-full flex justify-center">
-        <h2 className="text-xl font-bold mb-4 text-center">Send help request</h2>
+        <div className="w-full flex justify-center">
+          <h2 className="text-xl font-bold mb-4 text-center">
+            Send help request
+          </h2>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -105,14 +107,13 @@ const HelpRequestForm = ({ onClose, student_id, week_id }) => {
               placeholder="Enter your content..."
             />
           </div>
-             <div className="flex justify-center mt-8">
-          <button
-            type="submit"
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-          >
-            
-            Send
-          </button>
+          <div className="flex justify-center mt-8">
+            <button
+              type="submit"
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+            >
+              Send
+            </button>
           </div>
         </form>
       </div>

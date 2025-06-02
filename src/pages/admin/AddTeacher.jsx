@@ -12,7 +12,7 @@ const AddTeacher = () => {
 
   const fetchTeacher = async () => {
     try {
-      const response = await axios.get( `http://localhost:8000/api/users/teacher/paginate?page=${page}`);
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/users/teacher/paginate?page=${page}`);
 
       setTeacher(response.data.data.data);
       setLastPage(response.data.data.last_page);
@@ -25,7 +25,7 @@ const AddTeacher = () => {
   const handleAddTeacher = async () => {
     if (!email) return alert("Email is required");
     try {
-      const response = await axios.post("http://localhost:8000/api/users", {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/users`, {
         email,
         role: "teacher",
       });
@@ -62,7 +62,7 @@ const AddTeacher = () => {
       return;
 
     try{
-        const  response =await axios.delete(`http://localhost:8000/api/users/${id}`);
+        const  response =await axios.delete(`${process.env.REACT_APP_API_URL}/api/users/${id}`);
         alert("Student deleted successfully");
         fetchTeacher();
     }catch(error){

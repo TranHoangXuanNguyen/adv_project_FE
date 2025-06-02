@@ -25,7 +25,7 @@ const ShowClassStudy = () => {
       try {
         const token = localStorage.getItem("token");
         const res = await axios.get(
-          "http://127.0.0.1:8000/api/weekly/class-plan",
+          `${process.env.REACT_APP_API_URL}/api/weekly/class-plan`,
           {
             params: {
               user_id: parseInt(studentId),

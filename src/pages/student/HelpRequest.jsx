@@ -32,8 +32,8 @@ export default function HelpRequest() {
 
     try {
       const token = localStorage.getItem('access_token');
-      
-      const response = await axios.post('http://127.0.0.1:8000/api/help-requests', {
+
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/help-requests`, {
         content : content,
         sender_id: localStorage.getItem('user_id'),
         receiver_id: 1,

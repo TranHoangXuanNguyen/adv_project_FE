@@ -76,7 +76,9 @@ export default function SideBar() {
           </NavLink>
         ))}
       </div>
-      <LogoutBtn></LogoutBtn>
+      <div className="w-full h-12 flex items-center justify-center mt-auto mb-4">
+        <LogoutBtn />
+      </div>
     </div>
   );
 }

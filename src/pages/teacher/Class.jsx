@@ -12,7 +12,7 @@ export default function Class() {
     const fetchClasses = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("http://127.0.0.1:8000/api/class");
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/class`);
         console.log("Toàn bộ response:", response);
         let classesData = response.data;
         if (
@@ -63,7 +63,7 @@ export default function Class() {
   }
 
   axios
-    .get(`http://127.0.0.1:8000/api/class/lastest-semester/${classId}`) // get semester data by classId
+    .get(`${process.env.REACT_APP_API_URL}/api/class/lastest-semester/${classId}`) // get semester data by classId
     .then((response) => {
       console.log(">> Raw response:", response);
 

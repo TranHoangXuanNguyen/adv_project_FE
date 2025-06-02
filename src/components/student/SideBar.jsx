@@ -86,7 +86,7 @@ export default function SideBar() {
       </div>
       {/* Logout Button */}
       <div className="w-full h-12 flex items-center justify-center mt-auto mb-4">
-        <LogoutBtn />
+      <LogoutBtn />
       </div>
     </div>
   );

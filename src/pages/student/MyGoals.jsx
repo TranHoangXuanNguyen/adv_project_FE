@@ -40,7 +40,7 @@ export default function MyGoals() {
     try {
       setIsLoading(true);
       const response = await axios.get(
-        "http://127.0.0.1:8000/api/weekly/self-plan",
+        `${process.env.REACT_APP_API_URL}/api/weekly/self-plan`,
         {
           params: {
             user_id: user_id,
@@ -61,7 +61,7 @@ export default function MyGoals() {
     const semester_id = localStorage.getItem("semester_id");
     try {
       const res = await axios.get(
-        `http://localhost:8000/api/semesters/${semester_id}/subjects`
+        `${process.env.REACT_APP_API_URL}/api/semesters/${semester_id}/subjects`
       );
       setSubjects(res.data);
     } catch (error) {
@@ -97,7 +97,7 @@ export default function MyGoals() {
       };
 
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/weekly/self-plan",
+        `${process.env.REACT_APP_API_URL}/api/weekly/self-plan`,
         postData,
         {
           headers: {

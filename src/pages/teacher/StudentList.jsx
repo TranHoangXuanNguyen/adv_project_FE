@@ -17,7 +17,7 @@ function StudentList() {
   const getWeeklyGoalsByClassId = async (classId) => {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8000/api/quantity/${classId}`
+        `${process.env.REACT_APP_API_URL}/api/quantity/${classId}`
       );
       console.log("Weekly goals:", response.data);
       setQuantity(response.data);
@@ -30,7 +30,7 @@ function StudentList() {
   const getStudentByClassId = async (classId) => {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8000/api/class/${classId}/students`
+        `${process.env.REACT_APP_API_URL}/api/class/${classId}/students`
       );
       setStudents(response.data.data.students);
       console.log("Students:", response.data.data.students);

@@ -9,7 +9,7 @@ export default function Request() {
 useEffect(() => {
   const fetchRequest = async () => {
     try {
-      const res = await axios.get(`http://localhost:8000/api/requesthelp/paginate?page=${page}`);
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/requesthelp/paginate?page=${page}`);
       console.log("API response:", res.data);
 
       setRequest(res.data.data);
@@ -26,7 +26,7 @@ useEffect(() => {
  const  handleDelete=async(id)=>{
     if (!window.confirm("Are you sure you want to delete?")) return;
     try{
-          await axios.delete(`http://localhost:8000/api/requesthelp/${id}`);
+          await axios.delete(`${process.env.REACT_APP_API_URL}/api/requesthelp/${id}`);
            setRequest(prev => prev.filter(item=>item.id!==id));
     }catch(error){
       console.log("Delete failed:",error)

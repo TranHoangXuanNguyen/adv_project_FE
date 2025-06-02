@@ -23,7 +23,7 @@ export default function ShowSelfStudy() {
       try {
         const token = localStorage.getItem("token");
         const res = await axios.get(
-          "http://127.0.0.1:8000/api/show-selfstudyplan",
+          `${process.env.REACT_APP_API_URL}/api/show-selfstudyplan`,
           {
             params: {
               user_id: studentId,

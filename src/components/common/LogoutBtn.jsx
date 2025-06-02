@@ -1,4 +1,5 @@
 import { useSubmit } from "react-router-dom";
+import "../../assets/css/pages/logoutBtn.css";
 
 function LogoutBtn() {
   const handleLogout = () => {
@@ -12,7 +13,11 @@ function LogoutBtn() {
     window.location.href = "/";
   };
 
-  return <button onClick={handleLogout}>Logout</button>;
+  return (
+    <button className="logout-btn" onClick={handleLogout}>
+      Logout
+    </button>
+  );
 }
 
 export default LogoutBtn;
